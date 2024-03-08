@@ -19,7 +19,7 @@ export function configureRoutes(routesService: RoutesService) {
         requiredPolicy: eVideoPolicyNames.Video,
       },
       {
-        path: '/video/seriess',
+        path: '/video/series',
         name: eVideoRouteNames.Series,
         parentName: eVideoRouteNames.Video,
         order: 1,

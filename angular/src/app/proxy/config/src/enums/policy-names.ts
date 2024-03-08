@@ -1,8 +1,8 @@
 export const enum eVideoPolicyNames {
-  Video = 'VideoService.Seriess',
-  SeriesManagement = 'VideoService.Seriess',
+  Video = 'VideoService.Series',
+  SeriesManagement = 'VideoService.Series',
 
-  SeriesManagementCreate = 'VideoService.Seriess.Create',
-  SeriesManagementUpdate = 'VideoService.Seriess.Update',
-  SeriesManagementDelete = 'VideoService.Seriess.Delete',
+  SeriesManagementCreate = 'VideoService.Series.Create',
+  SeriesManagementUpdate = 'VideoService.Series.Update',
+  SeriesManagementDelete = 'VideoService.Series.Delete',
 }
