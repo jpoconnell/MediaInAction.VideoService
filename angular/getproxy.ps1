@@ -1,0 +1,1 @@
+abp generate-proxy -t ng  -url https://localhost:44357
