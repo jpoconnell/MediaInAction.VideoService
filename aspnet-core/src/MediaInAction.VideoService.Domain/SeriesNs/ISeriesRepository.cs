@@ -43,7 +43,5 @@ public interface ISeriesRepository : IRepository<Series, Guid>
         ISpecification<Series> spec,
         bool includeDetails = true,
         CancellationToken cancellationToken = default);
-
-    Task<List<Series>> GetSeriessByUserId(Guid testDataCurrentUserId, Last30DaysSpecification last30DaysSpecification, bool b);
     
 }

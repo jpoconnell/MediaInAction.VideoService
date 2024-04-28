@@ -23,7 +23,7 @@ public class FileEntryManager : DomainService
     }
 
     public async Task<FileEntry> CreateFileEntryAsync(
-        Guid externalId,
+        Guid? externalId,
         string server,
         string directory,
         string extn,
@@ -35,45 +35,60 @@ public class FileEntryManager : DomainService
         bool mapped = false
     )
     {
-        // Create new fileEntry
-        FileEntry newFileEntry = new FileEntry(
-            id: GuidGenerator.Create(),
-            externalId: externalId.ToString(),
-            server: server,
-            fileName: fileName,
-            directory: directory,
-            extn: extn,
-            size: size,
-            listName: listName,
-            sequence: sequence,
-            status: fileStatus,
-            isMapped:  mapped
-        );
-        
-        var dbFileEntry = await _fileEntryRepository.FindFileEntry(newFileEntry.Server, 
-            newFileEntry.Directory, 
-            newFileEntry.FileName, 
-            newFileEntry.ListName);
+        try
+        {
+            var myExternalId = "";
+            if (externalId == null)
+            {
+                myExternalId = externalId.ToString();
 
-        if (dbFileEntry == null)
-        {
-            var createdFileEntry = await _fileEntryRepository.InsertAsync(newFileEntry, true);
-            return createdFileEntry;
+            }
+
+            // Create new fileEntry
+            FileEntry newFileEntry = new FileEntry(
+                id: GuidGenerator.Create(),
+                externalId: myExternalId,
+                server: server,
+                fileName: fileName,
+                directory: directory,
+                extn: extn,
+                size: size,
+                listName: listName,
+                sequence: sequence,
+                status: fileStatus,
+                isMapped: mapped
+            );
+
+            var dbFileEntry = await _fileEntryRepository.FindFileEntry(newFileEntry.Server,
+                newFileEntry.Directory,
+                newFileEntry.FileName,
+                newFileEntry.ListName);
+
+            if (dbFileEntry == null)
+            {
+                var createdFileEntry = await _fileEntryRepository.InsertAsync(newFileEntry, true);
+                return createdFileEntry;
+            }
+            else
+            {
+                var update = 0;
+                if (dbFileEntry.FileStatus != fileStatus)
+                {
+                    dbFileEntry.FileStatus = fileStatus;
+                    update++;
+                }
+
+                if (update > 0)
+                {
+                    await _fileEntryRepository.UpdateAsync(dbFileEntry);
+                }
+
+                return dbFileEntry;
+            }
         }
-        else
+        catch (Exception ex)
         {
-            var update = 0;
-            if (dbFileEntry.FileStatus != fileStatus )
-            {
-                dbFileEntry.FileStatus = fileStatus;
-                update++;
-            }
-            
-            if (update > 0)
-            {
-                await _fileEntryRepository.UpdateAsync(dbFileEntry);
-            }
-            return dbFileEntry;
+            return null;
         }
     }
 
@@ -103,42 +118,38 @@ public class FileEntryManager : DomainService
         return newFileEntry;
     }
 
-    /*
-  public async Task UpdateStatusAsync(FileEntry fileEntry)
-  {
-      var dbFileEntry = await _fileEntryRepository.GetAsync(fileEntry.Id);
-
-      if (dbFileEntry.FileStatus != fileEntry.FileStatus)
-      {
-          dbFileEntry.FileStatus = fileEntry.FileStatus;
-          await _fileEntryRepository.UpdateAsync(fileEntry, true);
-          await SendUpdateStatusEvent(dbFileEntry);
-      }
-  }
-
-
-  public async Task SendUpdateStatusEvent(FileEntry fileEntry)
-  {
-      var dbFileEntry = await _fileEntryRepository.GetAsync(fileEntry.Id);
-      if (fileEntry.FileStatus != dbFileEntry.FileStatus)
-      {
-          dbFileEntry.FileStatus = FileStatus.Mapped;
-          if (dbFileEntry.ExternalId.IsNullOrEmpty())
-          {}
-          await _distributedEventBus.PublishAsync(new FileEntryStatusEto
-          {
-              FileEntryId = dbFileEntry.ExternalId,
-              FileName = dbFileEntry.Server,
-              Server = dbFileEntry.Server,
-              ListName = dbFileEntry.ListName,
-              FileStatus = dbFileEntry.FileStatus
-          });
-          _logger.LogInformation("Sent FileEntry Status Change");
-      }
-  }
-
-*/
+    public async Task UpdateStatusAsync(FileEntry fileEntry)
+    {
+        var dbFileEntry = await _fileEntryRepository.GetAsync(fileEntry.Id);
+        
+        if (dbFileEntry.FileStatus != fileEntry.FileStatus)
+        {
+            dbFileEntry.FileStatus = fileEntry.FileStatus;
+            await _fileEntryRepository.UpdateAsync(fileEntry, true);
+            await SendUpdateStatusEvent(dbFileEntry);
+        }
+    }
     
+    public async Task SendUpdateStatusEvent(FileEntry fileEntry)
+    {
+        var dbFileEntry = await _fileEntryRepository.GetAsync(fileEntry.Id);
+        if (fileEntry.FileStatus != dbFileEntry.FileStatus)
+        {
+            dbFileEntry.FileStatus = FileStatus.Mapped;
+            if (dbFileEntry.ExternalId.IsNullOrEmpty())
+            {}
+            await _distributedEventBus.PublishAsync(new FileEntryStatusEto
+            {
+                FileEntryId = dbFileEntry.ExternalId,
+                FileName = dbFileEntry.Server,
+                Server = dbFileEntry.Server,
+                ListName = dbFileEntry.ListName,
+                FileStatus = dbFileEntry.FileStatus
+            });
+            _logger.LogInformation("Sent FileEntry Status Change");
+        }
+    }
+
     public async Task<FileEntry> FileEntryStatusAsync(Guid fileId, 
         string server, 
         string fileName, 

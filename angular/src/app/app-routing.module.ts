@@ -25,10 +25,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   },
-  {
-    path: 'video',
-    loadChildren: () => import('./video/video.module').then(m => m.VideoModule),
-  },
 ];
 
 @NgModule({

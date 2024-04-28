@@ -24,4 +24,6 @@ public interface IMovieRepository : IRepository<Movie, Guid>
     Task<Movie> FindByMovieNameYear(string name, 
         int firstAiredYear,
         bool includeDetails = true);
+
+    Task<List<Movie>> GetByMovieName(string movieName);
 }

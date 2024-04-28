@@ -43,7 +43,7 @@ public class FileEntry : AuditedAggregateRoot<Guid>
         Server = Check.NotNullOrEmpty(server, nameof(server));
         FileName = Check.NotNullOrEmpty(fileName, nameof(fileName));
         Directory = Check.NotNullOrEmpty(directory, nameof(directory));
-        ExternalId = Check.NotNullOrEmpty(externalId, nameof(externalId));
+        //ExternalId = Check.NotNullOrEmpty(externalId, nameof(externalId));
         ListName = listName;
         Sequence = sequence;
         Extn = extn;

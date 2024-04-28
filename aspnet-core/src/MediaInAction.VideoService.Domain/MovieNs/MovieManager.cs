@@ -25,11 +25,118 @@ public class MovieManager : DomainService
         _logger = logger;
     }
     
-    public async Task<Movie> CreateMovieAsync(
+    public async Task<Movie> CreateAsync(
         string name,
         int year,
-        List<MovieAlias>
-            movieAliases,
+        List<( Guid movieId, string idType, string idValue)> movieAliases,
+        MediaType type = MediaType.Movie,
+        bool isActive = true
+    )
+    {
+        if (year < 2000)
+        {
+            year = 2000;
+        }
+        // Create new movie
+        Movie movie = new Movie(
+            id: GuidGenerator.Create(),
+            name: name,
+            firstAiredYear: year,
+            movieType: type,
+            isActive: isActive
+        );
+
+        // Add new movie aliases
+        movie.AddMovieAlias(
+            id: GuidGenerator.Create(),
+            movieId: movie.Id,
+            idType: "name",
+            idValue: movie.Name
+        );
+        movie.AddMovieAlias(
+            id: GuidGenerator.Create(),
+            movieId: movie.Id,
+            idType: "folder",
+            idValue: movie.Name
+        );
+        
+        foreach (var movieAlias in movieAliases)
+        {
+            try
+            {
+                movie.AddMovieAlias(
+                    id: GuidGenerator.Create(),
+                    movieId: movie.Id,
+                    idType: movieAlias.idType,
+                    idValue: movieAlias.idValue);
+            }
+            catch { } 
+        }
+        
+        var dbMovie = new Movie();
+        
+        var dbMovieList = await _movieRepository.GetByMovieName(movie.Name);
+        if (dbMovieList.Count == 1)
+        {
+             dbMovie = dbMovieList[0];
+        }
+        else
+        {
+             dbMovie = await _movieRepository.FindByMovieNameYear(movie.Name, movie.FirstAiredYear);
+        }
+        
+        if (dbMovie == null)
+        {
+            var createMovie = await _movieRepository.InsertAsync(movie, true);
+            await PublishCreateMovieEvent(createMovie);
+            return createMovie;
+        }
+        else
+        {
+            var update = 0;
+            if (dbMovie.IsActive != movie.IsActive)
+            {
+                dbMovie.IsActive = movie.IsActive;
+                update++;
+            }
+
+            if (dbMovie.Type != movie.Type)
+            {
+                dbMovie.Type = movie.Type;
+                update++;
+            }
+       
+            foreach (var movieAlias in movieAliases)
+            {
+                var found = false;
+                foreach (var dbMovieAlias in dbMovie.MovieAliases)
+                {
+                    if ((dbMovieAlias.IdType == movieAlias.idType) && (dbMovieAlias.IdValue == movieAlias.idValue))
+                    {
+                        found = true;
+                    }
+                }
+
+                if (found == false)
+                {
+                    dbMovie.AddMovieAlias(GuidGenerator.Create(),dbMovie.Id,movieAlias.idType,movieAlias.idValue);
+                    update++;
+                }
+            }
+            
+            if (update > 0)
+            {
+                await _movieRepository.UpdateAsync(dbMovie);
+            }
+
+            return dbMovie;
+        }
+    }
+    
+    public async Task<Movie> CreateAsync(
+        string name,
+        int year,
+        List<( string idType, string idValue)> movieAliases,
         MediaType type = MediaType.Movie,
         MediaStatus status = MediaStatus.New,
         bool isActive = true
@@ -246,8 +353,7 @@ public class MovieManager : DomainService
         var movieout =await CreateUpdateMovieAsync(name, firstAiredYear, movieAliases);
         return movieout;
     }
-
-    /*
+/*
     public async Task AckTraktMovieAsync(TraktMovieAcknowledgeEto eventData)
     {
         if (!Guid.TryParse(eventData.TraktId, out var traktId))
@@ -263,4 +369,33 @@ public class MovieManager : DomainService
         }
     }
     */
+    private async Task PublishCreateMovieEvent(Movie input)
+    {
+        // Publish Video Movie creation event 
+        await _distributedEventBus.PublishAsync(new MovieCreatedEto
+        {
+            MovieId = input.Id,
+            Name = input.Name,
+            FirstAiredYear = input.FirstAiredYear,
+            Type = input.Type,
+            MovieAliases = GetMovieAliasEtoList(input.MovieAliases)
+        });
+    }
+    
+    private List<MovieAliasCreatedEto> GetMovieAliasEtoList(List<MovieAlias> seriesAliases)
+    {
+        var etoList = new List<MovieAliasCreatedEto>();
+        foreach (var oItem in seriesAliases)
+        {
+            etoList.Add(new MovieAliasCreatedEto()
+            {
+                MovieAliasId = oItem.Id,
+                MovieId = oItem.MovieId,
+                IdType = oItem.IdType,
+                IdValue = oItem.IdValue
+            });
+        }
+
+        return etoList;
+    }
 }

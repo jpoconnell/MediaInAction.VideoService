@@ -8,6 +8,7 @@ namespace MediaInAction.VideoService.MovieNs;
 public class MovieAliasCreatedEto : EtoBase
 {
     public Guid Id { get; set; }
+    public Guid MovieAliasId { get; set; }
     public Guid MovieId { get; set; }
     public string MovieName { get; set; }
     public int MovieYear  { get; set; }
@@ -15,4 +16,5 @@ public class MovieAliasCreatedEto : EtoBase
     public string IdValue { get; set; }
     public bool MovieIsActive { get; set; }
     public MediaStatus MovieStatus { get; set; }
+    
 }

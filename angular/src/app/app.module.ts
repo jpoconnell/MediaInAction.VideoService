@@ -4,9 +4,7 @@ import { registerLocale } from '@abp/ng.core/locale';
 import { IdentityConfigModule } from '@abp/ng.identity/config';
 import { SettingManagementConfigModule } from '@abp/ng.setting-management/config';
 import { TenantManagementConfigModule } from '@abp/ng.tenant-management/config';
-import { ThemeLeptonXModule } from '@abp/ng.theme.lepton-x';
-import { SideMenuLayoutModule } from '@abp/ng.theme.lepton-x/layouts';
-import { ThemeSharedModule } from '@abp/ng.theme.shared';
+import { InternetConnectionStatusComponent, ThemeSharedModule } from '@abp/ng.theme.shared';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,8 +14,9 @@ import { AppComponent } from './app.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
 import { FeatureManagementModule } from '@abp/ng.feature-management';
 import { AbpOAuthModule } from '@abp/ng.oauth';
+import { ThemeLeptonXModule } from '@abp/ng.theme.lepton-x';
+import { SideMenuLayoutModule } from '@abp/ng.theme.lepton-x/layouts';
 import { AccountLayoutModule } from '@abp/ng.theme.lepton-x/account';
-
 @NgModule({
   imports: [
     BrowserModule,
@@ -29,14 +28,18 @@ import { AccountLayoutModule } from '@abp/ng.theme.lepton-x/account';
     }),
     AbpOAuthModule.forRoot(),
     ThemeSharedModule.forRoot(),
-    AccountLayoutModule.forRoot(),
+    
     AccountConfigModule.forRoot(),
     IdentityConfigModule.forRoot(),
     TenantManagementConfigModule.forRoot(),
     SettingManagementConfigModule.forRoot(),
+    
+    
+    FeatureManagementModule.forRoot(),
+    InternetConnectionStatusComponent,
     ThemeLeptonXModule.forRoot(),
     SideMenuLayoutModule.forRoot(),
-    FeatureManagementModule.forRoot(),
+    AccountLayoutModule.forRoot()
   ],
   declarations: [AppComponent],
   providers: [APP_ROUTE_PROVIDER],

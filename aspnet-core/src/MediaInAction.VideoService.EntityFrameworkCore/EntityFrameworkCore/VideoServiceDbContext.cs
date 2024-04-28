@@ -1,4 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MediaInAction.VideoService.EpisodeAliasNs;
+using MediaInAction.VideoService.EpisodeNs;
+using MediaInAction.VideoService.FileEntryNs;
+using MediaInAction.VideoService.MovieAliasNs;
+using MediaInAction.VideoService.MovieNs;
+using MediaInAction.VideoService.SeriesAliasNs;
+using MediaInAction.VideoService.SeriesNs;
+using MediaInAction.VideoService.ToBeMappedNs;
+using MediaInAction.VideoService.TorrentsNs;
+using MediaInAction.VideoService.TraktRequestNs;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -23,6 +33,18 @@ public class VideoServiceDbContext :
     IIdentityDbContext,
     ITenantManagementDbContext
 {
+    
+    public virtual DbSet<Series> SeriesList { get; set; }
+    public virtual DbSet<Episode> Episodes { get; set; }
+    public virtual DbSet<Movie> Movies { get; set; }
+    public virtual DbSet<FileEntry> FileEntries { get; set; }
+    public virtual DbSet<ToBeMapped> ToBeMappeds { get; set; }
+    public virtual DbSet<Torrent> Torrents { get; set; }
+    public virtual DbSet<TraktRequest> TraktRequests { get; set; }
+    public virtual DbSet<SeriesAlias> SeriesAliases { get; set; }
+    public virtual DbSet<EpisodeAlias> EpisodeAliases { get; set; }
+    public virtual DbSet<MovieAlias> MovieAliases { get; set; }
+
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
 
     #region Entities from the modules

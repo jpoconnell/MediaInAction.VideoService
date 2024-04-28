@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel" Version="8.0.4" />
-    <PackageReference Include="Volo.Abp.Autofac" Version="8.0.4" />
+    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel" Version="8.1.1" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="8.1.1" />
     <ProjectReference Include="..\..\src\MediaInAction.VideoService.HttpApi.Client\MediaInAction.VideoService.HttpApi.Client.csproj" />
   </ItemGroup>
 
