@@ -414,54 +414,8 @@ public class SeriesManager(
         return await seriesRepository.UpdateAsync(series, autoSave: true);
     }
     
-    public async Task<Series> AcceptEmbyShowAsync(
-        EmbyShowCreatedEto eventData)
-    {
-        try
-        {
-            if (!Guid.TryParse(eventData.EmbyId, out var traktId))
-            {
-                throw new BusinessException(VideoServiceErrorCodes.TraktShowIdNotGuid);
-            }
 
-            var series = await seriesRepository.GetAsync(traktId);
-            if (series != null)
-            {
-                series.EventStatus = FileStatus.Accepted;
-                await seriesRepository.UpdateAsync(series, true);
-            }
 
-            return series;
-        }
-        catch
-        {
-            return null;
-        }
-    }
-
-    public async Task<Series> AcceptTraktSeriesAsync(TraktShowAcknowledgeEto eventData)
-    {
-        try
-        {
-            if (!Guid.TryParse(eventData.TraktId, out var traktId))
-            {
-                throw new BusinessException(VideoServiceErrorCodes.TraktShowIdNotGuid);
-            }
-
-            var series = await seriesRepository.GetAsync(traktId);
-            if (series != null)
-            {
-                series.EventStatus = FileStatus.Accepted;
-                await seriesRepository.UpdateAsync(series, true);
-            }
-
-            return series;
-        }
-        catch
-        {
-            return null;
-        }
-    }
 
     private List<SeriesAliasCreatedEto> GetSeriesAliasEtoList(List<SeriesAlias> seriesAliases)
     {
@@ -492,4 +446,55 @@ public class SeriesManager(
             SeriesAliases = GetSeriesAliasEtoList(input.SeriesAliases)
         });
     }
+    
+    /*
+public async Task<Series> AcceptTraktSeriesAsync(TraktShowAcknowledgeEto eventData)
+{
+    try
+    {
+        if (!Guid.TryParse(eventData.TraktId, out var traktId))
+        {
+            throw new BusinessException(VideoServiceErrorCodes.TraktShowIdNotGuid);
+        }
+
+        var series = await seriesRepository.GetAsync(traktId);
+        if (series != null)
+        {
+            series.EventStatus = FileStatus.Accepted;
+            await seriesRepository.UpdateAsync(series, true);
+        }
+
+        return series;
+    }
+    catch
+    {
+        return null;
+    }
+}
+
+    public async Task<Series> AcceptEmbyShowAsync(
+           EmbyShowCreatedEto eventData)
+       {
+           try
+           {
+               if (!Guid.TryParse(eventData.EmbyId, out var traktId))
+               {
+                   throw new BusinessException(VideoServiceErrorCodes.TraktShowIdNotGuid);
+               }
+
+               var series = await seriesRepository.GetAsync(traktId);
+               if (series != null)
+               {
+                   series.EventStatus = FileStatus.Accepted;
+                   await seriesRepository.UpdateAsync(series, true);
+               }
+
+               return series;
+           }
+           catch
+           {
+               return null;
+           }
+       }
+*/
 }

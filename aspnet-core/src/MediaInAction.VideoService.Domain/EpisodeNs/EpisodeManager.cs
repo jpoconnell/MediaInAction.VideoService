@@ -170,6 +170,27 @@ public class EpisodeManager : DomainService
        await _episodeRepository.UpdateAsync(episode, true);
     }
 
+    private List<EpisodeAliasCreatedEto> MapAliases(List<EpisodeAlias> aliases)
+    {
+        var episodeAliasList = new List<EpisodeAliasCreatedEto>();
+        foreach (var alias in aliases)
+        {
+            if ((alias.IdType.Length > 0) && (alias.IdValue.Length > 0))
+            {
+                var newEpisodeAlias = new EpisodeAliasCreatedEto();
+                newEpisodeAlias.IdType = alias.IdType;
+                newEpisodeAlias.IdValue = alias.IdValue;
+                episodeAliasList.Add(newEpisodeAlias);
+            }
+            else
+            {
+                _logger.LogInformation("Bad IdType or IdValue");
+            }
+        }
+        return episodeAliasList;
+    }
+    
+    /*
     public async Task<Episode> AcceptTraktEpisodeAsync(TraktService.TraktEpisodeNs.TraktEpisodeCreatedEto input, Guid seriesId )
     {
         _logger.LogInformation("AcceptTraktEpisodeAsync");
@@ -248,7 +269,7 @@ public class EpisodeManager : DomainService
             }
         }
     }
-    
+
     private List<EpisodeAlias> MapAliases(List<TraktEpisodeAliasCreatedEto> aliases)
     {
         var episodeAliasList = new List<EpisodeAlias>();
@@ -266,7 +287,7 @@ public class EpisodeManager : DomainService
         }
         return episodeAliasList;
     }
-    
+  
     private List<EpisodeAlias> MapAliases(List<EmbyEpisodeAliasCreatedEto> aliases)
     {
         var episodeAliasList = new List<EpisodeAlias>();
@@ -286,25 +307,6 @@ public class EpisodeManager : DomainService
         return episodeAliasList;
     }
     
-    private List<EpisodeAliasCreatedEto> MapAliases(List<EpisodeAlias> aliases)
-    {
-        var episodeAliasList = new List<EpisodeAliasCreatedEto>();
-        foreach (var alias in aliases)
-        {
-            if ((alias.IdType.Length > 0) && (alias.IdValue.Length > 0))
-            {
-                var newEpisodeAlias = new EpisodeAliasCreatedEto();
-                newEpisodeAlias.IdType = alias.IdType;
-                newEpisodeAlias.IdValue = alias.IdValue;
-                episodeAliasList.Add(newEpisodeAlias);
-            }
-            else
-            {
-                _logger.LogInformation("Bad IdType or IdValue");
-            }
-        }
-        return episodeAliasList;
-    }
 
     public async Task<Guid> AcceptTraktEpisodeAsync(
         TraktEpisodeAcknowledgeEto eventData, 
@@ -337,4 +339,5 @@ public class EpisodeManager : DomainService
             return Guid.Empty;
         }
     }
+    */
 }

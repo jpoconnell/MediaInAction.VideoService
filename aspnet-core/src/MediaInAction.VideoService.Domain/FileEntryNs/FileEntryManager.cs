@@ -118,38 +118,6 @@ public class FileEntryManager : DomainService
         return newFileEntry;
     }
 
-    public async Task UpdateStatusAsync(FileEntry fileEntry)
-    {
-        var dbFileEntry = await _fileEntryRepository.GetAsync(fileEntry.Id);
-        
-        if (dbFileEntry.FileStatus != fileEntry.FileStatus)
-        {
-            dbFileEntry.FileStatus = fileEntry.FileStatus;
-            await _fileEntryRepository.UpdateAsync(fileEntry, true);
-            await SendUpdateStatusEvent(dbFileEntry);
-        }
-    }
-    
-    public async Task SendUpdateStatusEvent(FileEntry fileEntry)
-    {
-        var dbFileEntry = await _fileEntryRepository.GetAsync(fileEntry.Id);
-        if (fileEntry.FileStatus != dbFileEntry.FileStatus)
-        {
-            dbFileEntry.FileStatus = FileStatus.Mapped;
-            if (dbFileEntry.ExternalId.IsNullOrEmpty())
-            {}
-            await _distributedEventBus.PublishAsync(new FileEntryStatusEto
-            {
-                FileEntryId = dbFileEntry.ExternalId,
-                FileName = dbFileEntry.Server,
-                Server = dbFileEntry.Server,
-                ListName = dbFileEntry.ListName,
-                FileStatus = dbFileEntry.FileStatus
-            });
-            _logger.LogInformation("Sent FileEntry Status Change");
-        }
-    }
-
     public async Task<FileEntry> FileEntryStatusAsync(Guid fileId, 
         string server, 
         string fileName, 
@@ -166,4 +134,39 @@ public class FileEntryManager : DomainService
         }
         return fileEntry;
     }
+    
+    /*
+     
+         public async Task UpdateStatusAsync(FileEntry fileEntry)
+       {
+           var dbFileEntry = await _fileEntryRepository.GetAsync(fileEntry.Id);
+           
+           if (dbFileEntry.FileStatus != fileEntry.FileStatus)
+           {
+               dbFileEntry.FileStatus = fileEntry.FileStatus;
+               await _fileEntryRepository.UpdateAsync(fileEntry, true);
+               await SendUpdateStatusEvent(dbFileEntry);
+           }
+       }
+       
+public async Task SendUpdateStatusEvent(FileEntry fileEntry)
+{
+    var dbFileEntry = await _fileEntryRepository.GetAsync(fileEntry.Id);
+    if (fileEntry.FileStatus != dbFileEntry.FileStatus)
+    {
+        dbFileEntry.FileStatus = FileStatus.Mapped;
+        if (dbFileEntry.ExternalId.IsNullOrEmpty())
+        {}
+        await _distributedEventBus.PublishAsync(new FileEntryStatusEto
+        {
+            FileEntryId = dbFileEntry.ExternalId,
+            FileName = dbFileEntry.Server,
+            Server = dbFileEntry.Server,
+            ListName = dbFileEntry.ListName,
+            FileStatus = dbFileEntry.FileStatus
+        });
+        _logger.LogInformation("Sent FileEntry Status Change");
+    }
+}
+*/
 }
