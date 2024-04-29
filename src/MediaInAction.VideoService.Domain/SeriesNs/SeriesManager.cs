@@ -8,7 +8,6 @@ using Volo.Abp;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;
 
-
 namespace MediaInAction.VideoService.SeriesNs;
 
 public class SeriesManager(
@@ -398,7 +397,7 @@ public class SeriesManager(
         var series = await seriesRepository.GetAsync(seriesId);
         if (series == null)
         {
-            throw new BusinessException(VideoServiceErrorCodes.SeriesWithIdNotFound)
+            throw new BusinessException(VideoServiceDomainErrorCodes.SeriesWithIdNotFound)
                 .WithData("SeriesId", seriesId);
         }
 
@@ -415,6 +414,7 @@ public class SeriesManager(
         return await seriesRepository.UpdateAsync(series, autoSave: true);
     }
     
+    /*
     public async Task<Series> AcceptEmbyShowAsync(
         EmbyShowCreatedEto eventData)
     {
@@ -439,6 +439,7 @@ public class SeriesManager(
             return null;
         }
     }
+  
 
     public async Task<Series> AcceptTraktSeriesAsync(TraktShowAcknowledgeEto eventData)
     {
@@ -463,7 +464,7 @@ public class SeriesManager(
             return null;
         }
     }
-
+  */
     private List<SeriesAliasCreatedEto> GetSeriesAliasEtoList(List<SeriesAlias> seriesAliases)
     {
         var etoList = new List<SeriesAliasCreatedEto>();
