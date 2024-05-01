@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MediaInAction.VideoService.Enums;
 using Volo.Abp.Domain.Repositories;
 
 namespace MediaInAction.VideoService.TorrentsNs
@@ -11,5 +12,7 @@ namespace MediaInAction.VideoService.TorrentsNs
 
         Task<List<Torrent>> GetUnMapped();
 
+        Task<List<Torrent>> GetTorrentStatus(FileStatus status);
+        Task<List<Torrent>> GetMapped(bool mapped);
     }
 }

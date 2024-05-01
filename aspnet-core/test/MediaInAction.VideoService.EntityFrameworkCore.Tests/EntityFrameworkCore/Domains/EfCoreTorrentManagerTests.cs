@@ -4,7 +4,7 @@ using Xunit;
 namespace MediaInAction.VideoService.EntityFrameworkCore.Domains;
 
 [Collection(VideoServiceTestConsts.CollectionDefinitionName)]
-public class EfCoreTorrentDomainTests : TorrentDomainTests<VideoServiceEntityFrameworkCoreTestModule>
+public class EfCoreTorrentManagerTests : TorrentManagerUnitTests<VideoServiceEntityFrameworkCoreTestModule>
 {
 
 }

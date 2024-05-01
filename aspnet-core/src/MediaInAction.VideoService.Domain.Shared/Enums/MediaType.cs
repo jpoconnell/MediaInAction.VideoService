@@ -7,6 +7,7 @@
         Movie,
         Training,
         Music,
-        EBook
+        EBook,
+        Torrent
     }
 }

@@ -10,7 +10,7 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'https://localhost:44336/',
+    issuer: 'https://localhost:44391/',
     redirectUri: baseUrl,
     clientId: 'VideoService_App',
     responseType: 'code',
@@ -19,7 +19,7 @@ export const environment = {
   },
   apis: {
     default: {
-      url: 'https://localhost:44336',
+      url: 'https://localhost:44318',
       rootNamespace: 'MediaInAction.VideoService',
     },
   },

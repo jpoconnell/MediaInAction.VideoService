@@ -21,7 +21,7 @@ public class FileEntry : AuditedAggregateRoot<Guid>
     public Guid EpisodeLink { get; set; }
     public MediaType MediaType { get; set; }
     
-    public string CleanFileName { get; set; }
+    public string? CleanFileName { get; set; }
     private FileEntry()
     {
     }
@@ -38,12 +38,11 @@ public class FileEntry : AuditedAggregateRoot<Guid>
         FileStatus status,
         bool isMapped
         )
-        : base(id)
     {
         Server = Check.NotNullOrEmpty(server, nameof(server));
         FileName = Check.NotNullOrEmpty(fileName, nameof(fileName));
         Directory = Check.NotNullOrEmpty(directory, nameof(directory));
-        //ExternalId = Check.NotNullOrEmpty(externalId, nameof(externalId));
+        ExternalId = externalId;
         ListName = listName;
         Sequence = sequence;
         Extn = extn;
@@ -62,5 +61,4 @@ public class FileEntry : AuditedAggregateRoot<Guid>
 
         return code;
     }
-    
 }

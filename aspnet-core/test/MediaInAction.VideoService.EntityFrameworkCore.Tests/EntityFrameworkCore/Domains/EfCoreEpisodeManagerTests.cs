@@ -4,7 +4,7 @@ using Xunit;
 namespace MediaInAction.VideoService.EntityFrameworkCore.Domains;
 
 [Collection(VideoServiceTestConsts.CollectionDefinitionName)]
-public class EfCoreEpisodeDomainTests : EpisodeDomainTests<VideoServiceEntityFrameworkCoreTestModule>
+public class EfCoreEpisodeManagerTests : EpisodeManagerUnitTests<VideoServiceEntityFrameworkCoreTestModule>
 {
 
 }

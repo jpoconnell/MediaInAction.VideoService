@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using MediaInAction.VideoService.EpisodeNs;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.Identity;
 using Xunit;
 
 namespace MediaInAction.VideoService.EntityFrameworkCore.Repositories;
@@ -17,11 +17,11 @@ namespace MediaInAction.VideoService.EntityFrameworkCore.Repositories;
 [Collection(VideoServiceTestConsts.CollectionDefinitionName)]
 public class EpisodeRepositoryTests : VideoServiceEntityFrameworkCoreTestBase
 {
-    private readonly IRepository<IdentityUser, Guid> _appUserRepository;
+    private readonly IRepository<Episode, Guid> _episodeRepository;
 
     public EpisodeRepositoryTests()
     {
-        _appUserRepository = GetRequiredService<IRepository<IdentityUser, Guid>>();
+        _episodeRepository = GetRequiredService<IRepository<Episode, Guid>>();
     }
 
     [Fact]
@@ -33,12 +33,14 @@ public class EpisodeRepositoryTests : VideoServiceEntityFrameworkCoreTestBase
         await WithUnitOfWorkAsync(async () =>
         {
                 //Act
-                var adminUser = await (await _appUserRepository.GetQueryableAsync())
-                .Where(u => u.UserName == "admin")
+                var episode = await (await _episodeRepository.GetQueryableAsync())
+               // .Where(u => u.UserName == "admin")
                 .FirstOrDefaultAsync();
 
                 //Assert
-                adminUser.ShouldNotBeNull();
+                episode.ShouldNotBeNull();
         });
     }
+    
+    //
 }

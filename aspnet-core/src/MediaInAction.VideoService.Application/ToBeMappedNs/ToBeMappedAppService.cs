@@ -34,7 +34,7 @@ public class ToBeMappedAppService : VideoServiceAppService, IToBeMappedAppServic
     
     public async Task<ToBeMappedDto> CreateAsync(ToBeMappedCreateDto input)
     {
-        var toBeMapped = await _toBeMappedManager.CreateToBeMappedAsync
+        var toBeMapped = await _toBeMappedManager.CreateAsync
         (
             alias: input.Alias
         );
@@ -59,4 +59,5 @@ public class ToBeMappedAppService : VideoServiceAppService, IToBeMappedAppServic
         toBeOut.Processed = toBeDb.Processed;
         return toBeOut;
     }
+
 }

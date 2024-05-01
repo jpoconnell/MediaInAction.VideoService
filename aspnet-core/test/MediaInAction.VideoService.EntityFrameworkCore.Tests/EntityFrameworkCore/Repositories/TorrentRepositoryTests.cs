@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
+using MediaInAction.VideoService.TorrentsNs;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.Identity;
 using Xunit;
 
 namespace MediaInAction.VideoService.EntityFrameworkCore.Repositories;
@@ -17,11 +16,11 @@ namespace MediaInAction.VideoService.EntityFrameworkCore.Repositories;
 [Collection(VideoServiceTestConsts.CollectionDefinitionName)]
 public class TorrentRepositoryTests : VideoServiceEntityFrameworkCoreTestBase
 {
-    private readonly IRepository<IdentityUser, Guid> _appUserRepository;
+    private readonly IRepository<Torrent, Guid> _torrentRepository;
 
     public TorrentRepositoryTests()
     {
-        _appUserRepository = GetRequiredService<IRepository<IdentityUser, Guid>>();
+        _torrentRepository = GetRequiredService<IRepository<Torrent, Guid>>();
     }
 
     [Fact]
@@ -33,12 +32,14 @@ public class TorrentRepositoryTests : VideoServiceEntityFrameworkCoreTestBase
         await WithUnitOfWorkAsync(async () =>
         {
                 //Act
-                var adminUser = await (await _appUserRepository.GetQueryableAsync())
-                .Where(u => u.UserName == "admin")
+                var torrent = await (await _torrentRepository.GetQueryableAsync())
+               // .Where(u => u.UserName == "admin")
                 .FirstOrDefaultAsync();
 
                 //Assert
-                adminUser.ShouldNotBeNull();
+                torrent.ShouldNotBeNull();
         });
     }
+    
+    //
 }

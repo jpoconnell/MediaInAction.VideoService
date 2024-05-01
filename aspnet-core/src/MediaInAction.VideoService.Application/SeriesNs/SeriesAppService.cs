@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using MediaInAction.VideoService.Permissions;
 using MediaInAction.VideoService.SeriesAliasNs;
@@ -104,6 +106,7 @@ public class SeriesAppService : VideoServiceAppService, ISeriesAppService
         );
     }
 
+    [AllowAnonymous]
     public async Task<DashboardDto> GetDashboardAsync(DashboardInput input)
     {
         return new DashboardDto()
@@ -216,15 +219,27 @@ public class SeriesAppService : VideoServiceAppService, ISeriesAppService
         };
     }
     
-    private List<( Guid? seriesId, string idType, string idValue
+    private List<( string idType, string idValue
         )> GetSeriesAliasTuple(List<SeriesAliasCreateDto> inSeriesAliases)
     {
         var seriesAliases =
-            new List<( Guid? seriesId, string idType, string idValue)>();
+            new List<(  string idType, string idValue)>();
         foreach (var seriesAlias in inSeriesAliases)
         {
-            seriesAliases.Add(( seriesAlias.SeriesId, seriesAlias.IdType, seriesAlias.IdValue ));
+            seriesAliases.Add((  seriesAlias.IdType, seriesAlias.IdValue ));
         }
         return seriesAliases;
+    }
+    
+    // code to export Series data as a json file
+    [AllowAnonymous]
+    public async Task ExportSeriesDataAsync()
+    {
+        var series = await _seriesRepository.GetListAsync();
+        var seriesDto = ObjectMapper.Map<List<Series>, List<SeriesDto>>(series);
+        var json = JsonSerializer.Serialize(seriesDto);
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "exports", "series.json");
+        _logger.LogInformation(filePath);
+        await File.WriteAllTextAsync(filePath, json);
     }
 }

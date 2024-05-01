@@ -29,7 +29,7 @@ public class TorrentAppService : VideoServiceAppService, ITorrentAppService
     
     public async Task<TorrentDto> GetAsync(Guid id)
     {
-        var movie = await _torrentRepository.GetAsync(id);
+        var torrent = await _torrentRepository.GetAsync(id);
         return null;
     }
 
@@ -60,16 +60,59 @@ public class TorrentAppService : VideoServiceAppService, ITorrentAppService
 
     private TorrentDto MapToDto(Torrent torrent)
     {
-        throw new NotImplementedException();
+        var torrentDto = new TorrentDto
+        {
+            Hash = torrent.Hash,
+            Name = torrent.Name,
+            Comment = torrent.Comment,
+            IsSeed = torrent.IsSeed,
+            Paused = torrent.Paused,
+            Ratio = torrent.Ratio,
+            Message = torrent.Message,
+            Label = torrent.Label,
+            Added = torrent.Added,
+            CompleteTime = torrent.CompleteTime,
+            DownloadLocation = torrent.DownloadLocation,
+            TorrentStatus = torrent.TorrentStatus,
+            Type = torrent.Type,
+            MediaLink = torrent.MediaLink,
+            EpisodeLink = torrent.EpisodeLink,
+            IsMapped = torrent.IsMapped
+        };
+
+        return torrentDto;
     }
 
-    public Task<List<TorrentDto>> GetTorrentsAsync(GetTorrentsInput getTorrentInput)
+    public async Task<List<TorrentDto>> GetTorrentsAsync(GetTorrentsInput getTorrentsInput)
     {
-        throw new NotImplementedException();
+        if (getTorrentsInput.IsMapped != null)
+        {
+            var mapped = (bool) getTorrentsInput.IsMapped;
+            var torrentList = await _torrentRepository.GetMapped( mapped);
+            return ConvertToDto(torrentList);
+        }
+        else
+        {
+            var status = (FileStatus)getTorrentsInput.TorrentStatus;
+            var torrentList = await _torrentRepository.GetTorrentStatus(status);
+            return ConvertToDto(torrentList);
+        }
     }
 
     public Task<TorrentDto> GetTorrentAsync(GetTorrentInput input)
     {
         throw new NotImplementedException();
+    }
+
+    private List<TorrentDto> ConvertToDto(List<Torrent> torrentList)
+    {
+        var torrentDtoList = new List<TorrentDto>();
+        foreach (var torrent in torrentList)
+        {
+            var torrentDto = MapToDto(torrent);
+            torrentDtoList.Add(torrentDto);
+        }
+
+        return torrentDtoList;
     }
 }

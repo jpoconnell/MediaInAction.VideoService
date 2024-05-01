@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using MediaInAction.VideoService.MovieAliasNs;
 using MediaInAction.VideoService.MovieAliasNs.Dtos;
@@ -186,5 +188,15 @@ public class MovieAppService : VideoServiceAppService, IMovieAppService
                     .ToList();
 
         return movieStatus;
+    }
+    
+    // code to export Movie data as a json file
+    public async Task ExportMovieDataAsync()
+    {
+        var movies = await _movieRepository.GetListAsync();
+        var movieDtos = CreateMovieDtoMapping(movies);
+        var json = JsonSerializer.Serialize(movieDtos);
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "MovieData.json");
+        await File.WriteAllTextAsync(filePath, json);
     }
 }

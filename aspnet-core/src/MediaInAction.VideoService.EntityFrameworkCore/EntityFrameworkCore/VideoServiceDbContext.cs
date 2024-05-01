@@ -33,18 +33,6 @@ public class VideoServiceDbContext :
     IIdentityDbContext,
     ITenantManagementDbContext
 {
-    
-    public virtual DbSet<Series> SeriesList { get; set; }
-    public virtual DbSet<Episode> Episodes { get; set; }
-    public virtual DbSet<Movie> Movies { get; set; }
-    public virtual DbSet<FileEntry> FileEntries { get; set; }
-    public virtual DbSet<ToBeMapped> ToBeMappeds { get; set; }
-    public virtual DbSet<Torrent> Torrents { get; set; }
-    public virtual DbSet<TraktRequest> TraktRequests { get; set; }
-    public virtual DbSet<SeriesAlias> SeriesAliases { get; set; }
-    public virtual DbSet<EpisodeAlias> EpisodeAliases { get; set; }
-    public virtual DbSet<MovieAlias> MovieAliases { get; set; }
-
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
 
     #region Entities from the modules
@@ -74,7 +62,18 @@ public class VideoServiceDbContext :
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
 
     #endregion
-
+    
+    public virtual DbSet<Series> SeriesList { get; set; }
+    public virtual DbSet<Episode> Episodes { get; set; }
+    public virtual DbSet<Movie> Movies { get; set; }
+    public virtual DbSet<FileEntry> FileEntries { get; set; }
+    public virtual DbSet<ToBeMapped> ToBeMappeds { get; set; }
+    public virtual DbSet<Torrent> Torrents { get; set; }
+    public virtual DbSet<TraktRequest> TraktRequests { get; set; }
+    public virtual DbSet<SeriesAlias> SeriesAliases { get; set; }
+    public virtual DbSet<EpisodeAlias> EpisodeAliases { get; set; }
+    public virtual DbSet<MovieAlias> MovieAliases { get; set; }
+    
     public VideoServiceDbContext(DbContextOptions<VideoServiceDbContext> options)
         : base(options)
     {

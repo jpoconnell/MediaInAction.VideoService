@@ -173,30 +173,19 @@ namespace MediaInAction.VideoService.EpisodesNs
             return CreateEpisodeDtoMapping(episodes);
         }
 
-        private List<EpisodeAlias> GetEpisodeAliasTuple(List<EpisodeAliasCreateDto> episodeAliases)
+        
+        private List<( string idType, string idValue
+            )> GetEpisodeAliasTuple(List<EpisodeAliasCreateDto> inSeriesAliases)
         {
-            var newEpisodeAliases = new List<EpisodeAlias>();
-            if (!episodeAliases.IsNullOrEmpty())
+            var seriesAliases =
+                new List<(  string idType, string idValue)>();
+            foreach (var seriesAlias in inSeriesAliases)
             {
-                foreach (var episodeAlias in episodeAliases)
-                {
-                    if ((!episodeAlias.IdType.IsNullOrEmpty()) && (!episodeAlias.IdValue.IsNullOrEmpty()))
-                    {
-                        var newEpisodeAlias = new EpisodeAlias();
-                        newEpisodeAlias.IdType = episodeAlias.IdType;
-                        newEpisodeAlias.IdValue = episodeAlias.IdValue;
-                        newEpisodeAliases.Add(newEpisodeAlias);
-                    }
-                }
-                return newEpisodeAliases;
+                seriesAliases.Add((  seriesAlias.IdType, seriesAlias.IdValue ));
             }
-            else
-            {
-                _logger.LogDebug("No aliases sent");
-                return null;
-            }
+            return seriesAliases;
         }
-
+        
         
         private List<EpisodeDto> CreateEpisodeDtoMapping(List<Episode> episodes)
         {

@@ -4,6 +4,7 @@ using MediaInAction.VideoService.Enums;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.Guids;
 
 namespace MediaInAction.VideoService.TorrentsNs;
 public class TorrentManager : DomainService
@@ -54,9 +55,9 @@ public class TorrentManager : DomainService
             downloadLocation: location,
             status: status,
             type: type,
-            mediaLink: mediaLink,
-            episodeLink: episodeLink,
-            isMapped: isMapped
+            mediaLink: Guid.Empty,
+            episodeLink: Guid.Empty,
+            isMapped: false
         );
         
         var dbTorrent = await _torrentRepository.FindByHash(torrent.Hash);

@@ -17,7 +17,7 @@ public class ToBeMappedManager : DomainService
         _logger = logger;
     }
 
-    public async Task<ToBeMapped> CreateToBeMappedAsync(
+    public async Task<ToBeMapped> CreateAsync(
         string alias
     )
     {

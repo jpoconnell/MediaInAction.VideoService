@@ -256,7 +256,7 @@ src/MediaInAction.VideoService.Web/Logs/*
 src/MediaInAction.VideoService.Web.Host/Logs/*
 src/MediaInAction.VideoService.AuthServer/Logs/*
 src/MediaInAction.VideoService.HttpApi.Host/Logs/*
-src/MediaInAction.VideoService.HttpApi.Host/Logs/*
+src/MediaInAction.VideoService.HttpApi.HostWithIds/Logs/*
 src/MediaInAction.VideoService.DbMigrator/Logs/*
 src/MediaInAction.VideoService.Blazor.Server/Logs/*
 src/MediaInAction.VideoService.Blazor.Server.Tiered/Logs/*

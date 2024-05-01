@@ -20,24 +20,25 @@ public class SeriesManager(
     public async Task<Series> CreateAsync(
         string name,
         int year,
-        List<( Guid? seriesId, string idType, string idValue
-                )>
-            seriesAliases,
+        List<( string idType, string idValue)> seriesAliases,
         MediaType type = MediaType.Episode,
-        bool isActive = true
+        bool isActive = true,
+        string image   = ""
     )
     {
         if (year < 2000)
         {
             year = 2000;
         }
+
         // Create new series
-        Series series = new Series(
+        var series = new Series(
             id: GuidGenerator.Create(),
             name: name,
             firstAiredYear: year,
             seriesType: type,
-            isActive: isActive
+            isActive: isActive,
+            imageName: image
         );
 
         // Add new series aliases
@@ -53,198 +54,87 @@ public class SeriesManager(
             idType: "folder",
             idValue: series.Name
         );
-        
+
         foreach (var seriesAlias in seriesAliases)
         {
-            try
-            {
-                series.AddSeriesAlias(
-                    id: GuidGenerator.Create(),
-                    seriesId: series.Id,
-                    idType: seriesAlias.idType,
-                    idValue: seriesAlias.idValue);
-            }
-            catch { } 
+            series.AddSeriesAlias(
+                id: GuidGenerator.Create(),
+                seriesId: series.Id,
+                idType: seriesAlias.idType,
+                idValue: seriesAlias.idValue);
         }
-        
+
         var dbSeries = new Series();
-        
+
         var dbSeriesList = await seriesRepository.GetBySeriesName(series.Name);
         if (dbSeriesList.Count == 1)
         {
-             dbSeries = dbSeriesList[0];
+            dbSeries = dbSeriesList[0];
         }
         else
         {
-             dbSeries = await seriesRepository.FindBySeriesNameYear(series.Name, series.FirstAiredYear);
+            dbSeries = await seriesRepository.FindBySeriesNameYear(series.Name, series.FirstAiredYear);
         }
-        
-        if (dbSeries == null)
-        {
-            var createSeries = await seriesRepository.InsertAsync(series, true);
-            await PublishCreateSeriesEvent(createSeries);
-            return createSeries;
-        }
-        else
-        {
-            var update = 0;
-            if (dbSeries.IsActive != series.IsActive)
-            {
-                dbSeries.IsActive = series.IsActive;
-                update++;
-            }
 
-            if (dbSeries.Type != series.Type)
+        try
+        {
+            if (dbSeries == null)
             {
-                dbSeries.Type = series.Type;
-                update++;
+                var createSeries = await seriesRepository.InsertAsync(series, true);
+                await PublishCreateSeriesEvent(createSeries);
+                return createSeries;
             }
-       
-            foreach (var seriesAlias in seriesAliases)
+            else
             {
-                var found = false;
-                foreach (var dbSeriesAlias in dbSeries.SeriesAliases)
+                var update = 0;
+                if (dbSeries.IsActive != series.IsActive)
                 {
-                    if ((dbSeriesAlias.IdType == seriesAlias.idType) && (dbSeriesAlias.IdValue == seriesAlias.idValue))
+                    dbSeries.IsActive = series.IsActive;
+                    update++;
+                }
+
+                if (dbSeries.Type != series.Type)
+                {
+                    dbSeries.Type = series.Type;
+                    update++;
+                }
+
+                foreach (var seriesAlias in seriesAliases)
+                {
+                    var found = false;
+                    foreach (var dbSeriesAlias in dbSeries.SeriesAliases)
                     {
-                        found = true;
+                        if ((dbSeriesAlias.IdType == seriesAlias.idType) &&
+                            (dbSeriesAlias.IdValue == seriesAlias.idValue))
+                        {
+                            found = true;
+                        }
+                    }
+
+                    if (found == false)
+                    {
+                        dbSeries.AddSeriesAlias(GuidGenerator.Create(), dbSeries.Id, seriesAlias.idType,
+                            seriesAlias.idValue);
+                        update++;
                     }
                 }
 
-                if (found == false)
+                if (update > 0)
                 {
-                    dbSeries.AddSeriesAlias(GuidGenerator.Create(),dbSeries.Id,seriesAlias.idType,seriesAlias.idValue);
-                    update++;
+                    await seriesRepository.UpdateAsync(dbSeries);
                 }
-            }
-            
-            if (update > 0)
-            {
-                await seriesRepository.UpdateAsync(dbSeries);
-            }
 
-            return dbSeries;
+                return dbSeries;
+            }
+        }
+
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error in CreateAsync");
+            return null;
         }
     }
-    
-    public async Task<Series> CreateAsync(
-        string name,
-        int year,
-        List<( string idType, string idValue)> seriesAliases,
-        MediaType type = MediaType.Episode,
-        bool isActive = true
-    )
-    {
-        logger.LogInformation("CreateAsync");
-        if (year < 1970)
-        {
-            year = 1970;
-        }
-        // check for duplicate name
-        var dbSeriesSameName = await seriesRepository.GetBySeriesName(name);
-        if ((dbSeriesSameName != null) & (dbSeriesSameName.Count > 0))
-        {
-            name = name + " " + year.ToString();
-        }
-            // Create new series
-        Series series = new Series(
-            id: GuidGenerator.Create(),
-            name: name,
-            firstAiredYear: year,
-            seriesType: type,
-            isActive: isActive
-        );
 
-        // Add new series aliases
-        series.AddSeriesAlias(
-            id: GuidGenerator.Create(),
-            seriesId: series.Id,
-            idType: "name",
-            idValue: series.Name.ToLower()
-        );
-        series.AddSeriesAlias(
-            id: GuidGenerator.Create(),
-            seriesId: series.Id,
-            idType: "folder",
-            idValue: series.Name
-        );
-        
-        foreach (var seriesAlias in seriesAliases)
-        {
-            try
-            {
-                var myAlias = seriesAlias.idValue;
-                if (seriesAlias.idType == "name")
-                {
-                    myAlias = seriesAlias.idValue.ToLower();
-                }
-                
-                series.AddSeriesAlias(
-                    id: GuidGenerator.Create(),
-                    seriesId: series.Id,
-                    idType: seriesAlias.idType,
-                    idValue: myAlias);
-            }
-            catch { } 
-        }
-        var dbSeries = new Series();
-        
-        var dbSeriesList = await seriesRepository.GetBySeriesName(series.Name);
-        if (dbSeriesList.Count == 1)
-        {
-             dbSeries = dbSeriesList[0];
-        }
-        else
-        {
-             dbSeries = await seriesRepository.FindBySeriesNameYear(series.Name, series.FirstAiredYear);
-        }
-        if (dbSeries == null)
-        {
-            var createSeries = await seriesRepository.InsertAsync(series, true);
-            //await PublishCreateSeriesEvent(createSeries);
-            return createSeries;
-        }
-        else
-        {
-            var update = 0;
-            if (dbSeries.IsActive != series.IsActive)
-            {
-                dbSeries.IsActive = series.IsActive;
-                update++;
-            }
-
-            if (dbSeries.Type != series.Type)
-            {
-                dbSeries.Type = series.Type;
-                update++;
-            }
-       
-            foreach (var seriesAlias in seriesAliases)
-            {
-                var found = false;
-                foreach (var dbSeriesAlias in dbSeries.SeriesAliases)
-                {
-                    if ((dbSeriesAlias.IdType == seriesAlias.idType) && (dbSeriesAlias.IdValue == seriesAlias.idValue))
-                    {
-                        found = true;
-                    }
-                }
-
-                if (found == false)
-                {
-                    dbSeries.AddSeriesAlias(GuidGenerator.Create(),dbSeries.Id,seriesAlias.idType,seriesAlias.idValue);
-                    update++;
-                }
-            }
-            
-            if (update > 0)
-            {
-                await seriesRepository.UpdateAsync(dbSeries);
-            }
-            return dbSeries;
-        }
-    }
-    
     public async Task<Series> CreateUpdateSeriesAsync(
         string name,
         int year,
@@ -293,51 +183,61 @@ public class SeriesManager(
         }
         var dbSeries = await seriesRepository.FindBySeriesNameYear(series.Name, series.FirstAiredYear);
 
-        if (dbSeries == null)
+        try
         {
-            var createSeries = await seriesRepository.InsertAsync(series, true);
-            await PublishCreateSeriesEvent(createSeries);
-            return createSeries;
-        }
-        else
-        {
-            var update = 0;
-            if (dbSeries.IsActive != series.IsActive)
+            if (dbSeries == null)
             {
-                dbSeries.IsActive = series.IsActive;
-                update++;
+                var createSeries = await seriesRepository.InsertAsync(series, true);
+                await PublishCreateSeriesEvent(createSeries);
+                return createSeries;
             }
-
-            if (dbSeries.Type != series.Type)
+            else
             {
-                dbSeries.Type = series.Type;
-                update++;
-            }
-       
-            foreach (var seriesAlias in seriesAliases)
-            {
-                var found = false;
-                foreach (var dbSeriesAlias in dbSeries.SeriesAliases)
+                var update = 0;
+                if (dbSeries.IsActive != series.IsActive)
                 {
-                    if ((dbSeriesAlias.IdType == seriesAlias.idType) && (dbSeriesAlias.IdValue == seriesAlias.idValue))
+                    dbSeries.IsActive = series.IsActive;
+                    update++;
+                }
+
+                if (dbSeries.Type != series.Type)
+                {
+                    dbSeries.Type = series.Type;
+                    update++;
+                }
+
+                foreach (var seriesAlias in seriesAliases)
+                {
+                    var found = false;
+                    foreach (var dbSeriesAlias in dbSeries.SeriesAliases)
                     {
-                        found = true;
+                        if ((dbSeriesAlias.IdType == seriesAlias.idType) &&
+                            (dbSeriesAlias.IdValue == seriesAlias.idValue))
+                        {
+                            found = true;
+                        }
+                    }
+
+                    if (found == false)
+                    {
+                        dbSeries.AddSeriesAlias(GuidGenerator.Create(), dbSeries.Id, seriesAlias.idType,
+                            seriesAlias.idValue);
+                        update++;
                     }
                 }
 
-                if (found == false)
+                if (update > 0)
                 {
-                    dbSeries.AddSeriesAlias(GuidGenerator.Create(),dbSeries.Id,seriesAlias.idType,seriesAlias.idValue);
-                    update++;
+                    await seriesRepository.UpdateAsync(dbSeries);
                 }
-            }
-            
-            if (update > 0)
-            {
-                await seriesRepository.UpdateAsync(dbSeries);
-            }
 
-            return dbSeries;
+                return dbSeries;
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error in CreateUpdateSeriesAsync");
+            return null;
         }
     }
 
@@ -397,7 +297,7 @@ public class SeriesManager(
         var series = await seriesRepository.GetAsync(seriesId);
         if (series == null)
         {
-            throw new BusinessException(VideoServiceErrorCodes.SeriesWithIdNotFound)
+            throw new BusinessException(VideoServiceDomainErrorCodes.SeriesWithIdNotFound)
                 .WithData("SeriesId", seriesId);
         }
 
@@ -414,9 +314,7 @@ public class SeriesManager(
         return await seriesRepository.UpdateAsync(series, autoSave: true);
     }
     
-
-
-
+    
     private List<SeriesAliasCreatedEto> GetSeriesAliasEtoList(List<SeriesAlias> seriesAliases)
     {
         var etoList = new List<SeriesAliasCreatedEto>();

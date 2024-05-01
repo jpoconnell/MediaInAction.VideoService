@@ -22,7 +22,7 @@ public class FileEntryManager : DomainService
         _distributedEventBus = distributedEventBus;
     }
 
-    public async Task<FileEntry> CreateFileEntryAsync(
+    public async Task<FileEntry> CreateAsync(
         Guid? externalId,
         string server,
         string directory,
@@ -41,11 +41,10 @@ public class FileEntryManager : DomainService
             if (externalId == null)
             {
                 myExternalId = externalId.ToString();
-
             }
 
             // Create new fileEntry
-            FileEntry newFileEntry = new FileEntry(
+            var newFileEntry = new FileEntry(
                 id: GuidGenerator.Create(),
                 externalId: myExternalId,
                 server: server,
@@ -105,7 +104,7 @@ public class FileEntryManager : DomainService
     {
         _logger.LogInformation("AcceptFileEntryAsync");
 
-        var newFileEntry = await CreateFileEntryAsync(externalFileId,
+        var newFileEntry = await CreateAsync(externalFileId,
             server, 
             directory, 
             extn,

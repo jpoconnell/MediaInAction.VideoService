@@ -6,7 +6,7 @@ namespace MediaInAction.VideoService.EpisodeNs;
 public class EpisodeAlreadyExistsException : BusinessException
 {
     public EpisodeAlreadyExistsException(string name)
-        : base(VideoServiceErrorCodes.EpisodeAlreadyExists)
+        : base(VideoServiceDomainErrorCodes.EpisodeAlreadyExists)
     {
         WithData("name", name);
     }

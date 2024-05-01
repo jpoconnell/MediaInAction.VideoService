@@ -1,13 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Shouldly;
-using System;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
+using MediaInAction.VideoService.ToBeMappedNs;
+using Microsoft.EntityFrameworkCore;
+using Shouldly;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.Identity;
 using Xunit;
 
-namespace MediaInAction.VideoService.EntityFrameworkCore.Samples;
+namespace MediaInAction.VideoService.EntityFrameworkCore.Repositories;
 
 /* This is just an example test class.
  * Normally, you don't test ABP framework code
@@ -17,11 +16,11 @@ namespace MediaInAction.VideoService.EntityFrameworkCore.Samples;
 [Collection(VideoServiceTestConsts.CollectionDefinitionName)]
 public class ToBeMappedRepositoryTests : VideoServiceEntityFrameworkCoreTestBase
 {
-    private readonly IRepository<IdentityUser, Guid> _appUserRepository;
+    private readonly IRepository<ToBeMapped, Guid> _toBeMappedRepository;
 
     public ToBeMappedRepositoryTests()
     {
-        _appUserRepository = GetRequiredService<IRepository<IdentityUser, Guid>>();
+        _toBeMappedRepository = GetRequiredService<IRepository<ToBeMapped, Guid>>();
     }
 
     [Fact]
@@ -33,12 +32,14 @@ public class ToBeMappedRepositoryTests : VideoServiceEntityFrameworkCoreTestBase
         await WithUnitOfWorkAsync(async () =>
         {
                 //Act
-                var adminUser = await (await _appUserRepository.GetQueryableAsync())
-                .Where(u => u.UserName == "admin")
+                var toBeMapped = await (await _toBeMappedRepository.GetQueryableAsync())
+               // .Where(u => u.UserName == "admin")
                 .FirstOrDefaultAsync();
 
                 //Assert
-                adminUser.ShouldNotBeNull();
+                toBeMapped.ShouldNotBeNull();
         });
     }
+    
+    //
 }

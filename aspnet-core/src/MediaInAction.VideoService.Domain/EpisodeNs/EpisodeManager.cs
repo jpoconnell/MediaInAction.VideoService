@@ -30,13 +30,12 @@ public class EpisodeManager : DomainService
         Guid seriesId,
         int seasonNum,
         int episodeNum,
-        List<EpisodeAlias>
-            episodeAliases,
+        List<( string idType, string idValue)> episodeAliases,
         DateTime airedDate,
         string source = "",
-        string episodeName = null,
-        string altEpisodeId = null,
-        string seasonEpisode = null
+        string episodeName = "",
+        string altEpisodeId = "",
+        string seasonEpisode = ""
     )
     {
         var addAiredDate = Convert.ToDateTime("1/1/2000");
@@ -81,8 +80,8 @@ public class EpisodeManager : DomainService
                 episode.AddEpisodeAlias(
                     id: GuidGenerator.Create(),
                     episodeId: episode.Id,
-                    idType: episodeAlias.IdType,
-                    idValue: episodeAlias.IdValue
+                    idType: episodeAlias.idType,
+                    idValue: episodeAlias.idValue
                 );
             }
         }

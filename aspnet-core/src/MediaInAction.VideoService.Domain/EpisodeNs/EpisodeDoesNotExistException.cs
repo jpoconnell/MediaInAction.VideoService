@@ -6,7 +6,7 @@ namespace MediaInAction.VideoService.EpisodeNs;
 public class EpisodeDoesNotExistException : BusinessException
 {
     public EpisodeDoesNotExistException(string name)
-        : base(VideoServiceErrorCodes.EpisodeDoesNotExistException)
+        : base(VideoServiceDomainErrorCodes.EpisodeDoesNotExistException)
     {
         WithData("name", name);
     }

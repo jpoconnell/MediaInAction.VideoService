@@ -5,7 +5,7 @@ namespace MediaInAction.VideoService.MovieNs;
 public class MovieAlreadyExistsException : BusinessException
 {
     public MovieAlreadyExistsException(string name)
-        : base(VideoServiceErrorCodes.MovieAlreadyExists)
+        : base(VideoServiceDomainErrorCodes.MovieAlreadyExists)
     {
         WithData("name", name);
     }

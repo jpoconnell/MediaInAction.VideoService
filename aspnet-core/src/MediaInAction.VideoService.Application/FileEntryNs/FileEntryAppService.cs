@@ -17,12 +17,12 @@ public class FileEntryAppService : VideoServiceAppService, IFileEntryAppService
     private readonly IFileEntryRepository _fileEntryRepository;
     private readonly ILogger<FileEntryAppService> _logger;
     
-    public FileEntryAppService(FileEntryManager movieManager,
+    public FileEntryAppService(FileEntryManager fileEntryManager,
         IFileEntryRepository fileEntryRepository,
         ILogger<FileEntryAppService> logger
     )
     {
-        _fileEntryManager = movieManager;
+        _fileEntryManager = fileEntryManager;
         _fileEntryRepository = fileEntryRepository;
         _logger = logger;
     }
@@ -37,8 +37,7 @@ public class FileEntryAppService : VideoServiceAppService, IFileEntryAppService
     {
         try
         {
-            
-            var fileEntry = await _fileEntryManager.CreateFileEntryAsync(
+            var fileEntry = await _fileEntryManager.CreateAsync(
                 externalId: null,
                 server: input.Server,
                 directory: input.Directory,
@@ -94,5 +93,4 @@ public class FileEntryAppService : VideoServiceAppService, IFileEntryAppService
     {
         throw new NotImplementedException();
     }
-    
 }

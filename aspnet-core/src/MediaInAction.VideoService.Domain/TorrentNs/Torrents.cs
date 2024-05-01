@@ -23,9 +23,11 @@ namespace MediaInAction.VideoService.TorrentsNs
         public MediaType Type { get; set; }
         public Guid MediaLink { get; set; }
         public Guid EpisodeLink { get; set; }
-        
         public bool IsMapped { get; set; }
-        protected Torrent() { }
+       
+        protected Torrent()
+        {
+        }
         
         public Torrent(Guid id,
             string comment, 

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
+using MediaInAction.VideoService.SeriesNs;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.Identity;
 using Xunit;
 
 namespace MediaInAction.VideoService.EntityFrameworkCore.Repositories;
@@ -15,13 +14,13 @@ namespace MediaInAction.VideoService.EntityFrameworkCore.Repositories;
  * Only test your custom repository methods.
  */
 [Collection(VideoServiceTestConsts.CollectionDefinitionName)]
-public class SeriesepositoryTests : VideoServiceEntityFrameworkCoreTestBase
+public class SeriesRepositoryTests : VideoServiceEntityFrameworkCoreTestBase
 {
-    private readonly IRepository<IdentityUser, Guid> _appUserRepository;
+    private readonly IRepository<Series, Guid> _seriesRepository;
 
-    public SeriesepositoryTests()
+    public SeriesRepositoryTests()
     {
-        _appUserRepository = GetRequiredService<IRepository<IdentityUser, Guid>>();
+        _seriesRepository = GetRequiredService<IRepository<Series, Guid>>();
     }
 
     [Fact]
@@ -33,12 +32,14 @@ public class SeriesepositoryTests : VideoServiceEntityFrameworkCoreTestBase
         await WithUnitOfWorkAsync(async () =>
         {
                 //Act
-                var adminUser = await (await _appUserRepository.GetQueryableAsync())
-                .Where(u => u.UserName == "admin")
+                var series = await (await _seriesRepository.GetQueryableAsync())
+               // .Where(u => u.UserName == "admin")
                 .FirstOrDefaultAsync();
 
                 //Assert
-                adminUser.ShouldNotBeNull();
+                series.ShouldNotBeNull();
         });
     }
+    
+    //
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using MediaInAction.VideoService.EntityFrameworkCore;
+using MediaInAction.VideoService.Enums;
 using MediaInAction.VideoService.TorrentsNs;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
@@ -59,5 +60,15 @@ public class EfCoreTorrentRepository : EfCoreRepository<VideoServiceDbContext, T
         {
             return null;
         }
+    }
+
+    public Task<List<Torrent>> GetTorrentStatus(FileStatus status)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<Torrent>> GetMapped(bool mapped)
+    {
+        throw new NotImplementedException();
     }
 }

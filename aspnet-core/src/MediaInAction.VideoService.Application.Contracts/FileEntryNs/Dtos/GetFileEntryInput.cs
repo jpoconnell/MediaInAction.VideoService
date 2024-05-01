@@ -1,6 +1,4 @@
-﻿
-
-using MediaInAction.VideoService.Enums;
+﻿using MediaInAction.VideoService.Enums;
 
 namespace MediaInAction.VideoService.FileEntryNs.Dtos;
 

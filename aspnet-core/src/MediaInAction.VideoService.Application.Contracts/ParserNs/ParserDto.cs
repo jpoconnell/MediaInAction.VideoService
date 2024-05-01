@@ -1,7 +1,6 @@
 using System;
 using MediaInAction.VideoService.Enums;
 
-
 namespace MediaInAction.VideoService.ParserNs;
 
 public class ParserDto

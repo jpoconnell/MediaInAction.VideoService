@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
+using MediaInAction.VideoService.FileEntryNs;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.Identity;
 using Xunit;
 
 namespace MediaInAction.VideoService.EntityFrameworkCore.Repositories;
@@ -17,11 +16,11 @@ namespace MediaInAction.VideoService.EntityFrameworkCore.Repositories;
 [Collection(VideoServiceTestConsts.CollectionDefinitionName)]
 public class FileEntryRepositoryTests : VideoServiceEntityFrameworkCoreTestBase
 {
-    private readonly IRepository<IdentityUser, Guid> _appUserRepository;
+    private readonly IRepository<FileEntry, Guid> _fileEntryRepository;
 
     public FileEntryRepositoryTests()
     {
-        _appUserRepository = GetRequiredService<IRepository<IdentityUser, Guid>>();
+        _fileEntryRepository = GetRequiredService<IRepository<FileEntry, Guid>>();
     }
 
     [Fact]
@@ -33,12 +32,14 @@ public class FileEntryRepositoryTests : VideoServiceEntityFrameworkCoreTestBase
         await WithUnitOfWorkAsync(async () =>
         {
                 //Act
-                var adminUser = await (await _appUserRepository.GetQueryableAsync())
-                .Where(u => u.UserName == "admin")
+                var fileEntry = await (await _fileEntryRepository.GetQueryableAsync())
+               // .Where(u => u.UserName == "admin")
                 .FirstOrDefaultAsync();
 
                 //Assert
-                adminUser.ShouldNotBeNull();
+                fileEntry.ShouldNotBeNull();
         });
     }
+    
+
 }

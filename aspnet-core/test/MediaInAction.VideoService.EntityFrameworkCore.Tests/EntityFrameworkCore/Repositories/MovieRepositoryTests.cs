@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
+using MediaInAction.VideoService.MovieNs;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.Identity;
 using Xunit;
 
 namespace MediaInAction.VideoService.EntityFrameworkCore.Repositories;
@@ -17,11 +16,11 @@ namespace MediaInAction.VideoService.EntityFrameworkCore.Repositories;
 [Collection(VideoServiceTestConsts.CollectionDefinitionName)]
 public class MovieRepositoryTests : VideoServiceEntityFrameworkCoreTestBase
 {
-    private readonly IRepository<IdentityUser, Guid> _appUserRepository;
+    private readonly IRepository<Movie, Guid> _movieRepository;
 
     public MovieRepositoryTests()
     {
-        _appUserRepository = GetRequiredService<IRepository<IdentityUser, Guid>>();
+        _movieRepository = GetRequiredService<IRepository<Movie, Guid>>();
     }
 
     [Fact]
@@ -33,12 +32,14 @@ public class MovieRepositoryTests : VideoServiceEntityFrameworkCoreTestBase
         await WithUnitOfWorkAsync(async () =>
         {
                 //Act
-                var adminUser = await (await _appUserRepository.GetQueryableAsync())
-                .Where(u => u.UserName == "admin")
+                var movie = await (await _movieRepository.GetQueryableAsync())
+               // .Where(u => u.UserName == "admin")
                 .FirstOrDefaultAsync();
 
                 //Assert
-                adminUser.ShouldNotBeNull();
+                movie.ShouldNotBeNull();
         });
     }
+    
+    //
 }

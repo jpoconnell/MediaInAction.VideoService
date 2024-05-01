@@ -28,14 +28,15 @@ public class Series : AuditedAggregateRoot<Guid>
         [NotNull] string name,
         int firstAiredYear,
         [NotNull] MediaType seriesType,
-        bool isActive = true
+        bool isActive = true,
+        string imageName = ""
     )
-        : base(id)
     {
         Name = name;
         Type = seriesType;
         FirstAiredYear = firstAiredYear;
         IsActive = isActive;
+        ImageName = imageName;
         SeriesAliases = new List<SeriesAlias>();
     }
     
