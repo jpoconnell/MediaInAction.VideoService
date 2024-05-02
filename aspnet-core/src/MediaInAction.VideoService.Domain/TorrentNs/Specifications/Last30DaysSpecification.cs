@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
-using MediaInAction.VideoService.ToBeMappedNs;
+using MediaInAction.VideoService.TorrentsNs;
 using Volo.Abp.Specifications;
 
-namespace MediaInAction.VideoService.TorrentsNs.Specifications;
+namespace MediaInAction.VideoService.TorrentNs.Specifications;
 
 public class Last30DaysSpecification : Specification<Torrent>
 {

@@ -26,4 +26,11 @@ public interface IMovieRepository : IRepository<Movie, Guid>
         bool includeDetails = true);
 
     Task<List<Movie>> GetByMovieName(string movieName);
+    Task<List<Movie>> GetListPagedAsync(
+        ISpecification<Movie> spec,
+        int skipCount,
+        int maxResultCount,
+        string sorting,
+        bool includeDetails = true,
+        CancellationToken cancellationToken = default);
 }

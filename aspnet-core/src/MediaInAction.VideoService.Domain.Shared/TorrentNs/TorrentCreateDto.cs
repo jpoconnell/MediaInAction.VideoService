@@ -1,6 +1,6 @@
 namespace MediaInAction.VideoService.TorrentNs.Dtos;
 
-public class TorrentCreatedDto 
+public class TorrentCreateDto 
 {
     public string Comment { get; set; }
     public bool IsSeed { get; set; }
@@ -13,5 +13,5 @@ public class TorrentCreatedDto
     public long Added { get; set; }
     public double CompleteTime { get; set; }
     public string DownloadLocation { get; set; }
-
+    public string Status { get; set; }
 }

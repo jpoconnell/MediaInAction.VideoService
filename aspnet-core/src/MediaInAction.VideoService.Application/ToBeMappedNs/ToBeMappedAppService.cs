@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediaInAction.VideoService.Permissions;
+using MediaInAction.VideoService.SeriesNs;
 using MediaInAction.VideoService.ToBeMappedNs.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using Volo.Abp.Application.Dtos;
+using Volo.Abp.Specifications;
 
 namespace MediaInAction.VideoService.ToBeMappedNs;
 
@@ -60,4 +63,38 @@ public class ToBeMappedAppService : VideoServiceAppService, IToBeMappedAppServic
         return toBeOut;
     }
 
+    public async Task<PagedResultDto<ToBeMappedDto>> GetListPagedAsync(GetToBeMappedsInput input)
+    {
+        ISpecification<ToBeMapped> specification = Specifications.SpecificationFactory.Create("a:");
+
+        var toBeMappedList = await _toBeMappedRepository.GetListPagedAsync(specification, input.SkipCount,
+            input.MaxResultCount, "" );
+
+        var totalCount = await _toBeMappedRepository.GetCountAsync();
+        
+        var toBeMappedDtoMapping = CreateToBeMappedDtoMapping(toBeMappedList);
+        return new PagedResultDto<ToBeMappedDto>( totalCount,toBeMappedDtoMapping);
+        
+    }
+
+    private IReadOnlyList<ToBeMappedDto> CreateToBeMappedDtoMapping(List<ToBeMapped> toBeMappedList)
+    {
+        _logger.LogInformation("CreateSeriesDtoMapping");
+        List<ToBeMappedDto> dtoList = new List<ToBeMappedDto>();
+        foreach (var toBeMapped in toBeMappedList)
+        {
+            dtoList.Add(CreateSeriesDtoMapping(toBeMapped));
+        }
+
+        return dtoList;
+       
+    }
+
+    private ToBeMappedDto CreateSeriesDtoMapping(ToBeMapped toBeMapped)
+    {
+        var toBeMappedDto = new ToBeMappedDto();
+        toBeMappedDto.Alias = toBeMapped.Alias;
+        toBeMappedDto.Processed = toBeMapped.Processed;
+        return toBeMappedDto;
+    }
 }

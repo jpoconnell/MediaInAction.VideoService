@@ -12,6 +12,6 @@ public interface IFileEntryAppService : IApplicationService
     Task<FileEntryDto> CreateAsync(FileEntryCreatedDto input);
     Task<FileEntryDto> GetFileEntryAsync(GetFileEntryInput input);
     Task SetAsMappedAsync(Guid id);
-    Task<PagedResultDto<FileEntryDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input);
+    Task<PagedResultDto<FileEntryDto>> GetListPagedAsync(GetFileEntriesInput input);
     Task<DashboardDto> GetDashboardAsync(DashboardInput input);
 }

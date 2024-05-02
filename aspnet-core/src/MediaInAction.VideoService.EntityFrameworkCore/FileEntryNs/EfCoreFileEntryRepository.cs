@@ -130,7 +130,6 @@ public class EfCoreFileEntryRepository : EfCoreRepository<VideoServiceDbContext,
         {
             return null;
         }
-      
     }
 
     public async Task<List<FileEntry>> GetMapped()
@@ -162,6 +161,35 @@ public class EfCoreFileEntryRepository : EfCoreRepository<VideoServiceDbContext,
         {
             return null;
         }
+    }
+
+    public async Task<List<FileEntry>> GetListPagedAsync(
+        ISpecification<FileEntry> spec, 
+        int skipCount, 
+        int maxResultCount, 
+        string filename,
+        bool includeDetails = false,  
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var dbSet = await GetDbSetAsync();
+            return await (await GetDbSetAsync())
+                .Where(spec.ToExpression())
+                .Skip(skipCount)
+                .Take(maxResultCount)
+                .ToListAsync(GetCancellationToken(cancellationToken));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return null;
+        }
+    }
+
+    private object await(DbSet<FileEntry> getDbSetAsync)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<List<FileEntry>> GetAllListAsync()

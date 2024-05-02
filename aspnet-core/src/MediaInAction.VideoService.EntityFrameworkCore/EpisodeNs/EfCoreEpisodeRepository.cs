@@ -46,7 +46,7 @@ namespace MediaInAction.VideoService.EpisodeNs
             int skipCount, 
             int maxResultCount, 
             string sorting,
-            bool includeDetails = false, 
+            bool includeDetails = true, 
             CancellationToken cancellationToken = default)
         {
             return await (await GetDbSetAsync())

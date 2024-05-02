@@ -1,4 +1,4 @@
-using MediaInAction.VideoService.Samples;
+using MediaInAction.VideoService.SeriesNs;
 using Xunit;
 
 namespace MediaInAction.VideoService.EntityFrameworkCore.Applications;

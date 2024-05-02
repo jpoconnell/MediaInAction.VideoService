@@ -17,6 +17,27 @@ public class ToBeMappedManager : DomainService
         _logger = logger;
     }
 
+    public async Task<ToBeMapped> CreateAsync(ToBeMappedCreateDto toBeMappedCreateDto)
+    {
+        var myAlias = toBeMappedCreateDto.Alias.ToLower();
+        // Create new toBeMapped
+        ToBeMapped toBeMapped = new ToBeMapped(
+            id: GuidGenerator.Create(),
+            alias: myAlias,
+            processed:toBeMappedCreateDto.Processed,
+            tries: 0
+        );
+        var dbToBeMapped = await _toBeMappedRepository.FindByAlias(toBeMapped.Alias);
+
+        if (dbToBeMapped == null)
+        {
+            var createdToBeMapped = await _toBeMappedRepository.InsertAsync(toBeMapped, true);
+            return createdToBeMapped;
+        }
+
+        return null;
+    }
+    
     public async Task<ToBeMapped> CreateAsync(
         string alias
     )

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using MediaInAction.VideoService.SeriesNs.Specifications;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Specifications;
 
@@ -25,7 +24,7 @@ public interface ISeriesRepository : IRepository<Series, Guid>
         int skipCount,
         int maxResultCount,
         string sorting,
-        bool includeDetails = false,
+        bool includeDetails = true,
         CancellationToken cancellationToken = default);
 
     Task<List<Series>> GetNoDefault();

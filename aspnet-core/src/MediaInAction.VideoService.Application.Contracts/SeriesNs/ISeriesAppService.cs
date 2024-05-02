@@ -12,10 +12,9 @@ namespace MediaInAction.VideoService.SeriesNs;
         Task<SeriesDto> CreateAsync(SeriesCreateDto input);
         Task<SeriesDto> GetAsync(Guid id);
         Task<SeriesDto> GetSeriesAsync(GetSeriesInput input);
-        Task<List<SeriesDto>> GetSeriessAsync(GetSeriessInput input);
+        Task<PagedResultDto<SeriesDto>> GetSeriesListAsync(GetSeriesListInput input);
         Task<SeriesDto> GetBySeriesNameAsync(string name);
         Task SetAsInActiveAsync(Guid id);
-        Task<PagedResultDto<SeriesDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input);
         Task<DashboardDto> GetDashboardAsync(DashboardInput input);
         Task<SeriesDto> GetByIdValue(string slug);
     }

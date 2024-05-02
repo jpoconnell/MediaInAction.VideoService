@@ -28,4 +28,9 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MediaInAction.VideoService.Application.Contracts\MediaInAction.VideoService.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\MediaInAction.VideoService.Domain\MediaInAction.VideoService.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

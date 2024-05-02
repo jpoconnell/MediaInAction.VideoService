@@ -46,4 +46,13 @@ public interface IFileEntryRepository : IRepository<FileEntry, Guid>
     
     Task<List<FileEntry>> GetMapped();
     Task<FileEntry> GetByExternalId(Guid fileId);
+    
+    Task<List<FileEntry>> GetListPagedAsync(
+        ISpecification<FileEntry> spec,
+        int skipCount,
+        int maxResultCount,
+        string sorting,
+        bool includeDetails = true,
+        CancellationToken cancellationToken = default);
+    
 }

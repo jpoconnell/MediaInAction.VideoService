@@ -54,10 +54,19 @@ public class SeriesAppService : VideoServiceAppService, ISeriesAppService
         }
     }
 
-    public Task<List<SeriesDto>> GetSeriessAsync(GetSeriessInput input)
+    public async Task<PagedResultDto<SeriesDto>> GetSeriesListAsync(GetSeriesListInput input)
     {
-        throw new NotImplementedException();
+        ISpecification<Series> specification = Specifications.SpecificationFactory.Create("a:");
+
+        var seriesList = await _seriesRepository.GetListPagedAsync(specification, input.SkipCount,
+                input.MaxResultCount, "SeriesName" );
+
+        var totalCount = await _seriesRepository.GetCountAsync();
+        
+        var seriesDtoList = CreateSeriesDtoMapping(seriesList);
+        return new PagedResultDto<SeriesDto>( totalCount,seriesDtoList);
     }
+    
 
     [AllowAnonymous]
     public async Task<SeriesDto> CreateAsync(SeriesCreateDto input)

@@ -1,6 +1,8 @@
-﻿namespace MediaInAction.VideoService.SeriesNs.Dtos;
+﻿using Volo.Abp.Application.Dtos;
 
-    public class GetSeriessInput
+namespace MediaInAction.VideoService.SeriesNs.Dtos;
+
+    public class GetSeriessInput : PagedAndSortedResultRequestDto
     {
         public string Filter { get; set; }
     }

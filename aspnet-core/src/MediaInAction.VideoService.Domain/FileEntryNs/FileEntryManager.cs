@@ -22,6 +22,65 @@ public class FileEntryManager : DomainService
         _distributedEventBus = distributedEventBus;
     }
 
+    public async Task<FileEntry> CreateAsync(FileEntryCreateDto fileEntryCreateDto)
+    {
+        try
+        {
+            var myExternalId = "";
+            if (fileEntryCreateDto.ExternalId != null)
+            {
+                myExternalId = fileEntryCreateDto.ExternalId;
+            }
+
+            // Create new fileEntry
+            var newFileEntry = new FileEntry(
+                id: GuidGenerator.Create(),
+                externalId: myExternalId,
+                server: fileEntryCreateDto.Server,
+                fileName: fileEntryCreateDto.FileName,
+                directory: fileEntryCreateDto.Directory,
+                extn: fileEntryCreateDto.Extn,
+                size: fileEntryCreateDto.Size,
+                listName: 0,
+                sequence: fileEntryCreateDto.Sequence,
+                status: FileStatus.New,
+                isMapped: false
+            );
+
+            var dbFileEntry = await _fileEntryRepository.FindFileEntry(newFileEntry.Server,
+                newFileEntry.Directory,
+                newFileEntry.FileName,
+                newFileEntry.ListName);
+
+            if (dbFileEntry == null)
+            {
+                var createdFileEntry = await _fileEntryRepository.InsertAsync(newFileEntry, true);
+                return createdFileEntry;
+            }
+            else
+            {
+                var update = 0;
+                if (dbFileEntry.FileStatus != newFileEntry.FileStatus)
+                {
+                    dbFileEntry.FileStatus = newFileEntry.FileStatus;
+                    update++;
+                }
+
+                if (update > 0)
+                {
+                    await _fileEntryRepository.UpdateAsync(dbFileEntry);
+                }
+
+                return dbFileEntry;
+            }
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+    
     public async Task<FileEntry> CreateAsync(
         Guid? externalId,
         string server,

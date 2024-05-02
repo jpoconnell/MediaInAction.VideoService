@@ -71,6 +71,36 @@ public class EfCoreMovieRepository : EfCoreRepository<VideoServiceDbContext, Mov
         }
     }
 
+    public async Task<List<Movie>> GetListPagedAsync(
+        ISpecification<Movie> spec, 
+        int skipCount,
+        int maxResultCount, 
+        string sorting,
+        bool includeDetails = true, 
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var dbSet = await GetDbSetAsync();
+            return await (await GetDbSetAsync())
+                .Where(spec.ToExpression())
+                .IncludeDetails(includeDetails)
+                .Skip(skipCount)
+                .Take(maxResultCount)
+                .ToListAsync(GetCancellationToken(cancellationToken));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return null;
+        }
+    }
+
+    private object await(DbSet<Movie> getDbSetAsync)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<List<Movie>> GetActiveList()
     {
         try

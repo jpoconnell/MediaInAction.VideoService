@@ -62,7 +62,7 @@ public class MovieAppService : VideoServiceAppService, IMovieAppService
             var movieAlias = new MovieAlias();
             movieAlias.IdValue = movieAliasDto.IdValue;
             movieAlias.IdType = movieAliasDto.IdType;
-            movieAlias.MovieId = movieAliasDto.MovieId;
+           // movieAlias.MovieId = movieAliasDto.MovieId;
             movieAliasList.Add(movieAlias);
         }
 
@@ -94,12 +94,16 @@ public class MovieAppService : VideoServiceAppService, IMovieAppService
     
     public async Task<PagedResultDto<MovieDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input)
     {
-        var movies = await _movieRepository.GetPagedListAsync(input.SkipCount, input.MaxResultCount, input.Sorting ?? "MovieDate", true);
+        ISpecification<Movie> specification = Specifications.SpecificationFactory.Create("a:");
+
+        var movieList =
+            await _movieRepository.GetListPagedAsync(specification, input.SkipCount,
+                input.MaxResultCount, "SeriesName" );
 
         var totalCount = await _movieRepository.GetCountAsync();
         return new PagedResultDto<MovieDto>(
             totalCount,
-            CreateMovieDtoMapping(movies)
+            CreateMovieDtoMapping(movieList)
         );
     }
     
@@ -146,14 +150,14 @@ public class MovieAppService : VideoServiceAppService, IMovieAppService
     }
     
     
-    private List<( Guid movieId, string idType, string idValue
+    private List<( string idType, string idValue
         )> GetMovieAliasTuple(List<MovieAliasCreateDto> inSeriesAliases)
     {
         var movieAliases =
-            new List<( Guid seriesId, string idType, string idValue)>();
+            new List<(  string idType, string idValue)>();
         foreach (var movieAlias in inSeriesAliases)
         {
-            movieAliases.Add(( movieAlias.MovieId, movieAlias.IdType, movieAlias.IdValue ));
+            movieAliases.Add((  movieAlias.IdType, movieAlias.IdValue ));
         }
         return movieAliases;
     }

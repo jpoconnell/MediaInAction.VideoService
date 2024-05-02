@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediaInAction.VideoService.Enums;
-using MediaInAction.VideoService.EpisodeAliasNs;
-using MediaInAction.VideoService.EpisodeNs;
 using MediaInAction.VideoService.EpisodeNs.Dtos;
 using MediaInAction.VideoService.EpisodeNs.Specifications;
+using MediaInAction.VideoService.EpisodesAliasNs;
 using MediaInAction.VideoService.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
@@ -13,7 +12,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Specifications;
 using Volo.Abp.Users;
 
-namespace MediaInAction.VideoService.EpisodesNs
+namespace MediaInAction.VideoService.EpisodeNs
 {
     public class EpisodeAppService : VideoServiceAppService, IEpisodeAppService
     {
@@ -43,16 +42,7 @@ namespace MediaInAction.VideoService.EpisodesNs
         public async Task<EpisodeDto> CreateAsync(EpisodeCreateDto input)
         {
             var episodeAliases = GetEpisodeAliasTuple(input.EpisodeAliases);
-
-            var newEpisode = await _episodeManager.CreateAsync
-            (
-                seriesId: input.SeriesId,
-                seasonNum: input.SeasonNum,
-                episodeNum: input.EpisodeNum,
-                episodeAliases: episodeAliases,
-                airedDate: input.AiredDate
-            );
-
+            var newEpisode = await _episodeManager.CreateAsync(input);
             return CreateEpisodeDtoMapping(newEpisode);
         }
 
@@ -124,11 +114,19 @@ namespace MediaInAction.VideoService.EpisodesNs
             await _episodeManager.SetStatusAsync(id,MediaStatus.Watched);
         }
 
-        Task<PagedResultDto<EpisodeDto>> IEpisodeAppService.GetListPagedAsync(PagedAndSortedResultRequestDto input)
-        {
-            return GetListPagedAsync(input);
-        }
+        public async Task<PagedResultDto<EpisodeDto>> GetListPagedAsync(GetMyEpisodesInput input)
+        { 
+            ISpecification<Episode> specification = Specifications.SpecificationFactory.Create("a:");
 
+            var episodeList =
+                await _episodeRepository.GetListPagedAsync(specification, input.SkipCount,
+                    input.MaxResultCount, "EpisodeName",true );
+
+            var episodeDtoList = CreateEpisodeDtoMapping(episodeList);
+            var totalCount = await _episodeRepository.GetCountAsync();
+            return new PagedResultDto<EpisodeDto>(totalCount,episodeDtoList);
+        }
+        
         Task<DashboardDto> IEpisodeAppService.GetDashboardAsync(DashboardInput input)
         {
             return GetDashboardAsync(input);
@@ -175,11 +173,11 @@ namespace MediaInAction.VideoService.EpisodesNs
 
         
         private List<( string idType, string idValue
-            )> GetEpisodeAliasTuple(List<EpisodeAliasCreateDto> inSeriesAliases)
+            )> GetEpisodeAliasTuple(List<EpisodeAliasCreateDto> inEpisodeAliases)
         {
             var seriesAliases =
                 new List<(  string idType, string idValue)>();
-            foreach (var seriesAlias in inSeriesAliases)
+            foreach (var seriesAlias in inEpisodeAliases)
             {
                 seriesAliases.Add((  seriesAlias.IdType, seriesAlias.IdValue ));
             }

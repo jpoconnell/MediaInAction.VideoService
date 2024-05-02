@@ -72,4 +72,15 @@ public class EfCoreToBeMappedRepository : EfCoreRepository<VideoServiceDbContext
             .OrderByDescending(o => o.Alias)
             .ToListAsync(GetCancellationToken(cancellationToken));
     }
+    
+
+    public async Task<List<ToBeMapped>> GetListPagedAsync(ISpecification<ToBeMapped> spec,
+        int inputSkipCount, 
+        int inputMaxResultCount, string empty, CancellationToken cancellationToken = default)
+    {
+        return await (await GetDbSetAsync())
+            .Where(spec.ToExpression())
+            .OrderByDescending(o => o.Alias)
+            .ToListAsync(GetCancellationToken(cancellationToken));
+    }
 }

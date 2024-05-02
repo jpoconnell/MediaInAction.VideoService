@@ -15,7 +15,7 @@ public interface IEpisodeAppService : IApplicationService
     Task<List<EpisodeDto>> GetEpisodesAsync(GetEpisodesInput input);
     Task SetAsCompleteAsync(Guid id);
     Task SetAsWatchedAsync(Guid id);
-    Task<PagedResultDto<EpisodeDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input);
+    Task<PagedResultDto<EpisodeDto>> GetListPagedAsync(GetMyEpisodesInput input);
     Task<DashboardDto> GetDashboardAsync(DashboardInput input);
     Task<EpisodeDto> AcceptTraktEpisodeAsync(EpisodeCreateDto input);
     Task<List<EpisodeDto>> GetMyEpisodesAsync(GetMyEpisodesInput getMyEpisodesInput);

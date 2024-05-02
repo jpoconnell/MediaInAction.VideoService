@@ -1,6 +1,8 @@
-﻿namespace MediaInAction.VideoService.FileEntryNs.Dtos;
+﻿using Volo.Abp.Application.Dtos;
 
-public class GetFileEntriesInput
+namespace MediaInAction.VideoService.FileEntryNs.Dtos;
+
+public class GetFileEntriesInput : PagedAndSortedResultRequestDto
 {
     public string Filter { get; set; }
 }

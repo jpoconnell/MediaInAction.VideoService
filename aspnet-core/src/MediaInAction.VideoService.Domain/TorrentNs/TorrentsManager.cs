@@ -1,10 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using MediaInAction.VideoService.Enums;
+﻿using System.Threading.Tasks;
+using MediaInAction.VideoService.TorrentNs.Dtos;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;
-using Volo.Abp.Guids;
 
 namespace MediaInAction.VideoService.TorrentsNs;
 public class TorrentManager : DomainService
@@ -19,45 +17,25 @@ public class TorrentManager : DomainService
         _torrentRepository = torrentRepository;
         _logger = logger;
     }
+    
 
-    public async Task<Torrent> CreateAsync(
-        string comment,
-        bool isSeed,
-        string hash,
-        bool paused ,
-        double ratio ,
-        string message, 
-        string name,
-        string label, 
-        long added,
-        double completeTime, 
-        string location,
-        FileStatus status,
-        MediaType type,
-        Guid mediaLink,
-        Guid episodeLink,
-        bool isMapped
-    )
+    public async Task<Torrent> CreateAsync(TorrentCreateDto input)
     {
         // Create new torrent
         var torrent = new Torrent(
             id: GuidGenerator.Create(),
-            comment: comment,
-            isSeed: isSeed,
-            hash: hash,
-            paused: paused,
-            ratio: ratio,
-            message: message,
-            name: name,
-            label: label,
-            added: added,
-            completeTime: completeTime,
-            downloadLocation: location,
-            status: status,
-            type: type,
-            mediaLink: Guid.Empty,
-            episodeLink: Guid.Empty,
-            isMapped: false
+            comment: input.Comment,
+            isSeed: input.IsSeed,
+            hash: input.Hash,
+            paused: input.Paused,
+            ratio: input.Ratio,
+            message: input.Message,
+            name: input.Name,
+            label: input.Label,
+            added: input.Added,
+            completeTime: input.CompleteTime,
+            downloadLocation: input.DownloadLocation,
+            status: input.Status
         );
         
         var dbTorrent = await _torrentRepository.FindByHash(torrent.Hash);
@@ -71,26 +49,28 @@ public class TorrentManager : DomainService
         {
             var update = 0;
 
-            if (dbTorrent.Added != added)
+            if (dbTorrent.Added != torrent.Added)
             {
-                dbTorrent.Added = added;
+                dbTorrent.Added = torrent.Added;
                 update++;
             }
 
-            if (dbTorrent.CompleteTime != completeTime)
+            if (dbTorrent.CompleteTime != torrent.CompleteTime)
             {
-                dbTorrent.CompleteTime = completeTime;
+                dbTorrent.CompleteTime = torrent.CompleteTime;
                 update++;
             }
 
-            if (dbTorrent.Paused != paused)
+            if (dbTorrent.Paused != torrent.Paused)
             {
-                dbTorrent.Paused = paused;
+                dbTorrent.Paused = torrent.Paused;
+                update++;
             }
 
-            if (dbTorrent.IsSeed != isSeed)
+            if (dbTorrent.IsSeed != torrent.IsSeed)
             {
-                dbTorrent.IsSeed = isSeed;
+                dbTorrent.IsSeed = torrent.IsSeed;
+                update++;
             }
             
             if (update > 0)
@@ -101,15 +81,9 @@ public class TorrentManager : DomainService
         }
     }
     
-    public async Task<Torrent> AcceptTorrentAsync(string comment, bool isSeed, 
-        string hash, bool paused, double ratio, string message, string name, 
-        string label, long added, double complete, string location, 
-        FileStatus status, MediaType mediaType, Guid mediaLink, Guid episodeLink)
+    public async Task<Torrent> AcceptTorrentAsync(TorrentCreateDto input)
     {
-       var torrent = await CreateAsync(comment, isSeed,
-            hash, paused, ratio, message, name,
-            label, added, complete, location,
-            status, mediaType, mediaLink, episodeLink, false);
-       return torrent;
+        var torrent = await CreateAsync(input);
+        return torrent;
     }
 }

@@ -82,6 +82,7 @@ public class EfCoreSeriesRepository : EfCoreRepository<VideoServiceDbContext, Se
         {
             var dbSet = await GetDbSetAsync();
             return await (await GetDbSetAsync())
+                .Where(spec.ToExpression())
                 .IncludeDetails(includeDetails)
                 .OrderBy( "Name")
                 .Skip(skipCount)

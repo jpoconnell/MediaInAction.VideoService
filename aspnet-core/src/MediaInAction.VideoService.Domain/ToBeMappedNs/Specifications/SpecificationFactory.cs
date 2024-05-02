@@ -3,7 +3,7 @@ using Volo.Abp.Specifications;
 
 namespace MediaInAction.VideoService.ToBeMappedNs.Specifications;
 
-public static class ToBeMappedSpecificationFactory
+public static class SpecificationFactory
 {
     public static ISpecification<ToBeMapped> Create(string filter)
     {

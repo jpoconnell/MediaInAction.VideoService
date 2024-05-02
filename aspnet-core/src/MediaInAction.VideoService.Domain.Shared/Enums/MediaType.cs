@@ -8,6 +8,7 @@
         Training,
         Music,
         EBook,
-        Torrent
+        Torrent,
+        Unknown
     }
 }

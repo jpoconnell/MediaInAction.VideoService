@@ -1,6 +1,5 @@
-using System;
-
-namespace MediaInAction.VideoService.SeriesAliasNs.Dtos;
+﻿
+namespace MediaInAction.VideoService.SeriesAliasNs;
 
 public class SeriesAliasCreateDto 
 {

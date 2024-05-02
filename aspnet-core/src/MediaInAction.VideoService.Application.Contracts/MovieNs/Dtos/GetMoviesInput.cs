@@ -1,6 +1,8 @@
-﻿namespace   MediaInAction.VideoService.MovieNs.Dtos;
+﻿using Volo.Abp.Application.Dtos;
 
-public class GetMoviesInput
+namespace   MediaInAction.VideoService.MovieNs.Dtos;
+
+public class GetMoviesInput : PagedAndSortedResultRequestDto
 {
     public string Filter { get; set; }
 }

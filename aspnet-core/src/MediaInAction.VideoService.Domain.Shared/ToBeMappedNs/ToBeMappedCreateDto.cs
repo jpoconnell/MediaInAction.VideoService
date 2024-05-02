@@ -1,4 +1,4 @@
-namespace MediaInAction.VideoService.ToBeMappedNs.Dtos;
+namespace MediaInAction.VideoService.ToBeMappedNs;
 
 public class ToBeMappedCreateDto 
 {

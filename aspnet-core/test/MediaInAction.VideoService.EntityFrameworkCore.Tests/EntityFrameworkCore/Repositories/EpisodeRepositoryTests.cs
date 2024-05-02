@@ -41,6 +41,4 @@ public class EpisodeRepositoryTests : VideoServiceEntityFrameworkCoreTestBase
                 episode.ShouldNotBeNull();
         });
     }
-    
-    //
 }

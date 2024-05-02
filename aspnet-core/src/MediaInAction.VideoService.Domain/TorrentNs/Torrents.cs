@@ -18,7 +18,6 @@ namespace MediaInAction.VideoService.TorrentsNs
         public long Added { get; set; }
         public double CompleteTime { get; set; }
         public string DownloadLocation { get; set; }
-        
         public FileStatus TorrentStatus { get; set; }
         public MediaType Type { get; set; }
         public Guid MediaLink { get; set; }
@@ -41,13 +40,10 @@ namespace MediaInAction.VideoService.TorrentsNs
             long added, 
             double completeTime, 
             string downloadLocation,
-            FileStatus status,
-            MediaType type,
-            Guid mediaLink,
-            Guid episodeLink ,
-            bool isMapped
+            string status,
+            MediaType type = MediaType.Unknown,
+            bool isMapped = false
         )
-            : base(id)
         {
             Comment = comment;
             IsSeed = isSeed;
@@ -60,11 +56,16 @@ namespace MediaInAction.VideoService.TorrentsNs
             Added = added;
             CompleteTime = completeTime;
             DownloadLocation = downloadLocation;
-            TorrentStatus = status;
+            TorrentStatus = TranslateStatus(status) ;
             Type = type;
-            MediaLink = mediaLink;
-            EpisodeLink = episodeLink;
+            MediaLink =  Guid.Empty;
+            EpisodeLink = Guid.Empty;
             IsMapped = isMapped;
+        }
+
+        private FileStatus TranslateStatus(string status)
+        {
+            return FileStatus.New;
         }
     }
 }

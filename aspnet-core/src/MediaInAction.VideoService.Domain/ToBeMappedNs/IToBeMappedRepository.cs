@@ -17,5 +17,11 @@ namespace MediaInAction.VideoService.ToBeMappedNs
             ISpecification<ToBeMapped> spec,
             CancellationToken cancellationToken = default);
         
+        Task<List<ToBeMapped>> GetListPagedAsync(
+            ISpecification<ToBeMapped> specification, 
+            int inputSkipCount, 
+            int inputMaxResultCount, 
+            string empty,
+            CancellationToken cancellationToken = default);
     }
 }

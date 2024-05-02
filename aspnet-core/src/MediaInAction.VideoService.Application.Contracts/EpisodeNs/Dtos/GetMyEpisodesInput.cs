@@ -1,6 +1,8 @@
-﻿namespace MediaInAction.VideoService.EpisodeNs.Dtos;
+﻿using Volo.Abp.Application.Dtos;
 
-public class GetMyEpisodesInput
+namespace MediaInAction.VideoService.EpisodeNs.Dtos;
+
+public class GetMyEpisodesInput : PagedAndSortedResultRequestDto
 {
     public string Filter { get; set; }
 }

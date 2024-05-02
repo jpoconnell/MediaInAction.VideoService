@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediaInAction.VideoService.Enums;
 using MediaInAction.VideoService.Permissions;
+using MediaInAction.VideoService.SeriesNs.Dtos;
 using MediaInAction.VideoService.TorrentNs.Dtos;
 using MediaInAction.VideoService.TorrentsNs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using Volo.Abp.Application.Dtos;
+using Volo.Abp.Specifications;
 
 namespace MediaInAction.VideoService.TorrentNs;
 
@@ -33,28 +36,32 @@ public class TorrentAppService : VideoServiceAppService, ITorrentAppService
         return null;
     }
 
-    public async Task<TorrentDto> CreateAsync(TorrentCreatedDto input)
+    async Task<PagedResultDto<TorrentDto>> ITorrentAppService.GetTorrentsAsync(GetTorrentsInput input)
     {
-        var torrent = await _torrentManager.CreateAsync
-        (
-            comment: input.Comment,
-            isSeed: input.IsSeed,
-            hash: input.Hash,
-            paused: input.Paused,
-            ratio: input.Ratio,
-            message: input.Message,
-            name: input.Name,
-            label: input.Label,
-            added: input.Added,
-            completeTime: input.CompleteTime,
-            location: input.DownloadLocation,
-            status: FileStatus.New,
-            type: MediaType.Other,
-            mediaLink: Guid.Empty,
-            episodeLink: Guid.Empty,
-            isMapped: false
-        );
+        ISpecification<Torrent> specification = Specifications.SpecificationFactory.Create("a:");
 
+        var torrents =
+            await _torrentRepository.GetListPagedAsync(specification, input.SkipCount,
+                input.MaxResultCount, "" );
+
+        var torrentDtoList = new  List<TorrentDto>();
+        foreach (var torrent in torrents)
+        {
+            var torrentDto = MapToDto(torrent);
+            torrentDtoList.Add(torrentDto);
+        }
+        var totalCount = await _torrentRepository.GetCountAsync();
+        return new PagedResultDto<TorrentDto>(totalCount, torrentDtoList);
+    }
+
+    private IReadOnlyList<SeriesDto> CreateTorrentDtoMapping(object torrents)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<TorrentDto> CreateAsync(TorrentCreateDto input)
+    {
+        var torrent = await _torrentManager.CreateAsync(input);
         return MapToDto(torrent);
     }
 
@@ -100,6 +107,11 @@ public class TorrentAppService : VideoServiceAppService, ITorrentAppService
     }
 
     public Task<TorrentDto> GetTorrentAsync(GetTorrentInput input)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<PagedResultDto<TorrentDto>> GetListPagedAsync(PagedAndSortedResultRequestDto pagedAndSortedResultRequestDto)
     {
         throw new NotImplementedException();
     }

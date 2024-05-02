@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MediaInAction.VideoService.Enums;
+using MediaInAction.VideoService.TorrentNs.Dtos;
 using MediaInAction.VideoService.TorrentsNs;
 using Shouldly;
 using Volo.Abp.Modularity;
@@ -25,43 +25,29 @@ public abstract class TorrentManagerUnitTests<TStartupModule> : VideoServiceDoma
         _torrentManager = GetRequiredService<TorrentManager>();
     }
 
-/*
- *         string comment,
-   bool isSeed,
-   string hash,
-   bool paused ,
-   double ratio ,
-   string message, 
-   string name,
-   string label, 
-   long added,
-   double completeTime, 
-   string location,
-   FileStatus status,
-   MediaType type,
- */
     [Fact]
     public async Task Should_CreateTorrentAsync()
     {
-        var createdTorrent = await _torrentManager.CreateAsync(
-            "no comment",
-            true,
-            "hash",
-            false,
-            0.0,
-            "message",
-            "name",
-            "label",
-            2000,
-            0.0,
-            "location",
-            FileStatus.New,
-            MediaType.Torrent,
-            Guid.Empty,
-            Guid.Empty,
-            false
-        );
+        var input = new TorrentCreateDto
+        {
+            Comment = "no comment",
+            IsSeed = true,
+            Hash = "hash",
+            Paused = false,
+            Ratio = 0.0,
+            Message = "message",
+            Name = "name",
+            Label = "label",
+            Added = 2000,
+            CompleteTime = 0.0,
+            DownloadLocation = "location",
+            Status = FileStatus.New.ToString()
+        };
         
-        createdTorrent.ShouldNotBeNull();
+        await _torrentManager.CreateAsync(input);
+        
+        var fromDb = await _torrentRepository.FindByHash(input.Hash);
+        
+        fromDb.ShouldNotBeNull();
     }
 }

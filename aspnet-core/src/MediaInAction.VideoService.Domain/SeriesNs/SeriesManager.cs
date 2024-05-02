@@ -17,6 +17,121 @@ public class SeriesManager(
     ILogger<SeriesManager> logger)
     : DomainService
 {
+    
+    public async Task<Series> CreateAsync(SeriesCreateDto seriesCreateDto)
+    {
+        if (seriesCreateDto.FirstAiredYear < 2000)
+        {
+            seriesCreateDto.FirstAiredYear = 2000;
+        }
+
+        var isActive = true;
+        
+        // Create new series
+        var series = new Series(
+            id: GuidGenerator.Create(),
+            name: seriesCreateDto.Name,
+            firstAiredYear: seriesCreateDto.FirstAiredYear,
+            seriesType: MediaType.Episode,
+            isActive: isActive,
+            imageName: seriesCreateDto.imageName
+        );
+
+        // Add new series aliases
+        series.AddSeriesAlias(
+            id: GuidGenerator.Create(),
+            seriesId: series.Id,
+            idType: "name",
+            idValue: series.Name
+        );
+        series.AddSeriesAlias(
+            id: GuidGenerator.Create(),
+            seriesId: series.Id,
+            idType: "folder",
+            idValue: series.Name
+        );
+
+        foreach (var seriesAlias in seriesCreateDto.SeriesAliases)
+        {
+            series.AddSeriesAlias(
+                id: GuidGenerator.Create(),
+                seriesId: series.Id,
+                idType: seriesAlias.IdType,
+                idValue: seriesAlias.IdValue);
+        }
+
+        var dbSeries = new Series();
+
+        var dbSeriesList = await seriesRepository.GetBySeriesName(series.Name);
+        if (dbSeriesList.Count == 1)
+        {
+            dbSeries = dbSeriesList[0];
+        }
+        else
+        {
+            dbSeries = await seriesRepository.FindBySeriesNameYear(series.Name, series.FirstAiredYear);
+        }
+
+        try
+        {
+            if (dbSeries == null)
+            {
+                var createSeries = await seriesRepository.InsertAsync(series, true);
+                await PublishCreateSeriesEvent(createSeries);
+                return createSeries;
+            }
+            else
+            {
+                var update = 0;
+                if (dbSeries.IsActive != series.IsActive)
+                {
+                    dbSeries.IsActive = series.IsActive;
+                    update++;
+                }
+
+                if (dbSeries.Type != series.Type)
+                {
+                    dbSeries.Type = series.Type;
+                    update++;
+                }
+
+                foreach (var seriesAlias in series.SeriesAliases)
+                {
+                    var found = false;
+                    foreach (var dbSeriesAlias in dbSeries.SeriesAliases)
+                    {
+                        if ((dbSeriesAlias.IdType == seriesAlias.IdType) &&
+                            (dbSeriesAlias.IdValue == seriesAlias.IdValue))
+                        {
+                            found = true;
+                        }
+                    }
+
+                    if (found == false)
+                    {
+                        dbSeries.AddSeriesAlias(GuidGenerator.Create(), dbSeries.Id, seriesAlias.IdType,
+                            seriesAlias.IdValue);
+                        update++;
+                    }
+                }
+
+                if (update > 0)
+                {
+                    await seriesRepository.UpdateAsync(dbSeries);
+                }
+
+                return dbSeries;
+            }
+        }
+
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error in CreateAsync");
+            return null;
+        }
+    }
+
+        
     public async Task<Series> CreateAsync(
         string name,
         int year,

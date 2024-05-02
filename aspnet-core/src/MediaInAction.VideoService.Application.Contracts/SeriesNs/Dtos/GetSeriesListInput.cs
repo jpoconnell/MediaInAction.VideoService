@@ -2,7 +2,7 @@
 
 namespace  MediaInAction.VideoService.SeriesNs.Dtos;
 
-public class GetSeriesPagedInput :  PagedAndSortedResultRequestDto
+public class GetSeriesListInput :  PagedAndSortedResultRequestDto
 {
     public string Filter { get; set; }
 }

@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MediaInAction.VideoService.FileEntryNs;
 using MediaInAction.VideoService.FileEntryNs.Dtos;
 using MediaInAction.VideoService.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Specifications;
+using DashboardDto = MediaInAction.VideoService.FileEntryNs.Dtos.DashboardDto;
+using DashboardInput = MediaInAction.VideoService.FileEntryNs.Dtos.DashboardInput;
 
-namespace MediaInAction.VideoService.FileEntriesNs;
+namespace MediaInAction.VideoService.FileEntryNs;
 
 [Authorize(VideoServicePermissions.FileEntries.Default)]
 public class FileEntryAppService : VideoServiceAppService, IFileEntryAppService
@@ -83,14 +85,46 @@ public class FileEntryAppService : VideoServiceAppService, IFileEntryAppService
     {
         throw new NotImplementedException();
     }
+    
 
-    public Task<PagedResultDto<FileEntryDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input)
+    public async Task<PagedResultDto<FileEntryDto>> GetListPagedAsync(GetFileEntriesInput input)
     {
-        throw new NotImplementedException();
+        ISpecification<FileEntry> specification = Specifications.SpecificationFactory.Create("a:");
+
+        var fileEntryList =
+            await _fileEntryRepository.GetListPagedAsync(specification, input.SkipCount,
+                input.MaxResultCount, "FileName",true );
+
+        var fileEntryDtoList = CreateFileEntryDtoMapping(fileEntryList);
+        var totalCount = await _fileEntryRepository.GetCountAsync();
+        return new PagedResultDto<FileEntryDto>(totalCount,fileEntryDtoList);
+    }
+
+    private List<FileEntryDto> CreateFileEntryDtoMapping(List<FileEntry> fileEntryList)
+    {
+        List<FileEntryDto> dtoList = new List<FileEntryDto>();
+        foreach (var fileEntry in fileEntryList)
+        {
+            dtoList.Add(CreateFileEntryDtoMapping(fileEntry));
+        }
+
+        return dtoList;
     }
 
     public Task<DashboardDto> GetDashboardAsync(DashboardInput input)
     {
         throw new NotImplementedException();
+    }
+    
+    private FileEntryDto CreateFileEntryDtoMapping(FileEntry fileEntry)
+    {
+        return new FileEntryDto()
+        {
+            Id = fileEntry.Id,
+            FileName = fileEntry.FileName,
+            Server = fileEntry.Server,
+            Directory = fileEntry.Directory,
+            ListName = fileEntry.ListName
+        };
     }
 }
