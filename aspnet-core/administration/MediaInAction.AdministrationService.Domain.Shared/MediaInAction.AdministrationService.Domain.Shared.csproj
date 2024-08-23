@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Version>1.5.2</Version>
+    <RootNamespace>MediaInAction.AdministrationService</RootNamespace>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="8.0.3" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Shared" Version="8.1.1" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Domain.Shared" Version="8.1.1" />
+    <PackageReference Include="Volo.Abp.AuditLogging.Domain.Shared" Version="8.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\AdministrationService\*.json" />
+    <Content Remove="Localization\AdministrationService\*.json" />
+  </ItemGroup>
+
+</Project>

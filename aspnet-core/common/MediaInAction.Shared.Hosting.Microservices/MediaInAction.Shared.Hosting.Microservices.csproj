@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Version>1.5.2</Version>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\administration\MediaInAction.AdministrationService.EntityFrameworkCore\MediaInAction.AdministrationService.EntityFrameworkCore.csproj" />
+        <ProjectReference Include="..\MediaInAction.Shared.Hosting.AspNetCore\MediaInAction.Shared.Hosting.AspNetCore.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="8.0.4" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
+        <PackageReference Include="Volo.Abp.MongoDB" Version="8.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy" Version="8.1.1" />
+        <PackageReference Include="Volo.Abp.EventBus.RabbitMQ" Version="8.1.1" />
+        <PackageReference Include="Volo.Abp.BackgroundJobs.RabbitMQ" Version="8.1.1" />
+        <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="8.1.1" />
+        <PackageReference Include="Volo.Abp.DistributedLocking" Version="8.1.1" />
+        <PackageReference Include="DistributedLock.Redis" Version="1.0.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    </ItemGroup>
+
+</Project>
