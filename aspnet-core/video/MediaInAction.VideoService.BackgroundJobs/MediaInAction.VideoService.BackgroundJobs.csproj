@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-      <ProjectReference Include="..\..\common\MediaInAction.Shared.Domain\MediaInAction.Shared.Domain.csproj" />
       <ProjectReference Include="..\MediaInAction.VideoService.EntityFrameworkCore\MediaInAction.VideoService.EntityFrameworkCore.csproj" />
       <ProjectReference Include="..\MediaInAction.VideoService.Lib\MediaInAction.VideoService.Lib.csproj" />
   </ItemGroup>

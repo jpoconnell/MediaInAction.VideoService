@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MediaInAction.EmbyService.EmbyShowNs;
 using MediaInAction.Shared.Domain.Enums;
-using MediaInAction.TraktService.TraktShowNs;
+using MediaInAction.Shared.Domain.TraktService.TraktShowNs;
 using MediaInAction.VideoService.SeriesAliasNs;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;

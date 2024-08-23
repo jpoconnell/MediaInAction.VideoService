@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediaInAction.Shared.Domain.Enums;
+using MediaInAction.Shared.Domain.TraktService.TraktMovieNs;
 using MediaInAction.VideoService.MovieAliasNs;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
@@ -83,7 +84,6 @@ public class MovieManager : DomainService
         if (dbMovie == null)
         {
             var createMovie = await _movieRepository.InsertAsync(movie, true);
-            await PublishCreateMovieEvent(createMovie);
             return createMovie;
         }
         else
@@ -191,7 +191,7 @@ public class MovieManager : DomainService
         if (dbMovie == null)
         {
             var createMovie = await _movieRepository.InsertAsync(movie, true);
-            await PublishCreateMovieEvent(createMovie);
+           
             return createMovie;
         }
         else
@@ -472,33 +472,4 @@ public class MovieManager : DomainService
         }
     }
     
-    private async Task PublishCreateMovieEvent(Movie input)
-    {
-        // Publish Video Movie creation event 
-        await _distributedEventBus.PublishAsync(new MovieCreatedEto
-        {
-            MovieId = input.Id,
-            Name = input.Name,
-            FirstAiredYear = input.FirstAiredYear,
-            Type = input.Type,
-            MovieAliases = GetMovieAliasEtoList(input.MovieAliases)
-        });
-    }
-    
-    private List<MovieAliasCreatedEto> GetMovieAliasEtoList(List<MovieAlias> seriesAliases)
-    {
-        var etoList = new List<MovieAliasCreatedEto>();
-        foreach (var oItem in seriesAliases)
-        {
-            etoList.Add(new MovieAliasCreatedEto()
-            {
-                MovieAliasId = oItem.Id,
-                MovieId = oItem.MovieId,
-                IdType = oItem.IdType,
-                IdValue = oItem.IdValue
-            });
-        }
-
-        return etoList;
-    }
 }

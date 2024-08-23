@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using MediaInAction.VideoService.TorrentNs;
-using MediaInAction.VideoService.TorrentNs.Dtos;
 using Newtonsoft.Json;
 using Volo.Abp.DependencyInjection;
 

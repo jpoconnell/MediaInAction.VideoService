@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MediaInAction.Shared.Domain.TraktService.TraktEpisodeNs;
 using MediaInAction.VideoService.SeriesAliasNs;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
@@ -8,7 +9,7 @@ using Volo.Abp.EventBus.Distributed;
 
 namespace MediaInAction.VideoService.EpisodeNs;
 
-public class TraktServiceEpisodeAcknowledgeEventHandler : IDistributedEventHandler<TraktService.TraktEpisodeNs.TraktEpisodeAcknowledgeEto>, ITransientDependency
+public class TraktServiceEpisodeAcknowledgeEventHandler : IDistributedEventHandler<TraktEpisodeAcknowledgeEto>, ITransientDependency
 {
     private readonly IDistributedEventBus _eventBus;
     private readonly ILogger<TraktServiceEpisodeCreatedEventHandler> _logger;
@@ -27,7 +28,7 @@ public class TraktServiceEpisodeAcknowledgeEventHandler : IDistributedEventHandl
         _seriesAliasRepository = seriesAliasRepository;
     }
 
-    public async Task HandleEventAsync(TraktService.TraktEpisodeNs.TraktEpisodeAcknowledgeEto eventData)
+    public async Task HandleEventAsync(TraktEpisodeAcknowledgeEto eventData)
     {
         if (!Guid.TryParse(eventData.TraktId, out var traktId))
         {
@@ -43,4 +44,5 @@ public class TraktServiceEpisodeAcknowledgeEventHandler : IDistributedEventHandl
             _logger.LogInformation("Received Trakt Episode Accepted Event");
         }
     }
+
 }

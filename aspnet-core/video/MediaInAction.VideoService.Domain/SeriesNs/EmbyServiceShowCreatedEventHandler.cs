@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MediaInAction.Shared.Domain.Enums;
-using MediaInAction.EmbyService.EmbyShowNs;
-using MediaInAction.VideoService.FileEntryNs;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.DependencyInjection;

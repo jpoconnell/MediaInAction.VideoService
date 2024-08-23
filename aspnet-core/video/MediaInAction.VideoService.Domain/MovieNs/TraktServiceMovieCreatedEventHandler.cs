@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MediaInAction.TraktService.TraktMovieNs;
+using MediaInAction.Shared.Domain.TraktService.TraktMovieNs;
 using MediaInAction.VideoService.MovieAliasNs;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
@@ -28,7 +28,7 @@ public class TraktServiceMovieCreatedEventHandler : IDistributedEventHandler<Tra
 
     public async Task HandleEventAsync(TraktMovieCreatedEto eventData)
     {
-        if (eventData.TraktMovieCreatedAliases.Count == 0)
+        if (eventData.TraktMovieAliasCreatedEtos.Count == 0)
         {
             return;
         }

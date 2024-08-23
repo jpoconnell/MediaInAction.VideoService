@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MediaInAction.Shared.Domain.trakt.TraktEpisodeNs;
+using MediaInAction.Shared.Domain.TraktService.TraktEpisodeNs;
 using MediaInAction.VideoService.SeriesAliasNs;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;

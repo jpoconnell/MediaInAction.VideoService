@@ -12,7 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.AutoMapper" Version="8.1.1" />
     <PackageReference Include="Volo.Abp.Ddd.Domain" Version="8.1.1" />
-    <ProjectReference Include="..\..\common\MediaInAction.Shared.Domain\MediaInAction.Shared.Domain.csproj" />
+    <ProjectReference Include="..\..\..\..\MediaInAction.Shared\aspnet-core\common\MediaInAction.Shared.Domain\MediaInAction.Shared.Domain.csproj" />
     <ProjectReference Include="..\MediaInAction.VideoService.Domain.Shared\MediaInAction.VideoService.Domain.Shared.csproj" />
   </ItemGroup>
 

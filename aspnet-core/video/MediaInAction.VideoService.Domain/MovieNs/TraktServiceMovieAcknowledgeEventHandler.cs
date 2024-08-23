@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MediaInAction.Shared.Domain.TraktService.TraktMovieNs;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.DependencyInjection;
@@ -7,7 +8,7 @@ using Volo.Abp.EventBus.Distributed;
 
 namespace MediaInAction.VideoService.MovieNs;
 
-public class TraktServiceMovieAcknowledgeEventHandler : IDistributedEventHandler<TraktService.TraktMovieNs.TraktMovieAcknowledgeEto>, ITransientDependency
+public class TraktServiceMovieAcknowledgeEventHandler : IDistributedEventHandler<TraktMovieAcknowledgeEto>, ITransientDependency
 {
     private readonly IDistributedEventBus _eventBus;
     private readonly ILogger<TraktServiceMovieAcknowledgeEventHandler> _logger;
@@ -23,7 +24,7 @@ public class TraktServiceMovieAcknowledgeEventHandler : IDistributedEventHandler
         _movieManager = movieManager;
     }
 
-    public async Task HandleEventAsync(TraktService.TraktMovieNs.TraktMovieAcknowledgeEto eventData)
+    public async Task HandleEventAsync(TraktMovieAcknowledgeEto eventData)
     {
         if (!Guid.TryParse(eventData.TraktId, out var traktId))
         {

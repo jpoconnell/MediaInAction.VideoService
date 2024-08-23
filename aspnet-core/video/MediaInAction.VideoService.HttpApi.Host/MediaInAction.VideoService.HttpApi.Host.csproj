@@ -16,10 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\common\MediaInAction.Shared.Hosting.Microservices\MediaInAction.Shared.Hosting.Microservices.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\MediaInAction.Shared\aspnet-core\common\MediaInAction.Shared.Hosting.Microservices\MediaInAction.Shared.Hosting.Microservices.csproj" />
     <ProjectReference Include="..\MediaInAction.VideoService.Application\MediaInAction.VideoService.Application.csproj" />
     <ProjectReference Include="..\MediaInAction.VideoService.EntityFrameworkCore\MediaInAction.VideoService.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\MediaInAction.VideoService.HttpApi\MediaInAction.VideoService.HttpApi.csproj" />

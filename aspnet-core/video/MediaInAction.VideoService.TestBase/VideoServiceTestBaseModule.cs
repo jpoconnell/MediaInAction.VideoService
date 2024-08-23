@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using MediaInAction.TraktService.TraktMovieNs;
 using MediaInAction.VideoService.MovieNs;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MediaInAction.Shared.Domain.emby;
+using MediaInAction.Shared.Domain.EmbyService;
 using MediaInAction.Shared.Domain.Enums;
-using MediaInAction.Shared.Domain.trakt.TraktEpisodeNs;
-using MediaInAction.Shared.Domain.video.EpisodeNs;
+using MediaInAction.Shared.Domain.TraktService.TraktEpisodeNs;
+using MediaInAction.Shared.Domain.VideoService.EpisodeAliasNs;
+using MediaInAction.Shared.Domain.VideoService.EpisodeNs;
 using MediaInAction.VideoService.EpisodeAliasNs;
-using MediaInAction.VideoService.EpisodesAliasNs;
 using MediaInAction.VideoService.SeriesNs;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.Domain.Services;
@@ -278,7 +278,7 @@ public class EpisodeManager : DomainService
             //var episodeAliases = MapAliases(input.TraktEpisodeCreatedAliases);
             
             var episodeCreate = new EpisodeCreateDto();
-            episodeCreate.EpisodeCreateAliases = input.TraktEpisodeCreatedAliases;
+            episodeCreate.EpisodeCreateAliases = input.TraktEpisodeAliasCreatedEtos;
             episodeCreate.SeasonNum = input.SeasonNum;
             episodeCreate.EpisodeNum = input.EpisodeNum;
             episodeCreate.AiredDate = input.AiredDate;

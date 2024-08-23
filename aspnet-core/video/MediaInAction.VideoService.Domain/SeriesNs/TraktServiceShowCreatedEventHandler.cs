@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MediaInAction.TraktService.TraktShowNs;
+using MediaInAction.Shared.Domain.TraktService.TraktShowNs;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.DependencyInjection;
@@ -35,7 +35,7 @@ public class TraktServiceShowCreatedEventHandler : IDistributedEventHandler<Trak
         var seriesId = Guid.Empty;
         var acceptedFile = await _seriesManager.AcceptTraktShowAsync(
             traktId.ToString(), eventData.Slug, eventData.Name, eventData.FirstAiredYear,
-            eventData.TraktShowCreatedAliases);
+            eventData.TraktShowAliasCreatedEtos);
         
         if (acceptedFile != null)
         {
