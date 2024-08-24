@@ -39,8 +39,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInAction.VideoService.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "links", "links", "{892A0EF9-5ED9-4743-90A6-A0B7ABA1DB2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInAction.Shared.Api", "..\..\MediaInAction.Shared\aspnet-core\common\MediaInAction.Shared.Api\MediaInAction.Shared.Api.csproj", "{82D7DCBB-5724-444D-B546-0340194C7CE1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInAction.Shared.Hosting", "..\..\MediaInAction.Shared\aspnet-core\common\MediaInAction.Shared.Hosting\MediaInAction.Shared.Hosting.csproj", "{957F6A6C-2EB9-46DE-9C16-C9A3803A9175}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInAction.Shared.Hosting.AspNetCore", "..\..\MediaInAction.Shared\aspnet-core\common\MediaInAction.Shared.Hosting.AspNetCore\MediaInAction.Shared.Hosting.AspNetCore.csproj", "{7B086A80-37AF-4361-9453-68F859B00F0A}"
@@ -50,6 +48,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInAction.AdministrationService.EntityFrameworkCore", "..\..\MediaInAction.Shared\aspnet-core\administration\MediaInAction.AdministrationService.EntityFrameworkCore\MediaInAction.AdministrationService.EntityFrameworkCore.csproj", "{B5929D95-A687-4529-A049-F529562CB3DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInAction.Shared.Domain", "..\..\MediaInAction.Shared\aspnet-core\common\MediaInAction.Shared.Domain\MediaInAction.Shared.Domain.csproj", "{DF8B3069-16FB-497D-90EC-E1997FAF3084}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInAction.Shared.Helpers", "..\..\MediaInAction.Shared\aspnet-core\common\MediaInAction.Shared.Helpers\MediaInAction.Shared.Helpers.csproj", "{824B417B-E4E7-4170-AF0B-B10193F6FB9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInAction.Shared.Api", "..\..\MediaInAction.Shared\aspnet-core\common\MediaInAction.Shared.Api\MediaInAction.Shared.Api.csproj", "{4AE6C86E-EAEE-4F11-A4BA-9B74626F0F0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,10 +115,6 @@ Global
 		{9297B19C-B189-454D-8C18-E2D13CB62076}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9297B19C-B189-454D-8C18-E2D13CB62076}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9297B19C-B189-454D-8C18-E2D13CB62076}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82D7DCBB-5724-444D-B546-0340194C7CE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82D7DCBB-5724-444D-B546-0340194C7CE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82D7DCBB-5724-444D-B546-0340194C7CE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82D7DCBB-5724-444D-B546-0340194C7CE1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{957F6A6C-2EB9-46DE-9C16-C9A3803A9175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{957F6A6C-2EB9-46DE-9C16-C9A3803A9175}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{957F6A6C-2EB9-46DE-9C16-C9A3803A9175}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -137,6 +135,14 @@ Global
 		{DF8B3069-16FB-497D-90EC-E1997FAF3084}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF8B3069-16FB-497D-90EC-E1997FAF3084}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF8B3069-16FB-497D-90EC-E1997FAF3084}.Release|Any CPU.Build.0 = Release|Any CPU
+		{824B417B-E4E7-4170-AF0B-B10193F6FB9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{824B417B-E4E7-4170-AF0B-B10193F6FB9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{824B417B-E4E7-4170-AF0B-B10193F6FB9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{824B417B-E4E7-4170-AF0B-B10193F6FB9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AE6C86E-EAEE-4F11-A4BA-9B74626F0F0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AE6C86E-EAEE-4F11-A4BA-9B74626F0F0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AE6C86E-EAEE-4F11-A4BA-9B74626F0F0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AE6C86E-EAEE-4F11-A4BA-9B74626F0F0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -156,12 +162,13 @@ Global
 		{A3FA7FCB-089B-46E4-83F6-89B7B0338954} = {04DBDB01-70F4-4E06-B468-8F87850B22BE}
 		{C3703E06-CAF9-47A6-9EE5-435E7BC95AC3} = {04DBDB01-70F4-4E06-B468-8F87850B22BE}
 		{9297B19C-B189-454D-8C18-E2D13CB62076} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
-		{82D7DCBB-5724-444D-B546-0340194C7CE1} = {630B0068-2174-47E3-B1FB-EA3362FF9809}
 		{957F6A6C-2EB9-46DE-9C16-C9A3803A9175} = {630B0068-2174-47E3-B1FB-EA3362FF9809}
 		{7B086A80-37AF-4361-9453-68F859B00F0A} = {630B0068-2174-47E3-B1FB-EA3362FF9809}
 		{77FB3AD5-12E0-4C7B-8C01-5CBEC799CA6E} = {630B0068-2174-47E3-B1FB-EA3362FF9809}
 		{B5929D95-A687-4529-A049-F529562CB3DF} = {892A0EF9-5ED9-4743-90A6-A0B7ABA1DB2E}
 		{DF8B3069-16FB-497D-90EC-E1997FAF3084} = {630B0068-2174-47E3-B1FB-EA3362FF9809}
+		{824B417B-E4E7-4170-AF0B-B10193F6FB9B} = {630B0068-2174-47E3-B1FB-EA3362FF9809}
+		{4AE6C86E-EAEE-4F11-A4BA-9B74626F0F0A} = {630B0068-2174-47E3-B1FB-EA3362FF9809}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

@@ -61,7 +61,7 @@ public class VideoServiceBackgroundWorkerModule : AbpModule
         context.Services.TryAddSingleton<ISeriesMatchingService,SeriesMatchingService>();
         
         context.Services.TryAddSingleton<IMovieService,MovieService>();
-        context.Services.TryAddSingleton<IMovieAliasRepository,EfCoreMovieAliasRepository>();
+        //context.Services.TryAddSingleton<IMovieAliasRepository,EfCoreMovieAliasRepository>();
         
         context.Services.TryAddSingleton<IMovieAliasLibService,MovieAliasLibService>();
         context.Services.TryAddSingleton<IMovieMatchingService,MovieMatchingService>();

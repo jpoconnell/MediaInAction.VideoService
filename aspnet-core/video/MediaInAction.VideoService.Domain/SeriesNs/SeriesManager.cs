@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MediaInAction.Shared.Domain.EmbyService;
 using MediaInAction.Shared.Domain.Enums;
 using MediaInAction.Shared.Domain.TraktService.TraktShowNs;
+using MediaInAction.Shared.Domain.VideoService.SeriesNs;
 using MediaInAction.VideoService.SeriesAliasNs;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
@@ -461,16 +463,21 @@ public class SeriesManager(
         string externalId, 
         string slug, 
         string name, 
-        int year,
-        List<(string idType, string idValue)> aliases
+        int year
         )
     {
         var series = await seriesRepository.FindBySeriesNameYear(name,year);
         
         if (series == null)
         {
-            var aliasesForManager =  aliases;
-            var newSeries = await CreateAsync(name, year, aliasesForManager, MediaType.Episode, true);
+         
+            var seriesCreateDto = new SeriesCreateDto
+            {
+                Name = name,
+                FirstAiredYear = year,
+            };
+            
+            var newSeries = await CreateAsync(seriesCreateDto);
             return newSeries;
         }
         else  // is an update
@@ -481,27 +488,7 @@ public class SeriesManager(
                 if (dbSeriesAlias != null)
                 {
                     var dbSeries = await seriesRepository.GetAsync(dbSeriesAlias.SeriesId);
-                    if (dbSeries.SeriesAliases.Count != aliases.Count)
-                    {
-                        foreach (var alias in aliases)
-                        {
-                            if (alias.idType.Length > 0)
-                            {
-                                var found = false;
-                                foreach (var seriesAlias in dbSeries.SeriesAliases)
-                                {
-                                    if ((seriesAlias.IdType == alias.idType) && (seriesAlias.IdValue == alias.idValue))
-                                    {
-                                        found = true;
-                                    }
-                                }
-                                if (found == false)
-                                {
-                            
-                                }
-                            }
-                        }
-                    }
+   
                 }
             }
             return null;
@@ -520,9 +507,8 @@ public class SeriesManager(
         series.SetSeriesInactive();
 
         // Publish series inActive event
-        await distributedEventBus.PublishAsync(new SeriesInActiveEto
+        await distributedEventBus.PublishAsync(new SeriesInactiveEto
         {
-            SeriesId = series.Id,
             Name = series.Name,
             SeriesAliases = GetSeriesAliasEtoList(series.SeriesAliases)
         });
@@ -535,12 +521,11 @@ public class SeriesManager(
     {
         try
         {
-            if (!Guid.TryParse(eventData.EmbyId, out var traktId))
+            if (!Guid.TryParse(eventData.SeriesId, out var seriesId))
             {
-                throw new BusinessException(VideoServiceErrorCodes.TraktShowIdNotGuid);
+                throw new BusinessException(VideoServiceErrorCodes.EmbyShowIdNotGuid);
             }
-
-            var series = await seriesRepository.GetAsync(traktId);
+            var series = await seriesRepository.GetAsync(seriesId);
             if (series != null)
             {
                 series.EventStatus = FileStatus.Accepted;
@@ -586,8 +571,7 @@ public class SeriesManager(
         {
             etoList.Add(new SeriesAliasCreatedEto()
             {
-                SeriesAliasId = oItem.Id,
-                SeriesId = oItem.SeriesId,
+   
                 IdType = oItem.IdType,
                 IdValue = oItem.IdValue
             });
@@ -601,10 +585,8 @@ public class SeriesManager(
         // Publish Video Series creation event 
         await distributedEventBus.PublishAsync(new SeriesCreatedEto
         {
-            SeriesId = input.Id,
             Name = input.Name,
             FirstAiredYear = input.FirstAiredYear,
-            Type = input.Type,
             SeriesAliases = GetSeriesAliasEtoList(input.SeriesAliases)
         });
     }

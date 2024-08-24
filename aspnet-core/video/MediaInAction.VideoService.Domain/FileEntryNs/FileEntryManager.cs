@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MediaInAction.Shared.Domain.Enums;
+using MediaInAction.Shared.Domain.FileService;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;

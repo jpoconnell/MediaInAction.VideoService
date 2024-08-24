@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MediaInAction.DelugeService.TorrentNs;
+using MediaInAction.Shared.Domain.DelugeService;
 using MediaInAction.Shared.Domain.Enums;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.DependencyInjection;
@@ -8,7 +8,7 @@ using Volo.Abp.EventBus.Distributed;
 
 namespace MediaInAction.VideoService.TorrentNs;
 
-public class DelugeServiceTorrentCreatedEventHandler : IDistributedEventHandler<TorrentCreatedEto>, ITransientDependency
+public class DelugeServiceTorrentCreatedEventHandler : IDistributedEventHandler<DelugeTorrentCreatedEto>, ITransientDependency
 {
     private readonly IDistributedEventBus _eventBus;
     private readonly ILogger<DelugeServiceTorrentCreatedEventHandler> _logger;
@@ -24,7 +24,7 @@ public class DelugeServiceTorrentCreatedEventHandler : IDistributedEventHandler<
         _torrentManager = torrentManager;
     }
 
-    public async Task HandleEventAsync(TorrentCreatedEto eventData)
+    public async Task HandleEventAsync(DelugeTorrentCreatedEto eventData)
     {
         _logger.LogInformation("Receiving Torrent Created Event");
         var acceptedFile = await _torrentManager.AcceptTorrentAsync(
@@ -34,7 +34,7 @@ public class DelugeServiceTorrentCreatedEventHandler : IDistributedEventHandler<
             FileStatus.New, MediaType.Other, Guid.Empty, Guid.Empty);
 
         _logger.LogInformation("Sending Torrent Accepted Event");
-        await _eventBus.PublishAsync(new TorrentAcceptedEto
+        await _eventBus.PublishAsync(new DelugeTorrentAcceptedEto
         {
             Hash = eventData.Hash,
             Name = eventData.Name

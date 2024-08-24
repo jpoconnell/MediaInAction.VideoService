@@ -34,8 +34,7 @@ public class TraktServiceShowCreatedEventHandler : IDistributedEventHandler<Trak
         var tmpName = eventData.Name.ToLower();
         var seriesId = Guid.Empty;
         var acceptedFile = await _seriesManager.AcceptTraktShowAsync(
-            traktId.ToString(), eventData.Slug, eventData.Name, eventData.FirstAiredYear,
-            eventData.TraktShowAliasCreatedEtos);
+            traktId.ToString(), eventData.Slug, eventData.Name, eventData.FirstAiredYear);
         
         if (acceptedFile != null)
         {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MediaInAction.FileService.FileEntriesNs;
+using MediaInAction.Shared.Domain.FileService;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.DependencyInjection;

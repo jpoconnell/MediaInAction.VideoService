@@ -32,12 +32,6 @@ public class VideoServiceBackgroundJobsModule : AbpModule
         context.Services.TryAddSingleton<IParserService, ParserService>();
         context.Services.TryAddSingleton<IToBeMappedService,ToBeMappedService>();
     }
-    
-    public override void OnApplicationInitialization(ApplicationInitializationContext context)
-    {
-        var app = context.GetApplicationBuilder();
-        var configuration = context.GetConfiguration();
-        
-    }
+   
 }
 

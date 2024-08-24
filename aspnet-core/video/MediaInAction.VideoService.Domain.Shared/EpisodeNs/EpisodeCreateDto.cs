@@ -12,7 +12,7 @@ public class EpisodeCreateDto
     public int EpisodeNum { get; set; }
     public DateTime? AiredDate { get; set; }
     public string EpisodeName { get; set; }
-    public List<( string idType, string idValue)> EpisodeCreateAliases { get; set; }
+    public List<EpisodeAliasCreateDto> EpisodeAliasCreateDtos { get; set; }
 
 }
 

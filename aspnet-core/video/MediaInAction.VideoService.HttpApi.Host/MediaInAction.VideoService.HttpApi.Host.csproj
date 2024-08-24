@@ -18,7 +18,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\MediaInAction.Shared\aspnet-core\common\MediaInAction.Shared.Hosting.Microservices\MediaInAction.Shared.Hosting.Microservices.csproj" />
     <ProjectReference Include="..\MediaInAction.VideoService.Application\MediaInAction.VideoService.Application.csproj" />
-    <ProjectReference Include="..\MediaInAction.VideoService.EntityFrameworkCore\MediaInAction.VideoService.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\MediaInAction.VideoService.HttpApi\MediaInAction.VideoService.HttpApi.csproj" />
   </ItemGroup>
 
@@ -27,6 +26,12 @@
     <Content Remove="Logs\**" />
     <EmbeddedResource Remove="Logs\**" />
     <None Remove="Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MediaInAction.VideoService.EntityFrameworkCore">
+      <HintPath>..\MediaInAction.VideoService.EntityFrameworkCore\bin\Debug\net8.0\MediaInAction.VideoService.EntityFrameworkCore.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -63,7 +63,7 @@ public class EpisodeManager : DomainService
                 );
         
             // Add new episode aliases
-            if (episodeCreateDto.EpisodeCreateAliases == null )
+            if (episodeCreateDto.EpisodeAliasCreateDtos == null )
             {
                 episode.AddEpisodeAlias(
                     id: GuidGenerator.Create(),
@@ -72,7 +72,7 @@ public class EpisodeManager : DomainService
                     idValue: "name"
                 );
             }
-            else if (episodeCreateDto.EpisodeCreateAliases.Count == 0)
+            else if (episodeCreateDto.EpisodeAliasCreateDtos.Count == 0)
             {
                 episode.AddEpisodeAlias(
                     id: GuidGenerator.Create(),
@@ -83,7 +83,7 @@ public class EpisodeManager : DomainService
             }
             else
             {
-                foreach (var episodeAlias in episodeCreateDto.EpisodeCreateAliases)
+                foreach (var episodeAlias in episodeCreateDto.EpisodeAliasCreateDtos)
                 {
                     //TODO check for duplicates
                     
@@ -275,10 +275,18 @@ public class EpisodeManager : DomainService
         
         if (dbEpisode == null)
         {
-            //var episodeAliases = MapAliases(input.TraktEpisodeCreatedAliases);
+            var episodeAliasList = new List<EpisodeAliasCreateDto>();
+            foreach (var episodeAlias in input.TraktEpisodeAliasCreatedEtos)
+            {
+                var newEpisodeAlias = new EpisodeAliasCreateDto();
+                newEpisodeAlias.IdType = episodeAlias.IdType;
+                newEpisodeAlias.IdValue = episodeAlias.IdValue;
+                episodeAliasList.Add(newEpisodeAlias);
+                
+            }
             
             var episodeCreate = new EpisodeCreateDto();
-            episodeCreate.EpisodeCreateAliases = input.TraktEpisodeAliasCreatedEtos;
+            episodeCreate.EpisodeAliasCreateDtos =episodeAliasList;
             episodeCreate.SeasonNum = input.SeasonNum;
             episodeCreate.EpisodeNum = input.EpisodeNum;
             episodeCreate.AiredDate = input.AiredDate;

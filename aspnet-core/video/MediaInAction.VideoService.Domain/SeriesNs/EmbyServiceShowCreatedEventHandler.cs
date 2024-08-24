@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MediaInAction.Shared.Domain.EmbyService;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.DependencyInjection;
@@ -25,14 +26,8 @@ public class EmbyServiceShowCreatedEventHandler : IDistributedEventHandler<EmbyS
 
     public async Task HandleEventAsync(EmbyShowCreatedEto eventData)
     {
-        if (!Guid.TryParse(eventData.EmbyId, out var embyId))
-        {
-            throw new BusinessException(VideoServiceErrorCodes.EmbyShowIdNotGuid);
-        }
+        var tmpName = eventData.ShowName.ToLower();
 
-        var tmpName = eventData.Name.ToLower();
-        if (tmpName.Contains("ghost"))
-        {}
         var acceptedFile = await _seriesManager.AcceptEmbyShowAsync(eventData);
 
         _logger.LogInformation("Sending Emby Show Accepted Event");
@@ -43,7 +38,7 @@ public class EmbyServiceShowCreatedEventHandler : IDistributedEventHandler<EmbyS
     {
         await _eventBus.PublishAsync(new EmbyShowAcceptedEto
         {
-            Name = eventData.Name
+            ShowName = eventData.ShowName
         });
     }
 }

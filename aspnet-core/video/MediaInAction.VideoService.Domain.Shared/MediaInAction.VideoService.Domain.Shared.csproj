@@ -21,5 +21,9 @@
     <EmbeddedResource Include="Localization\VideoService\*.json" />
     <Content Remove="Localization\VideoService\*.json" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\MediaInAction.Shared\aspnet-core\common\MediaInAction.Shared.Domain\MediaInAction.Shared.Domain.csproj" />
+  </ItemGroup>
 
 </Project>

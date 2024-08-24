@@ -14,12 +14,14 @@
   <ItemGroup>
     <ProjectReference Include="..\MediaInAction.VideoService.Domain.Shared\MediaInAction.VideoService.Domain.Shared.csproj" />
     <ProjectReference Include="..\MediaInAction.VideoService.Domain\MediaInAction.VideoService.Domain.csproj" />
-    <ProjectReference Include="..\MediaInAction.VideoService.Lib\MediaInAction.VideoService.Lib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="MediaInAction.VideoService.EntityFrameworkCore">
       <HintPath>..\MediaInAction.VideoService.EntityFrameworkCore\bin\Debug\net8.0\MediaInAction.VideoService.EntityFrameworkCore.dll</HintPath>
+    </Reference>
+    <Reference Include="MediaInAction.VideoService.Lib">
+      <HintPath>..\MediaInAction.VideoService.Lib\bin\Debug\net8.0\MediaInAction.VideoService.Lib.dll</HintPath>
     </Reference>
   </ItemGroup>
 
