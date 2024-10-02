@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   get hasLoggedIn(): boolean {
-    return this.authService.isAuthenticated;
+    return this.authService.isAuthenticated
   }
 
   constructor(private authService: AuthService) {}

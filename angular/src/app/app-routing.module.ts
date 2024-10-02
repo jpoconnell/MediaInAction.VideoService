@@ -1,3 +1,4 @@
+import { authGuard, permissionGuard } from '@abp/ng.core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -24,10 +25,6 @@ const routes: Routes = [
     path: 'setting-management',
     loadChildren: () =>
       import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
-  },
-  {
-    path: 'video',
-    loadChildren: () => import('./video/video.module').then(m => m.VideoModule),
   },
 ];
 

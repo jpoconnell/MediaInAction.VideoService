@@ -1,0 +1,85 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.Account": {
+      "version": "8.3.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "8.3.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.Identity": {
+      "version": "8.3.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "8.3.0",
+      "isInstalled": true
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "MediaInAction.VideoService.Application": {
+      "path": "src/MediaInAction.VideoService.Application/MediaInAction.VideoService.Application.abppkg",
+      "folder": "src"
+    },
+    "MediaInAction.VideoService.Application.Tests": {
+      "path": "test/MediaInAction.VideoService.Application.Tests/MediaInAction.VideoService.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "MediaInAction.VideoService.Domain.Shared": {
+      "path": "src/MediaInAction.VideoService.Domain.Shared/MediaInAction.VideoService.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "MediaInAction.VideoService.Application.Contracts": {
+      "path": "src/MediaInAction.VideoService.Application.Contracts/MediaInAction.VideoService.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "MediaInAction.VideoService.HttpApi": {
+      "path": "src/MediaInAction.VideoService.HttpApi/MediaInAction.VideoService.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "MediaInAction.VideoService.HttpApi.Client": {
+      "path": "src/MediaInAction.VideoService.HttpApi.Client/MediaInAction.VideoService.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "MediaInAction.VideoService.EntityFrameworkCore.Tests": {
+      "path": "test/MediaInAction.VideoService.EntityFrameworkCore.Tests/MediaInAction.VideoService.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "MediaInAction.VideoService.EntityFrameworkCore": {
+      "path": "src/MediaInAction.VideoService.EntityFrameworkCore/MediaInAction.VideoService.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "MediaInAction.VideoService.TestBase": {
+      "path": "test/MediaInAction.VideoService.TestBase/MediaInAction.VideoService.TestBase.abppkg",
+      "folder": "test"
+    },
+    "MediaInAction.VideoService.Domain.Tests": {
+      "path": "test/MediaInAction.VideoService.Domain.Tests/MediaInAction.VideoService.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "MediaInAction.VideoService.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/MediaInAction.VideoService.HttpApi.Client.ConsoleTestApp/MediaInAction.VideoService.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "MediaInAction.VideoService.DbMigrator": {
+      "path": "src/MediaInAction.VideoService.DbMigrator/MediaInAction.VideoService.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "MediaInAction.VideoService.HttpApi.Host": {
+      "path": "src/MediaInAction.VideoService.HttpApi.Host/MediaInAction.VideoService.HttpApi.Host.abppkg",
+      "folder": "src"
+    },
+    "MediaInAction.VideoService.Domain": {
+      "path": "src/MediaInAction.VideoService.Domain/MediaInAction.VideoService.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}
