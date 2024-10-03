@@ -1,10 +1,10 @@
-using MediaInAction.VideoService.Samples;
+using MediaInAction.VideoService.SeriesNs;
 using Xunit;
 
 namespace MediaInAction.VideoService.EntityFrameworkCore.Domains;
 
 [Collection(VideoServiceTestConsts.CollectionDefinitionName)]
-public class EfCoreSampleDomainTests : SampleDomainTests<VideoServiceEntityFrameworkCoreTestModule>
+public class EfCoreSeriesDomainTests : SeriesDomainTests<VideoServiceEntityFrameworkCoreTestModule>
 {
 
 }

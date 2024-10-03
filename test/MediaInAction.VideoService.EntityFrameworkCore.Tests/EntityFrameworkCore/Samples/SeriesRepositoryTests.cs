@@ -12,11 +12,11 @@ namespace MediaInAction.VideoService.EntityFrameworkCore.Samples;
  * Only test your custom repository methods.
  */
 [Collection(VideoServiceTestConsts.CollectionDefinitionName)]
-public class SampleRepositoryTests : VideoServiceEntityFrameworkCoreTestBase
+public class SeriesRepositoryTests : VideoServiceEntityFrameworkCoreTestBase
 {
     private readonly IRepository<IdentityUser, Guid> _appUserRepository;
 
-    public SampleRepositoryTests()
+    public SeriesRepositoryTests()
     {
         _appUserRepository = GetRequiredService<IRepository<IdentityUser, Guid>>();
     }

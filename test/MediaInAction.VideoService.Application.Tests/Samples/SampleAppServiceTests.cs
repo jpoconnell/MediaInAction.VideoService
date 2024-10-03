@@ -11,12 +11,12 @@ namespace MediaInAction.VideoService.Samples;
  * (like IIdentityUserAppService here).
  * Only test your own application services.
  */
-public abstract class SampleAppServiceTests<TStartupModule> : VideoServiceApplicationTestBase<TStartupModule>
+public abstract class SeriesAppServiceTests<TStartupModule> : VideoServiceApplicationTestBase<TStartupModule>
     where TStartupModule : IAbpModule
 {
     private readonly IIdentityUserAppService _userAppService;
 
-    protected SampleAppServiceTests()
+    protected SeriesAppServiceTests()
     {
         _userAppService = GetRequiredService<IIdentityUserAppService>();
     }
