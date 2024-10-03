@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>MediaInAction.FileService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MediaInAction.FileService.Application\MediaInAction.FileService.Application.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
+    <ProjectReference Include="..\MediaInAction.FileService.Domain.Tests\MediaInAction.FileService.Domain.Tests.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>MediaInAction.EmbyService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
+    <ProjectReference Include="..\MediaInAction.EmbyService.MongoDb.Tests\MediaInAction.EmbyService.MongoDb.Tests.csproj" />
+    <ProjectReference Include="..\MediaInAction.EmbyService.TestBase\MediaInAction.EmbyService.TestBase.csproj" />
+  </ItemGroup>
+
+</Project>

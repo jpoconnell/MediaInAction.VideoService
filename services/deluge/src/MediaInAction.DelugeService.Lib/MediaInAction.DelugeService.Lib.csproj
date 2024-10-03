@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>MediaInAction.DelugeService.Bg</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore" Version="8.3.0" />
+   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../MediaInAction.DelugeService.Domain/MediaInAction.DelugeService.Domain.csproj" />
+    <ProjectReference Include="..\..\..\..\libs\DelugeRPCClient.Net\DelugeRPCClient.Net.csproj" />
+    <ProjectReference Include="..\..\..\emby\src\MediaInAction.EmbyService.Domain.Shared\MediaInAction.EmbyService.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\trakt\src\MediaInAction.TraktService.Lib\MediaInAction.TraktService.Lib.csproj" />
+    <ProjectReference Include="..\MediaInAction.DelugeService.MongoDb\MediaInAction.DelugeService.MongoDb.csproj" />
+  </ItemGroup>
+  
+</Project>

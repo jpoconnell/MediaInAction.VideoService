@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>MediaInAction.TraktService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="8.3.0" />
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="8.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MediaInAction.TraktService.Application.Contracts\MediaInAction.TraktService.Application.Contracts.csproj" />
+    <ProjectReference Include="..\MediaInAction.TraktService.Domain\MediaInAction.TraktService.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="@(Protobuf)" />
+    <None Remove="@(Protobuf)" />
+  </ItemGroup>
+
+</Project>

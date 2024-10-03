@@ -1,0 +1,58 @@
+{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "MediaInAction.CmskitService.Domain.Shared": {
+      "path": "src/MediaInAction.CmskitService.Domain.Shared/MediaInAction.CmskitService.Domain.Shared.abppkg.json",
+      "folder": "src"
+    },
+    "MediaInAction.CmskitService.Application.Contracts": {
+      "path": "src/MediaInAction.CmskitService.Application.Contracts/MediaInAction.CmskitService.Application.Contracts.abppkg.json",
+      "folder": "src"
+    },
+    "MediaInAction.CmskitService.Domain": {
+      "path": "src/MediaInAction.CmskitService.Domain/MediaInAction.CmskitService.Domain.abppkg.json",
+      "folder": "src"
+    },
+    "MediaInAction.CmskitService.Application": {
+      "path": "src/MediaInAction.CmskitService.Application/MediaInAction.CmskitService.Application.abppkg.json",
+      "folder": "src"
+    },
+    "MediaInAction.CmskitService.EntityFrameworkCore": {
+      "path": "src/MediaInAction.CmskitService.EntityFrameworkCore/MediaInAction.CmskitService.EntityFrameworkCore.abppkg.json",
+      "folder": "src"
+    },
+    "MediaInAction.CmskitService.HttpApi": {
+      "path": "src/MediaInAction.CmskitService.HttpApi/MediaInAction.CmskitService.HttpApi.abppkg.json",
+      "folder": "src"
+    },
+    "MediaInAction.CmskitService.HttpApi.Client": {
+      "path": "src/MediaInAction.CmskitService.HttpApi.Client/MediaInAction.CmskitService.HttpApi.Client.abppkg.json",
+      "folder": "src"
+    },
+    "MediaInAction.CmskitService.HttpApi.Host": {
+      "path": "src/MediaInAction.CmskitService.HttpApi.Host/MediaInAction.CmskitService.HttpApi.Host.abppkg.json",
+      "folder": "src"
+    },
+    "MediaInAction.CmskitService.Domain.Tests": {
+      "path": "test/MediaInAction.CmskitService.Domain.Tests/MediaInAction.CmskitService.Domain.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "MediaInAction.CmskitService.EntityFrameworkCore.Tests": {
+      "path": "test/MediaInAction.CmskitService.EntityFrameworkCore.Tests/MediaInAction.CmskitService.EntityFrameworkCore.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "MediaInAction.CmskitService.TestBase": {
+      "path": "test/MediaInAction.CmskitService.TestBase/MediaInAction.CmskitService.TestBase.abppkg.json",
+      "folder": "test"
+    },
+    "MediaInAction.CmskitService.Application.Tests": {
+      "path": "test/MediaInAction.CmskitService.Application.Tests/MediaInAction.CmskitService.Application.Tests.abppkg.json",
+      "folder": "test"
+    }
+  }
+}
