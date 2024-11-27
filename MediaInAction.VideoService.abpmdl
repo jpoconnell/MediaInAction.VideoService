@@ -1,20 +1,36 @@
 {
   "template": "app",
   "imports": {
+    "Volo.Abp.LeptonXLiteTheme": {
+      "version": "4.0.0",
+      "isInstalled": true
+    },
     "Volo.Abp.Account": {
-      "version": "8.3.0",
+      "version": "9.0.0",
       "isInstalled": true
     },
     "Volo.Abp.OpenIddict": {
-      "version": "8.3.0",
+      "version": "9.0.0",
       "isInstalled": true
     },
     "Volo.Abp.Identity": {
-      "version": "8.3.0",
+      "version": "9.0.0",
       "isInstalled": true
     },
     "Volo.Abp.TenantManagement": {
-      "version": "8.3.0",
+      "version": "9.0.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "9.0.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "9.0.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "9.0.0",
       "isInstalled": true
     }
   },

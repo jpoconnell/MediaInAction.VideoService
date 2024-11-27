@@ -1,10 +1,3 @@
-using MediaInAction.VideoService.EpisodeAliasNs;
-using MediaInAction.VideoService.EpisodeNs;
-using MediaInAction.VideoService.MovieAliasNs;
-using MediaInAction.VideoService.MovieNs;
-using MediaInAction.VideoService.SeriesAliasNs;
-using MediaInAction.VideoService.SeriesNs;
-using MediaInAction.VideoService.ToBeMappedNs;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -33,13 +26,7 @@ public class VideoServiceDbContext :
     IIdentityDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
-    public virtual DbSet<Series> SeriesList { get; set; }
-    public virtual DbSet<Episode> Episodes { get; set; }
-    public virtual DbSet<Movie> Movies { get; set; }
-    public virtual DbSet<ToBeMapped> ToBeMappeds { get; set; }
-    public virtual DbSet<SeriesAlias> SeriesAliases { get; set; }
-    public virtual DbSet<EpisodeAlias> EpisodeAliases { get; set; }
-    public virtual DbSet<MovieAlias> MovieAliases { get; set; }
+
 
     #region Entities from the modules
 

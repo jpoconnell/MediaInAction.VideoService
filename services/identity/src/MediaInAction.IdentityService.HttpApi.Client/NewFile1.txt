@@ -1,3 +1,0 @@
-abp generate-proxy -t csharp -m Identity -url https://localhost:44351
-
-

@@ -33,7 +33,7 @@
                         <h1>@BrandingProvider.AppName</h1>
                     }
                 </div>
-                <abp-card>
+                <abp-card class="border rounded">
 
                     <abp-card-body>
 
@@ -46,7 +46,7 @@
                                         {
                                             <div>
                                                 <div>
-                                                    <a abp-button="Outline_Primary" asp-controller="Manage" asp-action="Index" asp-area="Account" class="me-2">@L["MyAccount"]</a>
+                                                    <a abp-button="Outline_Primary" asp-controller="Manage" asp-action="Index" asp-area="Account" class="me-2">@AccountLocalizer["MyAccount"]</a>
                                                     <a abp-button="Primary" asp-controller="Logout" asp-action="Index" asp-area="Account">@L["Logout"]</a>
                                                 </div>
                                             </div>

@@ -1,9 +1,10 @@
 {
-  "id": "e544af28-4fe7-4260-9291-593089d21cc5",
+  "id": "6c74f146-8454-49b9-9ca8-a37aaac1ffa5",
   "template": "app",
   "versions": {
-    "AbpFramework": "8.3.0",
-    "AbpStudio": "0.8.3"
+    "AbpFramework": "9.0.0",
+    "AbpStudio": "0.9.13",
+    "TargetDotnetFramework": "net9.0"
   },
   "modules": {
     "MediaInAction.VideoService": {
@@ -24,8 +25,10 @@
   },
   "creatingStudioConfiguration": {
     "template": "app",
-    "createdAbpStudioVersion": "0.8.3",
+    "createdAbpStudioVersion": "0.9.13",
     "tiered": "false",
+    "multiTenancy": "true",
+    "includeTests": "true",
     "uiFramework": "angular",
     "databaseProvider": "ef",
     "databaseManagementSystem": "postgresql",

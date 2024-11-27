@@ -3,7 +3,7 @@
 const baseUrl = 'http://localhost:4200';
 
 const oAuthConfig = {
-  issuer: 'https://localhost:44320/',
+  issuer: 'https://localhost:44317/',
   redirectUri: baseUrl,
   clientId: 'VideoService_App',
   responseType: 'code',
@@ -20,7 +20,7 @@ export const environment = {
   oAuthConfig,
   apis: {
     default: {
-      url: 'https://localhost:44320',
+      url: 'https://localhost:44317',
       rootNamespace: 'MediaInAction.VideoService',
     },
     AbpAccountPublic: {

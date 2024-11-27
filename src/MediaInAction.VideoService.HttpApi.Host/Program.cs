@@ -12,6 +12,11 @@ public class Program
 {
     public async static Task<int> Main(string[] args)
     {
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Async(c => c.File("Logs/logs.txt"))
+            .WriteTo.Async(c => c.Console())
+            .CreateBootstrapLogger();
+
         try
         {
             Log.Information("Starting MediaInAction.VideoService.HttpApi.Host.");
@@ -22,11 +27,11 @@ public class Program
                 .UseSerilog((context, services, loggerConfiguration) =>
                 {
                     loggerConfiguration
-#if DEBUG
+                    #if DEBUG
                         .MinimumLevel.Debug()
-#else
-            .MinimumLevel.Information()
-#endif
+                    #else
+                        .MinimumLevel.Information()
+                    #endif
                         .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                         .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
                         .Enrich.FromLogContext()
