@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\shared\MediaInAction.Shared.Domain\MediaInAction.Shared.Domain.csproj" />
     <ProjectReference Include="..\MediaInAction.VideoService.Domain.Shared\MediaInAction.VideoService.Domain.Shared.csproj" />
   </ItemGroup>
 

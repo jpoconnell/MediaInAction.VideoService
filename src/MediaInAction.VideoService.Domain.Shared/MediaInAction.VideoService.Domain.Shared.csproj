@@ -34,4 +34,8 @@
     <Content Remove="Localization\VideoService\*.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\MediaInAction.Shared.Domain\MediaInAction.Shared.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
