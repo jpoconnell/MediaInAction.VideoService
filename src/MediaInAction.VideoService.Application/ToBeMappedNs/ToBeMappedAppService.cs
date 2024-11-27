@@ -33,7 +33,6 @@ public class ToBeMappedAppService : VideoServiceAppService, IToBeMappedAppServic
         return null;
     }
     
-    
     public async Task<ToBeMappedDto> CreateAsync(ToBeMappedCreateDto input)
     {
         var toBeMapped = await _toBeMappedManager.CreateToBeMappedAsync
@@ -50,7 +49,17 @@ public class ToBeMappedAppService : VideoServiceAppService, IToBeMappedAppServic
     
     public async Task<List<ToBeMappedDto>> GetToBeMappedsAsync(GetToBeMappedsInput getToBeMappedInput)
     {
-        throw new NotImplementedException();
+        var unProccessedList = new List<ToBeMappedDto>();
+        var unProccessed = await _toBeMappedRepository.GetUnMapped(100);
+        foreach (var toBeMapped in unProccessed)
+        {
+            var toBe = new ToBeMappedDto();
+            toBe.Processed = toBeMapped.Processed;
+            toBe.Alias = toBeMapped.Alias;
+            toBe.Tries = 0;
+            unProccessedList.Add(toBe);
+        }
+        return unProccessedList;
     }
 
     public async Task<ToBeMappedDto> GetToBeMappedAsync(GetToBeMappedInput input)

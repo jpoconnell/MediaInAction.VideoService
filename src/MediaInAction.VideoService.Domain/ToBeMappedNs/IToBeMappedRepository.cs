@@ -10,7 +10,7 @@ namespace MediaInAction.VideoService.ToBeMappedNs
     public interface IToBeMappedRepository : IRepository<ToBeMapped, Guid>
     {
         Task<ToBeMapped> FindByAlias(string alias);
-        Task<List<ToBeMapped>> GetMapped(bool processed, int limit);
+        Task<List<ToBeMapped>> GetUnMapped( int limit);
         
         Task<List<ToBeMapped>> GetToBeMappedsByUserId(
             Guid userId,

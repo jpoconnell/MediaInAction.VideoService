@@ -47,7 +47,7 @@ public class EfCoreToBeMappedRepository : EfCoreRepository<VideoServiceDbContext
         }
     }
 
-    public async Task<List<ToBeMapped>> GetMapped(bool processed, int limit)
+    public async Task<List<ToBeMapped>> GetUnMapped( int limit)
     {
         try
         {
