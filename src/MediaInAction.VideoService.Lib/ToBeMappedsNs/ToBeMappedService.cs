@@ -27,9 +27,9 @@ public class ToBeMappedService: IToBeMappedService
         await _toBeMappedManager.CreateToBeMappedAsync(alias);
     }
 
-    public Task UpdateAsync(ToBeMappedDto toBeMapped)
+    public async Task UpdateAsync(ToBeMappedDto toBeMapped)
     {
-        throw new NotImplementedException();
+        await _toBeMappedManager.CreateToBeMappedAsync(toBeMapped);
     }
 
     public async Task<List<ToBeMappedDto>> GetUnMapped(int i)
