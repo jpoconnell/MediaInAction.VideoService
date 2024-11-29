@@ -38,6 +38,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MediaInAction.VideoService.Application\MediaInAction.VideoService.Application.csproj" />
+    <ProjectReference Include="..\MediaInAction.VideoService.Bg.Workers\MediaInAction.VideoService.BG.Workers.csproj" />
     <ProjectReference Include="..\MediaInAction.VideoService.HttpApi\MediaInAction.VideoService.HttpApi.csproj" />
     <ProjectReference Include="..\MediaInAction.VideoService.EntityFrameworkCore\MediaInAction.VideoService.EntityFrameworkCore.csproj" />
   </ItemGroup>
