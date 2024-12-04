@@ -24,7 +24,6 @@ public class Series : AuditedAggregateRoot<Guid>
     }
 
     internal Series(
-        Guid id,
         [NotNull] string name,
         int firstAiredYear,
         [NotNull] MediaType seriesType,
@@ -32,7 +31,7 @@ public class Series : AuditedAggregateRoot<Guid>
         string imageName = ""
     )
     {
-        Id = id;
+        Id = Guid.NewGuid();
         Name = name;
         Type = seriesType;
         FirstAiredYear = firstAiredYear;
@@ -40,28 +39,16 @@ public class Series : AuditedAggregateRoot<Guid>
         SeriesAliases = new List<SeriesAlias>();
     }
     
-    public Series AddSeriesAlias(Guid id, Guid seriesId, string idType, string idValue )
-    {
-        var existingAliasForSeries = SeriesAliases.SingleOrDefault(o => o.SeriesId == seriesId &&
-            o.IdType == idType && 
-            o.IdValue == idValue);
-
-        if (existingAliasForSeries != null)
-        {
-
-        }
-        else
-        {
-            var seriesAlias = new SeriesAlias(id, seriesId, idType, idValue);
-            SeriesAliases.Add(seriesAlias);
-        }
-
-        return this;
-    }
-    
     public Series SetSeriesInactive()
     {
         IsActive = false;
         return this;
+    }
+
+    public void AddSeriesAlias(Guid seriesId, string idType, string idValue)
+    {
+        SeriesAliases.Add(new SeriesAlias(seriesId, idType, idValue));
+        
+     
     }
 }

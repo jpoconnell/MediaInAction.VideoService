@@ -35,11 +35,7 @@ public class ToBeMappedAppService : VideoServiceAppService, IToBeMappedAppServic
     
     public async Task<ToBeMappedDto> CreateAsync(ToBeMappedCreateDto input)
     {
-        var toBeMapped = await _toBeMappedManager.CreateToBeMappedAsync
-        (
-            alias: input.Alias
-        );
-
+        var toBeMapped = await _toBeMappedManager.CreateAsync(input);
         var toBe = new ToBeMappedDto();
         toBe.Alias = toBeMapped.Alias;
         toBe.Processed = false;

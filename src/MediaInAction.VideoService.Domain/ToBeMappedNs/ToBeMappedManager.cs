@@ -38,26 +38,8 @@ public class ToBeMappedManager : DomainService
         return null;
     }
 
-
-    public async Task<ToBeMapped> CreateToBeMappedAsync(
-        string alias
-    )
+    public async Task UpdateASync(ToBeMappedDto toBeMapped)
     {
-        var myAlias = alias.ToLower();
-        // Create new toBeMapped
-        ToBeMapped toBeMapped = new ToBeMapped(
-            id: GuidGenerator.Create(),
-            alias: myAlias,
-            tries: 0
-        );
-        var dbToBeMapped = await _toBeMappedRepository.FindByAlias(toBeMapped.Alias);
-
-        if (dbToBeMapped == null)
-        {
-            var createdToBeMapped = await _toBeMappedRepository.InsertAsync(toBeMapped, true);
-            return createdToBeMapped;
-        }
-
-        return toBeMapped;
+      var myToBeMapped = await  _toBeMappedRepository.FindByAlias(toBeMapped.Alias);
     }
 }

@@ -32,7 +32,6 @@ public class SeriesManager(
             var seriesId = GuidGenerator.Create();
             // Create new series
             var newSeries = new Series(
-                id: seriesId,
                 name: seriesCreateDto.Name,
                 firstAiredYear: seriesCreateDto.FirstAiredYear,
                 seriesType: MediaType.Episode,
@@ -40,63 +39,60 @@ public class SeriesManager(
                 imageName: seriesCreateDto.ImageName
             );
             
-            foreach (var seriesAlias in seriesCreateDto.SeriesAliasCreateDtos)
+            if((seriesCreateDto.SeriesAliasCreateDtos == null) || (seriesCreateDto.SeriesAliasCreateDtos?.Count == 0))
             {
                 newSeries.AddSeriesAlias(
-                    id: GuidGenerator.Create(),
-                    seriesId: seriesId,
-                    idType: seriesAlias.IdType,
-                    idValue: seriesAlias.IdValue);
-            }
-
-            var nameFound = false;
-            var folderFound = false;
-            foreach (var seriesAlias in seriesCreateDto.SeriesAliasCreateDtos)
-            {
-                if (seriesAlias.IdType == "name")
-                {
-                    nameFound = true;
-                }
-                if (seriesAlias.IdType == "folder")
-                {
-                    folderFound = true;
-                }
-            }
-            
-            if (nameFound == false)
-            {
-                newSeries.AddSeriesAlias(
-                    id: GuidGenerator.Create(),
                     seriesId: seriesId,
                     idType: "name",
-                    idValue: seriesCreateDto.Name
-                );
-            }
-            
-            if (folderFound == false)
-            {
-                newSeries.AddSeriesAlias(
-                    id: GuidGenerator.Create(),
-                    seriesId: seriesId,
-                    idType: "folder",
-                    idValue: seriesCreateDto.Name
-                );
-            }
-            var filter = "n:" + newSeries.Name;
-
-            ISpecification<Series> specification = Specifications.SpecificationFactory.Create(filter);
-            var dbSeriesList = await seriesRepository.GetSeriesBySpec(specification, true);
-            
-            if (dbSeriesList.Count == 1)
-            {
-                return dbSeriesList[0];
+                    idValue: seriesCreateDto.Name);
             }
             else
-            {
-                var createSeries = await seriesRepository.InsertAsync(newSeries, true);
-                //await PublishCreateSeriesEvent(createSeries);
-                return createSeries;
+            {            
+                foreach (var seriesAlias in seriesCreateDto.SeriesAliasCreateDtos)
+                {
+                    newSeries.AddSeriesAlias(
+                        seriesId: seriesId,
+                        idType: seriesAlias.IdType,
+                        idValue: seriesAlias.IdValue);
+                }
+
+                var nameFound = false;
+                var folderFound = false;
+
+                foreach (var seriesAlias in seriesCreateDto.SeriesAliasCreateDtos)
+                {
+                    if (seriesAlias.IdType == "name")
+                    {
+                        nameFound = true;
+                    }
+
+                    if (seriesAlias.IdType == "folder")
+                    {
+                        folderFound = true;
+                    }
+                }
+
+                if (nameFound == false)
+                {
+                    newSeries.AddSeriesAlias(
+                        seriesId: seriesId,
+                        idType: "name",
+                        idValue: seriesCreateDto.Name
+                    );
+                }
+
+                if (folderFound == false)
+                {
+                    newSeries.AddSeriesAlias(
+                        seriesId: seriesId,
+                        idType: "folder",
+                        idValue: seriesCreateDto.Name
+                    );
+                }
             }
+            var createSeries = await seriesRepository.InsertAsync(newSeries, true);
+                //await PublishCreateSeriesEvent(createSeries);
+            return createSeries;
         }
         catch (Exception ex)
         {

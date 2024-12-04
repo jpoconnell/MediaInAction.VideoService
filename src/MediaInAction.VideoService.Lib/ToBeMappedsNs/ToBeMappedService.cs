@@ -24,12 +24,15 @@ public class ToBeMappedService: IToBeMappedService
 
     public async Task CreateToBeMappedASync(string alias)
     {
-        await _toBeMappedManager.CreateToBeMappedAsync(alias);
+        var _toBeMappedCreateDto = new ToBeMappedCreateDto();
+        _toBeMappedCreateDto.Alias = alias;
+     
+        await _toBeMappedManager.CreateAsync(_toBeMappedCreateDto);
     }
 
     public async Task UpdateAsync(ToBeMappedDto toBeMapped)
     {
-        await _toBeMappedManager.CreateToBeMappedAsync(toBeMapped);
+        await _toBeMappedManager.UpdateASync(toBeMapped);
     }
 
     public async Task<List<ToBeMappedDto>> GetUnMapped(int i)
