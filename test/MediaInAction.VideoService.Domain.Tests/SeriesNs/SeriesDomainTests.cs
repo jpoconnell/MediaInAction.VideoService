@@ -40,4 +40,5 @@ public abstract class SeriesDomainTests<TStartupModule> : VideoServiceDomainTest
         var dbSeries = await _seriesRepository.FindAsync(x => x.Name == seriesCreate.Name);
         dbSeries.Name.ShouldNotBeNull();
     }
+    
 }

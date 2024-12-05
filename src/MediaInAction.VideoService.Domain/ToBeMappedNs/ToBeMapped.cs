@@ -8,7 +8,7 @@ namespace MediaInAction.VideoService.ToBeMappedNs
     {
         public string Alias { get; set; }
         public FromService FromService { get; set; }
-        public string FromId { get; set; }
+        public string? FromId { get; set; }
         public int Tries  { get; set; }
         public MediaType Type { get; set; }
         public bool Processed { get; set; }

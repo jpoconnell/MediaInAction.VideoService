@@ -16,7 +16,7 @@ public class Series : AuditedAggregateRoot<Guid>
     public MediaStatus MediaStatus { get; set; }
     public FileStatus EventStatus { get; set; }
     public bool IsActive { get; set; }
-    public string ImageName { get; set; }
+    public string? ImageName { get; set; }
     public List<SeriesAlias> SeriesAliases { get; private set; }
 
     public Series()

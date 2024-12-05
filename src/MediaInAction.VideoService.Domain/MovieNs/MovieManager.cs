@@ -20,81 +20,89 @@ public class MovieManager : DomainService
     
     public async Task<Movie> CreateAsync(MovieCreateDto movieCreateDto)
     {
-        if (movieCreateDto.FirstAiredYear < 2000)
+        try
         {
-            movieCreateDto.FirstAiredYear  = 2000;
-        }
-        
-        var movieId = GuidGenerator.Create();
-        // Create new movie
-        var movie = new Movie(
-            id: movieId,
-            name: movieCreateDto.Name,
-            firstAiredYear: movieCreateDto.FirstAiredYear,
-            movieType: MediaType.Movie,
-            isActive: true
-        );
-        
-        foreach (var movieAlias in movieCreateDto.MovieAliases)
-        {
-            movie.AddMovieAlias(
-                    id: GuidGenerator.Create(),
-                    movieId: movie.Id,
-                    idType: movieAlias.IdType,
-                    idValue: movieAlias.IdValue);
-        }
-        
-        var nameFound = false;
-        var folderFound = false;
-        foreach (var movieAlias in movieCreateDto.MovieAliases)
-        {
-            if (movieAlias.IdType == "name")
+            if (movieCreateDto.FirstAiredYear < 2000)
             {
-                nameFound = true;
+                movieCreateDto.FirstAiredYear  = 2000;
             }
-            if (movieAlias.IdType == "folder")
-            {
-                folderFound = true;
-            }
-        }
         
-        if (nameFound == false)
-        {
-            movie.AddMovieAlias(
-                id: GuidGenerator.Create(),
-                movieId: movieId,
-                idType: "name",
-                idValue: movieCreateDto.Name
+            var movieId = GuidGenerator.Create();
+            // Create new movie
+            var movie = new Movie(
+                id: movieId,
+                name: movieCreateDto.Name,
+                firstAiredYear: movieCreateDto.FirstAiredYear,
+                movieType: MediaType.Movie,
+                isActive: true
             );
-        }
             
-        if (folderFound == false)
-        {
-            movie.AddMovieAlias(
-                id: GuidGenerator.Create(),
-                movieId: movieId,
-                idType: "folder",
-                idValue: movieCreateDto.Name
-            );
-        }
-        
-        var dbMovieList = await _movieRepository.GetByMovieName(movie.Name);
-        if (dbMovieList.Count == 1)
-        {
-            var dbMovie = dbMovieList[0];
-             return dbMovie;
-        }
-        else if (dbMovieList.Count > 1)
-        {
-            _logger.LogError("Multiple movies found with the same name");
-            return null;
-        }
-        else if (dbMovieList.Count == 0)
-        {
+            if (movieCreateDto.MovieAliases == null)
+            {
+                movie.AddMovieAlias(
+                    id: GuidGenerator.Create(),
+                    movieId: movieId,
+                    idType: "name",
+                    idValue: movieCreateDto.Name
+                );
+            }
+            else
+            {
+                foreach (var movieAlias in movieCreateDto.MovieAliases)
+                {
+                    movie.AddMovieAlias(
+                        id: GuidGenerator.Create(),
+                        movieId: movie.Id,
+                        idType: movieAlias.IdType,
+                        idValue: movieAlias.IdValue);
+                }
+
+                var nameFound = false;
+                var folderFound = false;
+                foreach (var movieAlias in movieCreateDto.MovieAliases)
+                {
+                    if (movieAlias.IdType == "name")
+                    {
+                        nameFound = true;
+                    }
+
+                    if (movieAlias.IdType == "folder")
+                    {
+                        folderFound = true;
+                    }
+                }
+
+                if (nameFound == false)
+                {
+                    movie.AddMovieAlias(
+                        id: GuidGenerator.Create(),
+                        movieId: movieId,
+                        idType: "name",
+                        idValue: movieCreateDto.Name
+                    );
+                }
+
+                if (folderFound == false)
+                {
+                    movie.AddMovieAlias(
+                        id: GuidGenerator.Create(),
+                        movieId: movieId,
+                        idType: "folder",
+                        idValue: movieCreateDto.Name
+                    );
+                }
+            }
+
             var createMovie = await _movieRepository.InsertAsync(movie, true);
             _logger.LogInformation("Movie created: {0}", createMovie.Name);
             return createMovie;
         }
+        catch (Exception ex)
+        {
+
+            return null;
+        }
+
         return null;
     }
     
@@ -156,9 +164,9 @@ public class MovieManager : DomainService
                 }
             }
         }
-
         return null;
     }
+    
     public async Task SetInActiveAsync(Guid id)
     {
        var dbMovie = await _movieRepository.GetAsync(id);
