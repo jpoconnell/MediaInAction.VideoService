@@ -37,6 +37,7 @@ public class MediaInActionSharedHostingMicroservicesModule : AbpModule
             options.KeyPrefix = "MediaInAction:";
         });
 
+
         var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]!);
         context.Services
             .AddDataProtection()

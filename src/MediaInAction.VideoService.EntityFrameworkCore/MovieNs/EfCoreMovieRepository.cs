@@ -81,6 +81,11 @@ public class EfCoreMovieRepository : EfCoreRepository<VideoServiceDbContext, Mov
         throw new NotImplementedException();
     }
 
+    public Task<List<Movie>> GetMyListAsync(ISpecification<Movie> specification)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<List<Movie>> GetActiveList()
     {
         try

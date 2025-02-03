@@ -1,24 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-:root .lpx-theme-dark {
+
+
+:root .lpx-brand-logo {
   --lpx-logo: url('/assets/images/logo/logo-light.svg');
-  --lpx-logo-icon: url('/assets/images/logo/icon.svg');
-
-  .abp-support {
-    background-image: url('/assets/images/getting-started/abp-support-white.svg');
-  }
-  .abp-community {
-    background-image: url('/assets/images/getting-started/abp-community-white.svg');
-  }
-  .abp-blog {
-    background-image: url('/assets/images/getting-started/abp-blog-white.svg');
-  }
-  .logo-x {
-    background-image: url('/assets/images/getting-started/x-white.svg');
-  }
-}
-
-:root .lpx-theme-light {
-  --lpx-logo: url('/assets/images/logo/logo-dark.svg');
   --lpx-logo-icon: url('/assets/images/logo/icon.svg');
 }
 

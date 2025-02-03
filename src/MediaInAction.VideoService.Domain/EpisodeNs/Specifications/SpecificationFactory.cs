@@ -34,11 +34,6 @@ public static class SpecificationFactory
             var status = int.Parse(filter.Split(':')[1]);
             return new StatusSpecification(status);
         }
-        if (filter.StartsWith("n:"))
-        {
-            var idValue = (filter.Split(':')[1]);
-            return new AliasValueSpecification(idValue);
-        }
         if (filter.StartsWith("nd:"))
         {
             var idValue = (filter.Split(':')[1]);

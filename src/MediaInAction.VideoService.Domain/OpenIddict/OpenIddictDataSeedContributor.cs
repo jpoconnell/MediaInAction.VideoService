@@ -86,6 +86,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         {
             var consoleAndAngularClientRootUrl = configurationSection["VideoService_App:RootUrl"]?.TrimEnd('/');
             await CreateApplicationAsync(
+                applicationType: OpenIddictConstants.ApplicationTypes.Web,
                 name: consoleAndAngularClientId!,
                 type: OpenIddictConstants.ClientTypes.Public,
                 consentType: OpenIddictConstants.ConsentTypes.Implicit,
@@ -120,6 +121,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             var swaggerRootUrl = configurationSection["VideoService_Swagger:RootUrl"]?.TrimEnd('/');
 
             await CreateApplicationAsync(
+                applicationType: OpenIddictConstants.ApplicationTypes.Web,
                 name: swaggerClientId!,
                 type: OpenIddictConstants.ClientTypes.Public,
                 consentType: OpenIddictConstants.ConsentTypes.Implicit,
@@ -137,6 +139,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
     }
 
     private async Task CreateApplicationAsync(
+        [NotNull] string applicationType,
         [NotNull] string name,
         [NotNull] string type,
         [NotNull] string consentType,
@@ -165,6 +168,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         var client = await _openIddictApplicationRepository.FindByClientIdAsync(name);
 
         var application = new AbpApplicationDescriptor {
+            ApplicationType = applicationType,
             ClientId = name,
             ClientType = type,
             ClientSecret = secret,

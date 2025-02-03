@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MediaInAction.Shared.Domain.Enums;
+using MediaInAction.VideoService.Enums;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.Domain.Services;
 

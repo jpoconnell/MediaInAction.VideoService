@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediaInAction.VideoService.Permissions;
+using MediaInAction.VideoService.SeriesNs;
 using MediaInAction.VideoService.ToBeMappedNs.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
@@ -11,7 +12,7 @@ using Volo.Abp.Specifications;
 namespace MediaInAction.VideoService.ToBeMappedNs;
 
 [Authorize(VideoServicePermissions.ToBeMappeds.Default)]
-public class ToBeMappedAppService : VideoServiceAppService, IToBeMappedAppService
+public class ToBeMappedAppService :  IToBeMappedAppService
 {
     private readonly ToBeMappedManager _toBeMappedManager;
     private readonly IToBeMappedRepository _toBeMappedRepository;
@@ -33,9 +34,14 @@ public class ToBeMappedAppService : VideoServiceAppService, IToBeMappedAppServic
         return null;
     }
     
+    
     public async Task<ToBeMappedDto> CreateAsync(ToBeMappedCreateDto input)
     {
-        var toBeMapped = await _toBeMappedManager.CreateAsync(input);
+        var toBeMapped = await _toBeMappedManager.CreateToBeMappedAsync
+        (
+            alias: input.Alias
+        );
+
         var toBe = new ToBeMappedDto();
         toBe.Alias = toBeMapped.Alias;
         toBe.Processed = false;
@@ -45,17 +51,7 @@ public class ToBeMappedAppService : VideoServiceAppService, IToBeMappedAppServic
     
     public async Task<List<ToBeMappedDto>> GetToBeMappedsAsync(GetToBeMappedsInput getToBeMappedInput)
     {
-        var unProccessedList = new List<ToBeMappedDto>();
-        var unProccessed = await _toBeMappedRepository.GetUnMapped(100);
-        foreach (var toBeMapped in unProccessed)
-        {
-            var toBe = new ToBeMappedDto();
-            toBe.Processed = toBeMapped.Processed;
-            toBe.Alias = toBeMapped.Alias;
-            toBe.Tries = 0;
-            unProccessedList.Add(toBe);
-        }
-        return unProccessedList;
+        throw new NotImplementedException();
     }
 
     public async Task<ToBeMappedDto> GetToBeMappedAsync(GetToBeMappedInput input)
@@ -68,6 +64,11 @@ public class ToBeMappedAppService : VideoServiceAppService, IToBeMappedAppServic
     }
 
     public Task<PagedResultDto<ToBeMappedDto>> GetListPagedAsync(GetToBeMappedsInput input)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<object> GetDashboardAsync(DashboardInput dashboardInput)
     {
         throw new NotImplementedException();
     }

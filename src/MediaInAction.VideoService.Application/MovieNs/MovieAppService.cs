@@ -4,43 +4,47 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using AutoMapper.Internal.Mappers;
+using MediaInAction.VideoService.Localization;
 using MediaInAction.VideoService.MovieAliasNs;
-using MediaInAction.VideoService.MovieAliasNs.Dtos;
 using MediaInAction.VideoService.MovieNs.Dtos;
 using MediaInAction.VideoService.MovieNs.Specifications;
 using MediaInAction.VideoService.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Application.Services;
+using Volo.Abp.Localization;
 using Volo.Abp.Specifications;
 
 namespace MediaInAction.VideoService.MovieNs;
 
 [Authorize(VideoServicePermissions.Movies.Default)]
-public class MovieAppService : VideoServiceAppService, IMovieAppService
+public class MovieAppService : ApplicationService, IMovieAppService
 {
     private readonly IMovieRepository _movieRepository;
     private readonly MovieManager _movieManager;
-    private readonly IMovieAliasRepository _movieAliasRepository;
     private readonly ILogger<MovieAppService> _logger;
     
     public MovieAppService(MovieManager movieManager,
         IMovieRepository movieRepository,
-        IMovieAliasRepository movieAliasRepository,
         ILogger<MovieAppService> logger
     )
     {
         _movieManager = movieManager;
         _movieRepository = movieRepository;
-        _movieAliasRepository = movieAliasRepository;
         _logger = logger;
+        LocalizationResource = typeof(VideoServiceResource);
+        ObjectMapperContext = typeof(VideoServiceApplicationModule);
     }
-    
+
+    public Type ObjectMapperContext { get; set; }
+
     [AllowAnonymous]
     public async Task<MovieDto> GetAsync(Guid id)
     {
         var movie = await _movieRepository.GetAsync(id);
-        return ObjectMapper.Map<Movie, MovieDto>(movie);
+        return null;
     }
     
     [AllowAnonymous]

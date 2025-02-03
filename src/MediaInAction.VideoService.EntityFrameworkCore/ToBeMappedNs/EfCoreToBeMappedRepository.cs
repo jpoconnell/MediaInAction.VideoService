@@ -47,7 +47,17 @@ public class EfCoreToBeMappedRepository : EfCoreRepository<VideoServiceDbContext
         }
     }
 
-    public async Task<List<ToBeMapped>> GetUnMapped( int limit)
+    public async Task<List<ToBeMapped>> GetToBeMappedsAsync(ISpecification<ToBeMapped> spec, 
+        bool includeDetails = true,
+        CancellationToken cancellationToken = default)
+    {     
+        var dbSet = await GetDbSetAsync();
+        return await dbSet
+                .Where(spec.ToExpression())
+                .ToListAsync();
+    }
+
+    public async Task<List<ToBeMapped>> GetMapped(bool processed, int limit)
     {
         try
         {

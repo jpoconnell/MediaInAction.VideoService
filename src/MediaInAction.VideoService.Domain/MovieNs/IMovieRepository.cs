@@ -29,4 +29,5 @@ public interface IMovieRepository : IRepository<Movie, Guid>
     Task<List<Movie>> GetByMovieName(string movieName);
     Task<Movie> GetByIdAsync(object movieId);
     Task<List<Movie>> GetBySlugAsync(string requestSlug);
+    Task<List<Movie>> GetMyListAsync(ISpecification<Movie> specification);
 }

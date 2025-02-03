@@ -4,8 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediaInAction.VideoService.EntityFrameworkCore;
-using MediaInAction.Shared.Domain.Enums;
-using MediaInAction.VideoService.EpisodeAliasNs;
+using MediaInAction.VideoService.Enums;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -75,7 +74,7 @@ namespace MediaInAction.VideoService.EpisodeNs
             Guid seriesId, 
             int seasonNum, 
             int episodeNum,
-            bool includeDetails = false)
+            bool includeDetails = true)
         {   
             try
             {
@@ -92,7 +91,7 @@ namespace MediaInAction.VideoService.EpisodeNs
             }
         }
 
-        public async Task<List<Episode>>  GetListAsync(
+        public async Task<List<Episode>> GetListAsync(
             ISpecification<Episode> spec, 
             bool includeDetails = true, 
             CancellationToken cancellationToken = default)
@@ -166,9 +165,11 @@ namespace MediaInAction.VideoService.EpisodeNs
             throw new NotImplementedException();
         }
 
-        public async Task<List<Episode>> GetMyListAsync(ISpecification<Episode> spec)
+        public async Task<List<Episode>> GetMyListAsync(
+            ISpecification<Episode> spec, 
+            bool includeDetails = true, 
+            CancellationToken cancellationToken = default)
         {
-            CancellationToken cancellationToken = default;
             return await (await GetDbSetAsync())
                 .IncludeDetails(true)
                 .Where(spec.ToExpression())

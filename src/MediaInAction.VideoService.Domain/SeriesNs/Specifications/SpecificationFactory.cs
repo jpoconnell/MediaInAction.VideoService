@@ -9,26 +9,21 @@ public static class SpecificationFactory
     {
         if (filter.IsNullOrEmpty())
         {
-            return new AllSpecification();
+            return new Last30DaysSpecification();
         }
 
-        if (filter.StartsWith("n:"))
+        if (filter.StartsWith("y"))
         {
-            var name = filter.Split(':')[1];
-            return new NameLikeSpecification(name);
-        }
-        
-        if (filter.StartsWith("y:"))
-        {
-            var year = int.Parse(filter.Split(':')[1]);
+            var year = int.Parse(filter.Split('y')[1]);
             return new YearSpecification(year);
         }
 
-        if (filter.StartsWith("a:"))
+        if (filter.StartsWith("m"))
         {
-            return new ActiveSpecification();
+            var months = int.Parse(filter.Split('m')[1]);
+            return new MonthsAgoSpecification(months);
         }
-        
-        return new AllSpecification();
+
+        return new Last30DaysSpecification();
     }
 }

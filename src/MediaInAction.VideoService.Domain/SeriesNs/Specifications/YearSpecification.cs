@@ -15,6 +15,6 @@ public class YearSpecification : Specification<Series>
 
     public override Expression<Func<Series, bool>> ToExpression()
     {
-        return query => query.FirstAiredYear == Year;
+        return query => query.CreationTime.Year == Year;
     }
 }

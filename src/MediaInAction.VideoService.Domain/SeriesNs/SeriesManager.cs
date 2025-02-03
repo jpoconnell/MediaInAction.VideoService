@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MediaInAction.Shared.Domain.Enums;
-using MediaInAction.VideoService.SeriesAliasNs;
+using MediaInAction.VideoService.Enums;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.Domain.Services;
@@ -13,7 +12,6 @@ namespace MediaInAction.VideoService.SeriesNs;
 
 public class SeriesManager(
     ISeriesRepository seriesRepository,
-    ISeriesAliasRepository seriesAliasRepository,
     ILogger<SeriesManager> logger)
     : DomainService
 {
@@ -22,6 +20,10 @@ public class SeriesManager(
     {
         try
         {
+            if (seriesCreateDto.SeriesStatus == SeriesStatus.Unknown)
+            {
+                seriesCreateDto.SeriesStatus = SeriesStatus.New;
+            }
             if (seriesCreateDto.FirstAiredYear < 1950)
             {
                 seriesCreateDto.FirstAiredYear = 1950;
@@ -118,22 +120,14 @@ public class SeriesManager(
             else
             {
                 var update = 0;
-                if (dbSeries.IsActive != seriesCreateDto.IsActive)
-                {
-                    dbSeries.IsActive = seriesCreateDto.IsActive;
-                    update++;
-                }
+
 
                 if (dbSeries.ImageName != seriesCreateDto.ImageName)
                 {
                     dbSeries.ImageName = seriesCreateDto.ImageName;
                     update++;
                 }
-                if (dbSeries.IsActive != seriesCreateDto.IsActive)
-                {
-                    dbSeries.IsActive = seriesCreateDto.IsActive;
-                    update++;
-                }
+
        
                 foreach (var seriesAlias in seriesCreateDto.SeriesAliasCreateDtos)
                 {
@@ -174,8 +168,13 @@ public class SeriesManager(
         }
         else
         {
-            series.SetSeriesInactive();
+           // series.SetSeriesInactive();
             return await seriesRepository.UpdateAsync(series, autoSave: true);
         }
+    }
+
+    public async Task<Series> UpdateAsync(SeriesCreateDto seriesCreateDto)
+    {
+        throw new NotImplementedException();
     }
 }

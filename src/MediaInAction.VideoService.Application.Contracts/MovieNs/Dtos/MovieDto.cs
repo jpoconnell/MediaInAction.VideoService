@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using MediaInAction.Shared.Domain.Enums;
-using MediaInAction.VideoService.MovieAliasNs.Dtos;
+using MediaInAction.VideoService.Enums;
 using Volo.Abp.Application.Dtos;
 
 namespace MediaInAction.VideoService.MovieNs.Dtos

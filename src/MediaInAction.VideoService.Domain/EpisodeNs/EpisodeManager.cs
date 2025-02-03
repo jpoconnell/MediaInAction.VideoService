@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using MediaInAction.Shared.Domain.Enums;
-using MediaInAction.VideoService.EpisodeAliasNs;
-using MediaInAction.VideoService.EpisodesAliasNs;
+using MediaInAction.VideoService.Enums;
 using MediaInAction.VideoService.SeriesNs;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.Domain.Services;

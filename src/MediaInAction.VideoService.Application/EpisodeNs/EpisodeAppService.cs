@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MediaInAction.Shared.Domain.Enums;
+using MediaInAction.VideoService.Enums;
 using MediaInAction.VideoService.EpisodeAliasNs;
 using MediaInAction.VideoService.EpisodeNs.Dtos;
 using MediaInAction.VideoService.EpisodeNs.Specifications;
@@ -9,12 +9,13 @@ using MediaInAction.VideoService.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Application.Services;
 using Volo.Abp.Specifications;
 using Volo.Abp.Users;
 
 namespace MediaInAction.VideoService.EpisodeNs
 {
-    public class EpisodeAppService : VideoServiceAppService, IEpisodeAppService
+    public class EpisodeAppService : ApplicationService, IEpisodeAppService
     {
         private readonly IEpisodeRepository _episodeRepository;
         private readonly EpisodeManager _episodeManager;
@@ -122,7 +123,7 @@ namespace MediaInAction.VideoService.EpisodeNs
             return new PagedResultDto<EpisodeDto>(totalCount,episodeDtoList);
         }
         
-        public async Task<DashboardDto> GetDashboardAsync(DashboardInput input)
+        public async Task<DashboardDto> GetDashboardAsync(EpisodeDashboardInput input)
         {
             return new DashboardDto()
             {

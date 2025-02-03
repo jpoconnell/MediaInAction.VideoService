@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using MediaInAction.VideoService.SeriesNs.Specifications;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Specifications;
 
@@ -10,31 +9,26 @@ namespace MediaInAction.VideoService.SeriesNs;
 
 public interface ISeriesRepository : IRepository<Series, Guid>
 {
-    Task<List<Series>> GetSeriesCollectionAsync(
+    Task<List<Series>> GetSeriessByUserId(
+        Guid userId,
         ISpecification<Series> spec,
         bool includeDetails = true,
         CancellationToken cancellationToken = default);
-    
-    Task<Series> FindBySeriesNameYear(string name, 
-        int firstAiredYear,
-        bool includeDetails = true);
-    
 
-    Task<List<Series>> GetListPagedAsync(
-        ISpecification<Series> spec,
-        int skipCount,
-        int maxResultCount,
-        string sorting,
-        bool includeDetails = false,
-        CancellationToken cancellationToken = default);
-    
-    Task<List<Series>> GetSeriesBySpec(
+    Task<List<Series>> GetSeriessAsync(
         ISpecification<Series> spec,
         bool includeDetails = true,
         CancellationToken cancellationToken = default);
-    
+
     Task<List<Series>> GetDashboardAsync(
         ISpecification<Series> spec,
         bool includeDetails = true,
         CancellationToken cancellationToken = default);
+
+    Task<Series> FindBySeriesNameYear(string seriesName, int seriesYear,   
+        bool includeDetails = true,
+        CancellationToken cancellationToken = default);
+
+    Task<Series> GetByIdValue(string requestSlug);
+    Task<Series> GetByIdAsync(Guid id);
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using MediaInAction.Shared.Domain.Enums;
+using MediaInAction.VideoService.Enums;
 using MediaInAction.VideoService.EpisodeAliasNs;
 using Volo.Abp.Application.Dtos;
 

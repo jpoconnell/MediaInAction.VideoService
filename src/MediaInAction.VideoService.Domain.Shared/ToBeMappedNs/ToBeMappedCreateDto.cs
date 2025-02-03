@@ -1,4 +1,4 @@
-using MediaInAction.Shared.Domain.Enums;
+using MediaInAction.VideoService.Enums;
 
 namespace MediaInAction.VideoService.ToBeMappedNs;
 

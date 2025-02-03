@@ -11,5 +11,6 @@ public class Last30DaysSpecification : Specification<Series>
         var daysAgo30 = DateTime.UtcNow.Subtract(TimeSpan.FromDays(30));
         return query => query.CreationTime >= daysAgo30
             ;
+        // && query.SeriesDate <= DateTime.UtcNow;
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using MediaInAction.VideoService.BG;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
@@ -53,8 +52,7 @@ namespace MediaInAction.VideoService;
     typeof(VideoServiceEntityFrameworkCoreModule),
     typeof(AbpAccountWebOpenIddictModule),
     typeof(AbpSwashbuckleModule),
-    typeof(AbpAspNetCoreSerilogModule),
-    typeof(VideoServiceBgWorkerModule)
+    typeof(AbpAspNetCoreSerilogModule)
     )]
 public class VideoServiceHttpApiHostModule : AbpModule
 {
@@ -149,6 +147,7 @@ public class VideoServiceHttpApiHostModule : AbpModule
                 LeptonXLiteThemeBundles.Styles.Global,
                 bundle =>
                 {
+                    bundle.AddFiles("/global-scripts.js");
                     bundle.AddFiles("/global-styles.css");
                 }
             );

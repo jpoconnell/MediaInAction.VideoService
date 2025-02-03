@@ -2,7 +2,7 @@
   "applications": {
     "MediaInAction.VideoService.HttpApi.Host": {
       "type": "dotnet-project",
-      "launchUrl": "https://localhost:44317",
+      "launchUrl": "https://localhost:44378",
       "path": "../../../src/MediaInAction.VideoService.HttpApi.Host/MediaInAction.VideoService.HttpApi.Host.csproj",
       "kubernetesService": ".*-httpapihost$",
       "execution": {

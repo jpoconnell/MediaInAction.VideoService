@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using MediaInAction.Shared.Domain.Enums;
-using MediaInAction.VideoService.EpisodeAliasNs;
+using MediaInAction.VideoService.Enums;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace MediaInAction.VideoService.EpisodeNs;
@@ -17,7 +16,7 @@ public class Episode : AuditedAggregateRoot<Guid>
     [Required]
     public int EpisodeNum { get; set; }
     public MediaStatus MediaStatus { get; set; }
-    public FileStatus EventStatus { get; set; }
+    public EpisodeStatus EpisodeStatus { get; set; }
     public DateTime AiredDate { get; set; }
     public string EpisodeName { get; set; }
     public string AltEpisodeId { get; set; }

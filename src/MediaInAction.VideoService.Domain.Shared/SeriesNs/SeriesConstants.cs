@@ -2,8 +2,8 @@
 
 public static class SeriesConstants
 {
-    public const int SeriesFileMethodNameMaxLength = 128;
-    public const int FileStatusMaxLength = 256;
+    public const int SeriesPaymentMethodNameMaxLength = 128;
+    public const int SeriesStatusNameMaxLength = 256;
+    public const int PaymentStatusMaxLength = 256;
     public const int Top10 = 10;
-    public static int MaxNameLength = 256;
 }

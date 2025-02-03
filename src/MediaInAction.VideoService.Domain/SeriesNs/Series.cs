@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
-using MediaInAction.Shared.Domain.Enums;
-using MediaInAction.VideoService.SeriesAliasNs;
+using MediaInAction.VideoService.Enums;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace MediaInAction.VideoService.SeriesNs;
@@ -14,7 +12,7 @@ public class Series : AuditedAggregateRoot<Guid>
     public int FirstAiredYear { get; set; }
     public MediaType Type { get; set; }
     public MediaStatus MediaStatus { get; set; }
-    public FileStatus EventStatus { get; set; }
+    public SeriesStatus SeriesStatus { get; set; }
     public bool IsActive { get; set; }
     public string? ImageName { get; set; }
     public List<SeriesAlias> SeriesAliases { get; private set; }
@@ -39,16 +37,13 @@ public class Series : AuditedAggregateRoot<Guid>
         SeriesAliases = new List<SeriesAlias>();
     }
     
-    public Series SetSeriesInactive()
-    {
-        IsActive = false;
-        return this;
-    }
-
     public void AddSeriesAlias(Guid seriesId, string idType, string idValue)
     {
         SeriesAliases.Add(new SeriesAlias(seriesId, idType, idValue));
-        
-     
+    }
+
+    public void SetSeriesAsInActive()
+    {
+        IsActive = false;
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using MediaInAction.Shared.Domain.Enums;
+using MediaInAction.VideoService.Enums;
 using MediaInAction.VideoService.MovieAliasNs;
 using Volo.Abp.Domain.Entities.Auditing;
 
@@ -16,7 +16,7 @@ public class Movie : AuditedAggregateRoot<Guid>
     public MediaStatus MediaStatus { get; set; }
     public FileStatus EventStatus { get; set; }
     public bool IsActive { get; set; }
-    public string? ImageName { get; set; }
+    public string ImageName { get; set; }
     public List<MovieAlias> MovieAliases { get; private set; }
 
     public Movie()

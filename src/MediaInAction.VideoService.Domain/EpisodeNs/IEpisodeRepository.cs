@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using MediaInAction.VideoService.EpisodeAliasNs;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Specifications;
 
@@ -31,14 +29,16 @@ public interface IEpisodeRepository : IRepository<Episode, Guid>
         int episodeNum,
         bool includeDetails = true);
   
-    
     Task<List<Episode>> GetDashboardAsync(
         ISpecification<Episode> spec,
         bool includeDetails = true,
         CancellationToken cancellationToken = default);
 
-    Task<Episode> GetBySlugSeasonEpisode(string slug, int season, int episode);
+    Task<Episode> GetBySlugSeasonEpisode(string slug, 
+        int season, int episode);
     Task<Episode> GetByIdAsync(Guid episodeId);
     Task<List<EpisodeAlias>> GetBySlug(string requestSlug);
-    Task<List<Episode>> GetMyListAsync(ISpecification<Episode> spec);
+    Task<List<Episode>> GetMyListAsync(ISpecification<Episode> spec, 
+        bool includeDetails = true,
+        CancellationToken cancellationToken = default);
 }

@@ -27,10 +27,10 @@ In the production environment, you need to use a production signing certificate.
 To generate a signing certificate, you can use the following command:
 
 ```bash
-dotnet dev-certs https -v -ep openiddict.pfx -p 2346ded9-dca9-4350-9b2b-89d3f91f7e0f
+dotnet dev-certs https -v -ep openiddict.pfx -p 2c0c6eb9-0e53-45f0-92e2-c125a6980cf7
 ```
 
-> `2346ded9-dca9-4350-9b2b-89d3f91f7e0f` is the password of the certificate, you can change it to any password you want.
+> `2c0c6eb9-0e53-45f0-92e2-c125a6980cf7` is the password of the certificate, you can change it to any password you want.
 
 It is recommended to use **two** RSA certificates, distinct from the certificate(s) used for HTTPS: one for encryption, one for signing.
 
@@ -43,8 +43,9 @@ For more information, please refer to: [https://documentation.openiddict.com/con
 This is a layered monolith application that consists of the following applications:
 
 * `MediaInAction.VideoService.DbMigrator`: A console application which applies the migrations and also seeds the initial data. It is useful on development as well as on production environment.
-** `MediaInAction.VideoService.HttpApi.Host`: ASP.NET Core API application that is used to expose the APIs to the clients.
+* `MediaInAction.VideoService.HttpApi.Host`: ASP.NET Core API application that is used to expose the APIs to the clients.
 * `angular`: Angular application.
+
 
 ## Deploying the application
 
@@ -52,6 +53,13 @@ Deploying an ABP application is not different than deploying any .NET or ASP.NET
 
 ### Additional resources
 
+#### Internal Resources
+
+You can find detailed setup and configuration guide(s) for your solution below:
+
+* [Angular](./angular/README.md)
+
+#### External Resources
 You can see the following resources to learn more about your solution and the ABP Framework:
 
 * [Web Application Development Tutorial](https://abp.io/docs/latest/tutorials/book-store/part-1)

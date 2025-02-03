@@ -6,26 +6,26 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="../Proto/movie.proto" />
-        <None Remove="../Proto/episode.proto" />
-        <None Remove="../Proto/series.proto" />
-        <None Remove="../Proto/mapper.proto" />
+        <None Remove="../Protos/movie.proto" />
+        <None Remove="../Protos/episode.proto" />
+        <None Remove="../Protos/series.proto" />
+        <None Remove="../Protos/mapper.proto" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Google.Protobuf" Version="3.28.0" />
+        <PackageReference Include="Google.Protobuf" Version="3.29.3" />
         <PackageReference Include="Grpc" Version="2.46.6" />
-        <PackageReference Include="Grpc.Tools" Version="2.66.0">
+        <PackageReference Include="Grpc.Tools" Version="2.69.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="Proto/movie.proto" Link="Protos/movie.proto" />
-        <Protobuf Include="Proto/episode.proto" Link="Protos/episode.proto" />
-        <Protobuf Include="Proto/series.proto" Link="Protos/series.proto" />
-        <Protobuf Include="Proto/mapper.proto" Link="Protos/mapper.proto" />
+        <Protobuf Include="Protos/movie.proto" Link="Protos/movie.proto" />
+        <Protobuf Include="Protos/episode.proto" Link="Protos/episode.proto" />
+        <Protobuf Include="Protos/series.proto" Link="Protos/series.proto" />
+        <Protobuf Include="Protos/mapper.proto" Link="Protos/mapper.proto" />
     </ItemGroup>
     
 </Project>
