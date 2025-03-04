@@ -1,9 +1,9 @@
 {
-  "id": "6c74f146-8454-49b9-9ca8-a37aaac1ffa5",
+  "id": "9f623c47-7052-41cd-ad0a-b1cad9301dde",
   "template": "app",
   "versions": {
-    "AbpFramework": "9.0.0",
-    "AbpStudio": "0.9.13",
+    "AbpFramework": "9.0.4",
+    "AbpStudio": "0.9.23",
     "TargetDotnetFramework": "net9.0"
   },
   "modules": {
@@ -25,18 +25,26 @@
   },
   "creatingStudioConfiguration": {
     "template": "app",
-    "createdAbpStudioVersion": "0.9.13",
+    "createdAbpStudioVersion": "0.9.23",
     "tiered": "false",
+    "runInstallLibs": "true",
+    "useLocalReferences": "false",
     "multiTenancy": "true",
     "includeTests": "true",
+    "kubernetesConfiguration": "false",
     "uiFramework": "angular",
+    "mobileFramework": "none",
+    "distributedEventBus": "none",
     "databaseProvider": "ef",
+    "runDbMigrator": "true",
     "databaseManagementSystem": "postgresql",
     "separateTenantSchema": "false",
+    "createInitialMigration": "true",
     "theme": "leptonx-lite",
     "themeStyle": "",
     "mobileFramework": "none",
     "progressiveWebApp": "false",
+    "runProgressiveWebAppSupport": "false",
     "publicWebsite": "false",
     "socialLogin": ""
   }
