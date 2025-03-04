@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <RootNamespace>MediaInAction.Shared.Grpc</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="../Protos/movie.proto" />
+        <None Remove="../Protos/episode.proto" />
+        <None Remove="../Protos/series.proto" />
+        <None Remove="../Protos/mapper.proto" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Google.Protobuf" Version="3.29.3" />
+        <PackageReference Include="Grpc" Version="2.46.6" />
+        <PackageReference Include="Grpc.Tools" Version="2.69.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="Protos/movie.proto" Link="Protos/movie.proto" />
+        <Protobuf Include="Protos/episode.proto" Link="Protos/episode.proto" />
+        <Protobuf Include="Protos/series.proto" Link="Protos/series.proto" />
+        <Protobuf Include="Protos/mapper.proto" Link="Protos/mapper.proto" />
+    </ItemGroup>
+    
+</Project>
