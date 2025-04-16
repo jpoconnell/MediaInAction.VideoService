@@ -1,63 +1,57 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MediaInAction.Shared.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using Serilog.Events;
 
 namespace MediaInAction.VideoService;
 
 public class Program
 {
-    public async static Task<int> Main(string[] args)
+    public static async Task<int> Main(string[] args)
     {
-        Log.Logger = new LoggerConfiguration()
-            .WriteTo.Async(c => c.File("Logs/logs.txt"))
-            .WriteTo.Async(c => c.Console())
-            .CreateBootstrapLogger();
+        var assemblyName = typeof(Program).Assembly.GetName().Name;
+
+        SerilogConfigurationHelper.Configure(assemblyName);
 
         try
         {
-            Log.Information("Starting MediaInAction.VideoService.HttpApi.Host.");
+            Log.Information($"Starting {assemblyName}.");
             var builder = WebApplication.CreateBuilder(args);
+            
             builder.Host
-                .AddAppSettingsSecretsJson()
                 .UseAutofac()
-                .UseSerilog((context, services, loggerConfiguration) =>
+                .UseSerilog();
+            
+            //builder.AddServiceDefaults();
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.ListenAnyIP(8181, listenOptions =>
                 {
-                    loggerConfiguration
-                    #if DEBUG
-                        .MinimumLevel.Debug()
-                    #else
-                        .MinimumLevel.Information()
-                    #endif
-                        .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                        .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
-                        .Enrich.FromLogContext()
-                        .WriteTo.Async(c => c.File("Logs/logs.txt"))
-                        .WriteTo.Async(c => c.Console())
-                        .WriteTo.Async(c => c.AbpStudio(services));
+                    listenOptions.Protocols = HttpProtocols.Http2;
                 });
-            await builder.AddApplicationAsync<VideoServiceHttpApiHostModule>();
-            var app = builder.Build();
+            });  
+            
+            Log.Information($"Starting {assemblyName}.");
+            var app = await ApplicationBuilderHelper
+                .BuildApplicationAsync<VideoServiceHttpApiHostModule>(args); 
+
             await app.InitializeApplicationAsync();
             await app.RunAsync();
+
             return 0;
         }
         catch (Exception ex)
         {
-            if (ex is HostAbortedException)
-            {
-                throw;
-            }
-
-            Log.Fatal(ex, "Host terminated unexpectedly!");
+            Log.Fatal(ex, $"{assemblyName} terminated unexpectedly!");
             return 1;
         }
         finally
         {
-            Log.CloseAndFlush();
+           await Log.CloseAndFlushAsync();
         }
     }
 }
