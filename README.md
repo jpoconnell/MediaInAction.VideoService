@@ -1,58 +1,71 @@
-﻿# MediaInAction.VideoService
+﻿# VideoService2
 
-## About this solution
+The project was generated using the [Clean.Architecture.Solution.Template](https://github.com/jasontaylordev/CleanArchitecture) version 9.0.8.
 
-This is a layered startup solution based on [Domain Driven Design (DDD)](https://docs.abp.io/en/abp/latest/Domain-Driven-Design) practises. All the fundamental ABP modules are already installed. Check the [Application Startup Template](https://abp.io/docs/latest/startup-templates/application/index) documentation for more info.
+## Build
 
-### Pre-requirements
+Run `dotnet build -tl` to build the solution.
 
-* [.NET9.0+ SDK](https://dotnet.microsoft.com/download/dotnet)
-* [Node v18 or 20](https://nodejs.org/en)
+## Run
 
-### Configurations
-
-The solution comes with a default configuration that works out of the box. However, you may consider to change the following configuration before running your solution:
-
-* Check the `ConnectionStrings` in `appsettings.json` files under the `MediaInAction.VideoService.HttpApi.Host` and `MediaInAction.VideoService.DbMigrator` projects and change it if you need.
-
-### Before running the application
-
-* Run `abp install-libs` command on your solution folder to install client-side package dependencies. This step is automatically done when you create a new solution, if you didn't especially disabled it. However, you should run it yourself if you have first cloned this solution from your source control, or added a new client-side package dependency to your solution.
-* Run `MediaInAction.VideoService.DbMigrator` to create the initial database. This step is also automatically done when you create a new solution, if you didn't especially disabled it. This should be done in the first run. It is also needed if a new database migration is added to the solution later.
-
-#### Generating a Signing Certificate
-
-In the production environment, you need to use a production signing certificate. ABP Framework sets up signing and encryption certificates in your application and expects an `openiddict.pfx` file in your application.
-
-To generate a signing certificate, you can use the following command:
+To run the web application:
 
 ```bash
-dotnet dev-certs https -v -ep openiddict.pfx -p 2346ded9-dca9-4350-9b2b-89d3f91f7e0f
+cd .\src\Web\
+dotnet watch run
 ```
 
-> `2346ded9-dca9-4350-9b2b-89d3f91f7e0f` is the password of the certificate, you can change it to any password you want.
+Navigate to https://localhost:5001. The application will automatically reload if you change any of the source files.
 
-It is recommended to use **two** RSA certificates, distinct from the certificate(s) used for HTTPS: one for encryption, one for signing.
+## Code Styles & Formatting
 
-For more information, please refer to: [https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios)
+The template includes [EditorConfig](https://editorconfig.org/) support to help maintain consistent coding styles for multiple developers working on the same project across various editors and IDEs. The **.editorconfig** file defines the coding styles applicable to this solution.
 
-> Also, see the [Configuring OpenIddict](https://docs.abp.io/en/abp/latest/Deployment/Configuring-OpenIddict#production-environment) documentation for more information.
+## Code Scaffolding
 
-### Solution structure
+The template includes support to scaffold new commands and queries.
 
-This is a layered monolith application that consists of the following applications:
+Start in the `.\src\Application\` folder.
 
-* `MediaInAction.VideoService.DbMigrator`: A console application which applies the migrations and also seeds the initial data. It is useful on development as well as on production environment.
-** `MediaInAction.VideoService.HttpApi.Host`: ASP.NET Core API application that is used to expose the APIs to the clients.
-* `angular`: Angular application.
+Create a new command:
 
-## Deploying the application
+```
+dotnet new ca-usecase --name CreateTodoList --feature-name TodoLists --usecase-type command --return-type int
+```
 
-Deploying an ABP application is not different than deploying any .NET or ASP.NET Core application. However, there are some topics that you should care about when you are deploying your applications. You can check ABP's [Deployment documentation](https://docs.abp.io/en/abp/latest/Deployment/Index) and ABP Commercial's [Deployment documentation](https://abp.io/docs/latest/startup-templates/application/deployment?UI=MVC&DB=EF&Tiered=No) before deploying your application.
+Create a new query:
 
-### Additional resources
+```
+dotnet new ca-usecase -n GetTodos -fn TodoLists -ut query -rt TodosVm
+```
 
-You can see the following resources to learn more about your solution and the ABP Framework:
+If you encounter the error *"No templates or subcommands found matching: 'ca-usecase'."*, install the template and try again:
 
-* [Web Application Development Tutorial](https://abp.io/docs/latest/tutorials/book-store/part-1)
-* [Application Startup Template](https://abp.io/docs/latest/startup-templates/application/index)
+```bash
+dotnet new install Clean.Architecture.Solution.Template::9.0.8
+```
+
+## Test
+
+The solution contains unit, integration, functional, and acceptance tests.
+
+To run the unit, integration, and functional tests (excluding acceptance tests):
+```bash
+dotnet test --filter "FullyQualifiedName!~AcceptanceTests"
+```
+
+To run the acceptance tests, first start the application:
+
+```bash
+cd .\src\Web\
+dotnet run
+```
+
+Then, in a new console, run the tests:
+```bash
+cd .\src\Web\
+dotnet test
+```
+
+## Help
+To learn more about the template go to the [project website](https://github.com/jasontaylordev/CleanArchitecture). Here you can find additional guidance, request new features, report a bug, and discuss the template with other users.
