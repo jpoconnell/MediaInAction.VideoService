@@ -1,6 +1,4 @@
-﻿using VideoService2.Application.TodoItems.Commands.CreateTodoItem;
-using VideoService2.Application.TodoItems.Commands.DeleteTodoItem;
-using VideoService2.Application.TodoLists.Commands.CreateTodoList;
+﻿using VideoService2.Application.SeriesAliases.Commands.DeleteSeriesAlias;
 using VideoService2.Domain.Entities;
 
 namespace VideoService2.Application.FunctionalTests.TodoItems.Commands;

@@ -4,9 +4,9 @@ namespace VideoService2.Application.Common.Interfaces;
 
 public interface IApplicationDbContext
 {
-    DbSet<TodoList> TodoLists { get; }
+    DbSet<Series> SeriesList { get; }
 
-    DbSet<TodoItem> TodoItems { get; }
+    DbSet<SeriesAlias> SeriesAliases { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

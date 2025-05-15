@@ -2,27 +2,14 @@
 
 public class SeriesAlias : BaseAuditableEntity
 {
-    public int SeriesId { get; set; }
-
-    public string? IdType { get; set; }
-
-    public string? IdValue { get; set; }
+    public Guid SeriesId { get; set; }
+    public string IdType { get; set; }
+    public string IdValue { get; set; }
     
-
-    private bool _done;
-    public bool Done
+    public SeriesAlias(string idType, string idValue)
     {
-        get => _done;
-        set
-        {
-            if (value && !_done)
-            {
-                AddDomainEvent(new TodoItemCompletedEvent(this));
-            }
-
-            _done = value;
-        }
+        IdType = idType;
+        IdValue = idValue;
     }
-
-    public TodoList List { get; set; } = null!;
+    
 }

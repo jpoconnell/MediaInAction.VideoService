@@ -1,7 +1,4 @@
-﻿using VideoService2.Application.TodoItems.Commands.CreateTodoItem;
-using VideoService2.Application.TodoItems.Commands.UpdateTodoItem;
-using VideoService2.Application.TodoLists.Commands.CreateTodoList;
-using VideoService2.Domain.Entities;
+﻿using VideoService2.Domain.Entities;
 
 namespace VideoService2.Application.FunctionalTests.TodoItems.Commands;
 

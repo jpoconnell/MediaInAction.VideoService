@@ -1,5 +1,4 @@
 ﻿using VideoService2.Application.Common.Exceptions;
-using VideoService2.Application.TodoLists.Commands.CreateTodoList;
 using VideoService2.Domain.Entities;
 
 namespace VideoService2.Application.FunctionalTests.TodoLists.Commands;

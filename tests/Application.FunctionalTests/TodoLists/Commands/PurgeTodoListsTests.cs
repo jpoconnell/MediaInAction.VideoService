@@ -1,7 +1,6 @@
 ﻿using VideoService2.Application.Common.Exceptions;
 using VideoService2.Application.Common.Security;
-using VideoService2.Application.TodoLists.Commands.CreateTodoList;
-using VideoService2.Application.TodoLists.Commands.PurgeTodoLists;
+using VideoService2.Application.Series.Commands.PurgeSeries;
 using VideoService2.Domain.Entities;
 
 namespace VideoService2.Application.FunctionalTests.TodoLists.Commands;

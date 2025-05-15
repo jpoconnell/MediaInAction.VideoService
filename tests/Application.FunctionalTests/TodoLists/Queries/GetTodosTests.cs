@@ -1,5 +1,4 @@
-﻿using VideoService2.Application.TodoLists.Queries.GetTodos;
-using VideoService2.Domain.Entities;
+﻿using VideoService2.Domain.Entities;
 using VideoService2.Domain.ValueObjects;
 
 namespace VideoService2.Application.FunctionalTests.TodoLists.Queries;

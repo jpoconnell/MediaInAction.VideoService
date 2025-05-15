@@ -1,6 +1,5 @@
 ﻿using VideoService2.Application.Common.Behaviours;
 using VideoService2.Application.Common.Interfaces;
-using VideoService2.Application.TodoItems.Commands.CreateTodoItem;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;

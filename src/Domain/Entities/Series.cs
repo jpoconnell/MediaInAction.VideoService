@@ -1,33 +1,54 @@
-﻿namespace VideoService2.Domain.Entities;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace VideoService2.Domain.Entities;
 
 public class Series : BaseAuditableEntity
 {
-    public int ListId { get; set; }
+    public string Name { get; set; }
+    public int FirstAiredYear { get; set; }
 
-    public string? Title { get; set; }
+    public MediaStatus Status { get; set; }
+    public string? ImageName { get; set; }
+    public List<SeriesAlias> SeriesAliases { get; private set; }
 
-    public string? Note { get; set; }
-
-    public PriorityLevel Priority { get; set; }
-
-    public DateTime? Reminder { get; set; }
-
-    public IList<SeriesAlias> SeriesAliases { get; private set; } = new List<SeriesAlias>();
-    
-    private bool _done;
-    public bool Done
+    public Series(string name,int year, List<SeriesAlias> seriesAliases)
     {
-        get => _done;
-        set
-        {
-            if (value && !_done)
-            {
-                AddDomainEvent(new TodoItemCompletedEvent(this));
-            }
-
-            _done = value;
-        }
+        Name = name;
+        FirstAiredYear = year;
+        SeriesAliases = seriesAliases;
     }
 
-    public TodoList List { get; set; } = null!;
+    internal Series(
+        Guid id,
+        [NotNull] string name,
+        int firstAiredYear,
+        [NotNull] MediaType seriesType, List<SeriesAlias> seriesAliases, bool isActive = true,
+        string imageName = ""
+    )
+    {
+        Name = name;
+        ImageName = imageName;
+        FirstAiredYear = firstAiredYear;
+        SeriesAliases = new List<SeriesAlias>();
+    }
+    
+    public Series AddSeriesAlias(Guid id, Guid seriesId, string idType, string idValue )
+    {
+        var existingAliasForSeries = SeriesAliases.SingleOrDefault(o => o.SeriesId == seriesId &&
+            o.IdType == idType && 
+            o.IdValue == idValue);
+
+        if (existingAliasForSeries != null)
+        {
+
+        }
+        else
+        {
+            var seriesAlias = new SeriesAlias( idType, idValue);
+            SeriesAliases.Add(seriesAlias);
+        }
+
+        return this;
+    }
+    
 }

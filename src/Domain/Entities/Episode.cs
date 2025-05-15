@@ -1,31 +1,31 @@
-﻿namespace VideoService2.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace VideoService2.Domain.Entities;
 
 public class Episode : BaseAuditableEntity
 {
-    public int ListId { get; set; }
+    [Required]
+    public Guid SeriesId { get; set; }
+    [Required]
+    public int SeasonNum { get; set; }
+    [Required]
+    public int EpisodeNum { get; set; }
+    public MediaStatus Status { get; set; }
 
-    public string? Title { get; set; }
-
-    public string? Note { get; set; }
-
-    public PriorityLevel Priority { get; set; }
-
-    public DateTime? Reminder { get; set; }
-
-    private bool _done;
-    public bool Done
+    public DateTime AiredDate { get; set; }
+    public string EpisodeName { get; set; }
+    public string AltEpisodeId { get; set; }
+    public string SeasonEpisode { get; set; }
+    public string Source { get; set; }
+    public List<EpisodeAlias> EpisodeAliases { get;  set; }
+    
+    private Episode(string episodeName, string altEpisodeId, string seasonEpisode, string source, List<EpisodeAlias> episodeAliases)
     {
-        get => _done;
-        set
-        {
-            if (value && !_done)
-            {
-                AddDomainEvent(new TodoItemCompletedEvent(this));
-            }
-
-            _done = value;
-        }
+        EpisodeName = episodeName;
+        AltEpisodeId = altEpisodeId;
+        SeasonEpisode = seasonEpisode;
+        Source = source;
+        EpisodeAliases = episodeAliases;
     }
-
-    public TodoList List { get; set; } = null!;
+    
 }

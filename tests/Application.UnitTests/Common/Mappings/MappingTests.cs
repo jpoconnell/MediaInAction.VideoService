@@ -3,10 +3,10 @@ using System.Runtime.CompilerServices;
 using AutoMapper;
 using VideoService2.Application.Common.Interfaces;
 using VideoService2.Application.Common.Models;
-using VideoService2.Application.TodoItems.Queries.GetTodoItemsWithPagination;
-using VideoService2.Application.TodoLists.Queries.GetTodos;
+using VideoService2.Application.Series.Queries.GetSeriesListWithPagination;
 using VideoService2.Domain.Entities;
 using NUnit.Framework;
+using VideoService2.Application.Series.Queries.GetSeriesList;
 
 namespace VideoService2.Application.UnitTests.Common.Mappings;
 
@@ -30,11 +30,11 @@ public class MappingTests
     }
 
     [Test]
-    [TestCase(typeof(TodoList), typeof(TodoListDto))]
-    [TestCase(typeof(TodoItem), typeof(TodoItemDto))]
-    [TestCase(typeof(TodoList), typeof(LookupDto))]
-    [TestCase(typeof(TodoItem), typeof(LookupDto))]
-    [TestCase(typeof(TodoItem), typeof(TodoItemBriefDto))]
+    [TestCase(typeof(Series), typeof(TodoListDto))]
+    [TestCase(typeof(Series), typeof(TodoItemDto))]
+    [TestCase(typeof(Series), typeof(LookupDto))]
+    [TestCase(typeof(Series), typeof(LookupDto))]
+    [TestCase(typeof(Series), typeof(SeriesBriefDto))]
     public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
     {
         var instance = GetInstanceOf(source);
