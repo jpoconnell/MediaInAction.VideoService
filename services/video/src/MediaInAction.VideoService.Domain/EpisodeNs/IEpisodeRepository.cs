@@ -33,11 +33,9 @@ public interface IEpisodeRepository : IRepository<Episode, Guid>
         ISpecification<Episode> spec,
         bool includeDetails = true,
         CancellationToken cancellationToken = default);
-
-    Task<Episode> GetBySlugSeasonEpisode(string slug, 
-        int season, int episode);
+    
     Task<Episode> GetByIdAsync(Guid episodeId);
-    Task<List<EpisodeAlias>> GetBySlug(string requestSlug);
+
     Task<List<Episode>> GetMyListAsync(ISpecification<Episode> spec, 
         bool includeDetails = true,
         CancellationToken cancellationToken = default);

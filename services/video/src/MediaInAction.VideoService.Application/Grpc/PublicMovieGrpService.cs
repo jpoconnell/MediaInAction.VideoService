@@ -3,8 +3,7 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using MediaInAction.VideoService.MovieNs;
 using Microsoft.Extensions.Logging;
-using moviegrpc;
-using VideoService.Movie.GrpcServer;
+using Moviegrpc;
 
 namespace MediaInAction.VideoService.Grpc;
 
@@ -32,7 +31,9 @@ public class PublicMovieGrpService : MovieGrpcService.MovieGrpcServiceBase
         return movieModel;
     }
     
-    public override async Task SearchMovies(SearchRequest request, IServerStreamWriter<MovieModel> responseStream, ServerCallContext context)
+    public override async Task SearchMovies(SearchRequest request, 
+        IServerStreamWriter<MovieModel> responseStream, 
+        ServerCallContext context)
     {
         var movieList = await  _movieRepository.GetListAsync();
         foreach (var movie in movieList)
@@ -62,6 +63,19 @@ public class PublicMovieGrpService : MovieGrpcService.MovieGrpcServiceBase
                 await responseStream.WriteAsync(movieModel);
             }
         }
+    }
+    
+    
+    public override async Task<MovieModel> SearchOneMovie(SearchRequest request, ServerCallContext context)
+    {
+        var movie =
+            await _movieRepository.FindByMovieNameYear(request.Name, request.Year);
+        if (movie != null)
+        {
+            var movieModel = TranslateMovie(movie);
+            return movieModel;
+        }
+        return null;
     }
     
     private MovieModel TranslateMovie(Movie movie)

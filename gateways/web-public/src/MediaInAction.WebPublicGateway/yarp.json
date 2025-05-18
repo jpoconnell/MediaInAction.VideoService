@@ -1,0 +1,232 @@
+﻿{
+  "ReverseProxy": {
+    "Routes": {
+      "AbpApi": {
+        "ClusterId": "Administration",
+        "Match": {
+          "Path": "/api/abp/{**catch-all}"
+        }
+      },
+      "Identity Service": {
+        "ClusterId": "Identity",
+        "Match": {
+          "Path": "/api/identity/{**everything}"
+        }
+      },
+      "Identity Service Swagger": {
+        "ClusterId": "Identity",
+        "Match": {
+          "Path": "/swagger-json/Identity/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Identity" }
+        ]
+      },
+      "FeatureManagement": {
+        "ClusterId": "Administration",
+        "Match": {
+          "Path": "/api/feature-management/{**everything}"
+        }
+      },
+      "PermissionManagement": {
+        "ClusterId": "Administration",
+        "Match": {
+          "Path": "/api/permission-management/{**everything}"
+        }
+      },
+      "SettingManagement": {
+        "ClusterId": "Administration",
+        "Match": {
+          "Path": "/api/setting-management/{**everything}"
+        }
+      },
+      "Administration Service Swagger": {
+        "ClusterId": "Administration",
+        "Match": {
+          "Path": "/swagger-json/Administration/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Administration" }
+        ]
+      },
+      "File Service": {
+        "ClusterId": "fileCluster",
+        "Match": {
+          "Path": "/api/file/{**everything}"
+        }
+      },
+      "File Service Swagger": {
+        "ClusterId": "fileCluster",
+        "Match": {
+          "Path": "/swagger-json/File/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/File" }
+        ]
+      },
+      "Emby Service": {
+        "ClusterId": "Emby",
+        "Match": {
+          "Path": "/api/emby/{**everything}"
+        }
+      },
+      "Emby Service Swagger": {
+        "ClusterId": "Emby",
+        "Match": {
+          "Path": "/swagger-json/Emby/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Emby" }
+        ]
+      },
+      "Deluge Service": {
+        "ClusterId": "Deluge",
+        "Match": {
+          "Path": "/api/deluge/{**everything}"
+        }
+      },
+      "Deluge Service Swagger": {
+        "ClusterId": "Deluge",
+        "Match": {
+          "Path": "/swagger-json/Deluge/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Deluge" }
+        ]
+      },
+      "Video Service": {
+        "ClusterId": "Video",
+        "Match": {
+          "Path": "/api/video/{**everything}"
+        }
+      },
+      "Video Service Swagger": {
+        "ClusterId": "Video",
+        "Match": {
+          "Path": "/swagger-json/Video/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Video" }
+        ]
+      },
+      "Cmskit Public Service": {
+        "ClusterId": "CmsKit",
+        "Match": {
+          "Path": "/api/cms-kit-public/{**everything}"
+        }
+      },
+      "Cmskit Admin Service": {
+        "ClusterId": "CmsKit",
+        "Match": {
+          "Path": "/api/cms-kit-admin/{**everything}"
+        }
+      },
+      "Cmskit Service Swagger": {
+        "ClusterId": "CmsKit",
+        "Match": {
+          "Path": "/swagger-json/Cmskit/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Cmskit" }
+        ]
+      },
+      "Trakt Service": {
+        "ClusterId": "Trakt",
+        "Match": {
+          "Path": "/api/trakt/{**everything}"
+        }
+      },
+      "Trakt Service Swagger": {
+        "ClusterId": "Trakt",
+        "Match": {
+          "Path": "/swagger-json/Trakt/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Trakt" }
+        ]
+      }
+    },
+    "Clusters": {
+      "Identity": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44351",
+            "MetaData": {
+              "PublicAddress": "https://identity.eshoponabp.dev"
+            }
+          }
+        }
+      },
+      "Administration": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44353",
+            "MetaData": {
+              "PublicAddress": "https://admininstration.eshop.dev"
+            }
+          }          
+        }
+      },
+      "FileCluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44355",
+            "MetaData": {
+              "PublicAddress": "https://file.eshoponabp.dev"
+            }
+          }
+        }
+      },
+      "Emby": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44354",
+            "MetaData": {
+              "PublicAddress": "https://emby.eshoponabp.dev"
+            }
+          }
+        }
+      },
+      "Deluge": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44359",
+            "MetaData": {
+              "PublicAddress": "https://deluge.eshoponabp.dev"
+            }
+          }
+        }
+      },
+      "Video": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44356",
+            "MetaData": {
+              "PublicAddress": "https://video.eshoponabp.dev"
+            }
+          }
+        }
+      },
+      "CmsKit": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44358",
+            "MetaData": {
+              "PublicAddress": "https://cmskit.eshoponabp.dev"
+            }
+          }
+        }
+      },
+      "Trakt": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44357",
+            "MetaData": {
+              "PublicAddress": "https://trakt.eshoponabp.dev"
+            }
+          }
+        }
+      }
+    }
+  }
+}

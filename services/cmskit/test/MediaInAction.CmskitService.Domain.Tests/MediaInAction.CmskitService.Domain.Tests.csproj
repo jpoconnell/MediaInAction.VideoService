@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>MediaInAction.CmskitService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MediaInAction.CmskitService.EntityFrameworkCore.Tests\MediaInAction.CmskitService.EntityFrameworkCore.Tests.csproj" />
+  </ItemGroup>
+
+</Project>

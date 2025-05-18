@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
-using episodeGrpc;
-using mapperGrpc;
+using Episodegrpc;
+using Mappergrpc;
 using MediaInAction.VideoService.EpisodeNs;
 using MediaInAction.VideoService.EpisodeNs.Dtos;
 using MediaInAction.VideoService.MovieNs;
 using MediaInAction.VideoService.MovieNs.Dtos;
 using MediaInAction.VideoService.SeriesNs;
+using MediaInAction.VideoService.SeriesNs.Dtos;
 using MediaInAction.VideoService.ToBeMappedNs;
-using movieGrpc;
+using Moviegrpc;
 using Volo.Abp.AutoMapper;
 
 namespace MediaInAction.VideoService

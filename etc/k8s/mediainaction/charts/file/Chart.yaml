@@ -1,0 +1,6 @@
+apiVersion: v2
+name: file
+appVersion: "1.0"
+description: MediaInAction File Microservice
+version: 1.0.0
+type: application

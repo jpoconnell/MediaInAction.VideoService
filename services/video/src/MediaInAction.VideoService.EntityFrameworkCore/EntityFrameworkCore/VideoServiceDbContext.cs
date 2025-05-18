@@ -31,17 +31,20 @@ public class VideoServiceDbContext : AbpDbContext<VideoServiceDbContext>, IVideo
 
         modelBuilder.ConfigureVideoService();
         /* Configure your own tables/entities inside here */
-
-
+        
         modelBuilder.Entity<Series>(b =>
         {
             b.ToTable(VideoServiceDbProperties.DbTablePrefix + "Seriess", VideoServiceDbProperties.DbSchema);
             b.ConfigureByConvention(); //auto configure for the base class props
             b.Property(q => q.Name).HasMaxLength(SeriesConstants.PaymentStatusMaxLength);
             b.Navigation(q => q.SeriesAliases).UsePropertyAccessMode(PropertyAccessMode.Property);
-            b.HasIndex(q => q.Name);
+            b.HasIndex(q => new { q.Name, q.FirstAiredYear });
         });
-
+        
+        modelBuilder.Entity<Series>()
+            .HasIndex(b => new {b.Name, b.FirstAiredYear})
+            .IsUnique();
+        
         modelBuilder.Entity<SeriesAlias>(b =>
         {
             b.ToTable(VideoServiceDbProperties.DbTablePrefix + "SeriesAliases",
@@ -52,5 +55,77 @@ public class VideoServiceDbContext : AbpDbContext<VideoServiceDbContext>, IVideo
             b.Property(q => q.IdValue).IsRequired();
             b.Property(q => q.IdType).IsRequired();
         });
+        
+        modelBuilder.Entity<SeriesAlias>()
+            .HasIndex(b => new {b.SeriesId, b.IdType, b.IdValue})
+            .IsUnique();
+        
+        modelBuilder.Entity<Movie>(b =>
+        {
+            b.ToTable(VideoServiceDbProperties.DbTablePrefix + "Movies", VideoServiceDbProperties.DbSchema);
+            b.ConfigureByConvention(); //auto configure for the base class props
+            b.Property(q => q.Name).HasMaxLength(SeriesConstants.PaymentStatusMaxLength);
+            b.Navigation(q => q.MovieAliases).UsePropertyAccessMode(PropertyAccessMode.Property);
+            b.HasIndex(q => new { q.Name, q.FirstAiredYear });
+        });
+        
+        modelBuilder.Entity<Movie>()
+            .HasIndex(b => new {b.Name, b.FirstAiredYear})
+            .IsUnique();
+        
+        modelBuilder.Entity<MovieAlias>(b =>
+        {
+            b.ToTable(VideoServiceDbProperties.DbTablePrefix + "MovieAliases",
+                VideoServiceDbProperties.DbSchema);
+            b.ConfigureByConvention(); //auto configure for the base class props
+
+            b.Property<Guid>("MovieId").IsRequired();
+            b.Property(q => q.IdValue).IsRequired();
+            b.Property(q => q.IdType).IsRequired();
+        });
+
+        modelBuilder.Entity<MovieAlias>()
+            .HasIndex(b => new {b.MovieId, b.IdType, b.IdValue})
+            .IsUnique();
+        
+        // episode
+        modelBuilder.Entity<Episode>(b =>
+        {
+            b.ToTable(VideoServiceDbProperties.DbTablePrefix + "Episodes", VideoServiceDbProperties.DbSchema);
+            b.ConfigureByConvention(); //auto configure for the base class props
+            b.Navigation(q => q.EpisodeAliases).UsePropertyAccessMode(PropertyAccessMode.Property);
+            b.HasIndex(q => new { q.SeriesId, q.SeasonNum, q.EpisodeNum });
+        });
+        
+        modelBuilder.Entity<Episode>()
+            .HasIndex(b => new {b.SeriesId, b.SeasonNum, b.EpisodeNum})
+            .IsUnique();
+        
+        modelBuilder.Entity<EpisodeAlias>(b =>
+        {
+            b.ToTable(VideoServiceDbProperties.DbTablePrefix + "EpisodeAliases",
+                VideoServiceDbProperties.DbSchema);
+            b.ConfigureByConvention(); //auto configure for the base class props
+            b.Property<Guid>("EpisodeId").IsRequired();
+            b.Property(q => q.IdValue).IsRequired();
+            b.Property(q => q.IdType).IsRequired();
+        });
+
+        modelBuilder.Entity<EpisodeAlias>()
+            .HasIndex(b => new {b.EpisodeId, b.IdType, b.IdValue})
+            .IsUnique();
+        
+        // mapper
+        
+        modelBuilder.Entity<ToBeMapped>(b =>
+        {
+            b.ToTable(VideoServiceDbProperties.DbTablePrefix + "ToBeMappeds",
+                VideoServiceDbProperties.DbSchema);
+            b.ConfigureByConvention(); //auto configure for the base class props
+        });
+
+        modelBuilder.Entity<ToBeMapped>()
+            .HasIndex(b => new {b.Alias})
+            .IsUnique();
     }
 }

@@ -1,31 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <RootNamespace>MediaInAction.Shared.Grpc</RootNamespace>
     </PropertyGroup>
-
+    
     <ItemGroup>
-        <None Remove="../Proto/movie.proto" />
-        <None Remove="../Proto/episode.proto" />
-        <None Remove="../Proto/series.proto" />
-        <None Remove="../Proto/mapper.proto" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Google.Protobuf" Version="3.31.0" />
+        <Protobuf Include="../../Proto/series.proto" Link="Protos/series.proto" />
+        <Protobuf Include="../../Proto/episode.proto" Link="Protos/episode.proto" />
+        <Protobuf Include="../../Proto/mapper.proto" Link="Protos/mapper.proto" />
+        <Protobuf Include="../../Proto/movie.proto" Link="Protos/movie.proto" />
+        <PackageReference Include="Google.Protobuf" Version="3.30.2" />
+        <PackageReference Include="Grpc.Core.Api" Version="2.71.0" />
         <PackageReference Include="Grpc" Version="2.46.6" />
-        <PackageReference Include="Grpc.Tools" Version="2.72.0">
+        <PackageReference Include="Grpc.Tools" Version="2.71.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
 
-    <ItemGroup>
-        <Protobuf Include="Proto/movie.proto" Link="Protos/movie.proto" />
-        <Protobuf Include="Proto/episode.proto" Link="Protos/episode.proto" />
-        <Protobuf Include="Proto/series.proto" Link="Protos/series.proto" />
-        <Protobuf Include="Proto/mapper.proto" Link="Protos/mapper.proto" />
-    </ItemGroup>
+
     
 </Project>

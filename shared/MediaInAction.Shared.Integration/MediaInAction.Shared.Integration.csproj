@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-      <TargetFramework>net8.0</TargetFramework>
-      <Version>2.0.0</Version>
+      <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
       <PackageReference Include="AutoMapper" Version="13.0.1" />
-      <PackageReference Include="refit" Version="7.1.2" />
-      <PackageReference Include="SSH.NET" Version="2024.1.0" />
+      <PackageReference Include="refit" Version="8.0.0" />
+      <PackageReference Include="SSH.NET" Version="2025.0.0" />
       <PackageReference Include="Trakt.NET" Version="1.4.0" />
   </ItemGroup>
     

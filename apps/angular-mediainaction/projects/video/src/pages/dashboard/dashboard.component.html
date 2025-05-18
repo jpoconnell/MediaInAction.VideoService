@@ -1,0 +1,11 @@
+ <h1> {{"VideoService::Dashboard:Title" | abpLocalization}}</h1>
+ <br>
+
+<div *ngIf="dashboard$ | async as dashboard">
+    <div class="row">
+      <div class="col col-md-3">
+        <app-series-status-chart [data]="dashboard.seriesStatusDto">
+        </app-series-status-chart>
+      </div>
+    </div>
+</div>

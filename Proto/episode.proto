@@ -1,7 +1,7 @@
 ﻿syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
-package episodeGrpc;
+package episodegrpc;
 
 service EpisodeGrpcService {
 	rpc CreateUpdateEpisode (EpisodeModel) returns (EpisodeModel);

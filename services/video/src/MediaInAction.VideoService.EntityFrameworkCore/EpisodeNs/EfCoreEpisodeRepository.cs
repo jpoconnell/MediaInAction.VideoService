@@ -150,17 +150,22 @@ namespace MediaInAction.VideoService.EpisodeNs
                 .ToListAsync(GetCancellationToken(cancellationToken));
         }
 
-        public Task<Episode> GetBySlugSeasonEpisode(string slug, int season, int episode)
+        public async Task<Episode> GetBySlugSeasonEpisode(Guid seriesId, int season, int episode)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await (await GetDbSetAsync())
+                    .IncludeDetails(true)
+                    .Where(s => s.SeriesId == seriesId && s.SeasonNum == season && s.EpisodeNum == episode)
+                    .FirstAsync();
+            }
+            catch 
+            {
+                return null;
+            }
         }
 
         public Task<Episode> GetByIdAsync(Guid episodeId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<EpisodeAlias>> GetBySlug(string requestSlug)
         {
             throw new NotImplementedException();
         }

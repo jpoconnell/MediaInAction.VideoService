@@ -31,4 +31,44 @@ public class EfCoreSeriesAliasRepository : EfCoreRepository<VideoServiceDbContex
             return null;
         }
     }
+
+    public Task<List<SeriesAlias>> GetByIdType(string idType)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<SeriesAlias> FindBySeriesTypeValueAsync(Guid seriesId, string idType, string alias)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<SeriesAlias> GetBySeriesType(Guid id, string type)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<SeriesAlias> FindBySeriesTypeAsync(Guid seriesId, string idType)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<SeriesAlias> FindByIdValue(string idValue)
+    {
+        try
+        {
+            var dbSet = await GetDbSetAsync();
+            return await dbSet
+                .Where(e => e.IdValue == idValue )
+                .FirstAsync();
+        }
+        catch 
+        {
+            return null;
+        }
+    }
+
+    Task<SeriesAlias> ISeriesAliasRepository.GetByIdValue(string idValue)
+    {
+        throw new NotImplementedException();
+    }
 }

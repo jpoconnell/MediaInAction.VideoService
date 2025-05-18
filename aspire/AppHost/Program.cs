@@ -28,9 +28,10 @@ var videoService = builder.AddProject<Projects.MediaInAction_VideoService_HttpAp
     .WaitFor(administrationService);
 
 
-var traktService = builder.AddProject<Projects.MediaInAction_TraktService_HttpApi_Host>("traktService", profile)
-    .WithReference(videoService);
 /*
+var videoBlazorService = builder.AddProject<Projects.MediaInAction_VideoService_Blazor("videoBlazorService", profile)
+    .WithReference(videoService);
+
 var fileService = builder.AddProject<Projects.MediaInAction_FileService_HttpApi_Host>("fileService", profile)
     .WithReference(videoService);
 */

@@ -1,0 +1,178 @@
+@page "/series"
+@using MediaInAction.VideoService.SeriesNs
+@using MediaInAction.VideoService.Localization
+@using MediaInAction.VideoService.SeriesNs.Dtos
+@using Volo.Abp.AspNetCore.Components.Web
+@inherits VideoServiceComponentBase
+@inject ISeriesAppService SeriesAppService
+@inject AbpBlazorMessageLocalizerHelper<VideoServiceResource> LH
+<Card>
+    <CardHeader>
+        <Row Class="justify-content-between">
+            <Column ColumnSize="ColumnSize.IsAuto">
+                <h2>@L["Seriess"]</h2>
+            </Column>
+            <Column ColumnSize="ColumnSize.IsAuto">
+                    @if (CanCreateSeries)
+                    {
+                        <Button Color="Color.Primary"
+                                Clicked="OpenCreateSeriesModal">
+                            @L["NewSeries"]
+                        </Button>
+                    }
+            </Column>
+        </Row>
+    </CardHeader>
+    <CardBody>
+        <DataGrid TItem="SeriesDto"
+                  Data="SeriesList"
+                  ReadData="OnDataGridReadAsync"
+                  TotalItems="TotalCount"
+                  ShowPager="true"
+                  PageSize="PageSize">
+            <DataGridColumns>
+                <DataGridColumn Width="150px"
+                                TItem="SeriesDto"
+                                Field="@nameof(SeriesDto.Id)"
+                                Sortable="false"
+                                Caption="@L["Actions"]">
+                    <DisplayTemplate>
+                        <Dropdown>
+                            <DropdownToggle Color="Color.Primary">
+                                @L["Actions"]
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                @if (CanEditSeries)
+                                {
+                                    <DropdownItem Clicked="() => OpenEditSeriesModal(context)">
+                                        @L["Edit"]
+                                    </DropdownItem>
+                                }
+                                @if (CanDeleteSeries)
+                                {
+                                    <DropdownItem Clicked="() => DeleteSeriesAsync(context)">
+                                        @L["Delete"]
+                                    </DropdownItem>
+                                }
+                            </DropdownMenu>
+                        </Dropdown>
+                    </DisplayTemplate>
+                </DataGridColumn>
+                <DataGridColumn TItem="SeriesDto"
+                                Field="@nameof(SeriesDto.SeriesName)"
+                                Caption="@L["Name"]"></DataGridColumn>
+                <DataGridColumn TItem="SeriesDto"
+                                Field="@nameof(SeriesDto.CreateDate)"
+                                Caption="@L["CreateDate"]">
+                    <DisplayTemplate>
+                        @context.CreateDate.ToShortDateString()
+                    </DisplayTemplate>
+                </DataGridColumn>
+            </DataGridColumns>
+        </DataGrid>
+    </CardBody>
+</Card>
+
+<Modal @ref="CreateSeriesModal">
+    <ModalBackdrop />
+    <ModalContent IsCentered="true">
+        <Form>
+            <ModalHeader>
+                <ModalTitle>@L["NewSeries"]</ModalTitle>
+                <CloseButton Clicked="CloseCreateSeriesModal" />
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@CreateValidationsRef" Model="@NewSeries" ValidateOnLoad="false">
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["Name"]</FieldLabel>
+                            <TextEdit @bind-Text="@NewSeries.Name">
+                                <Feedback>
+                                    <ValidationError/>
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+                    <Field>
+                        <FieldLabel>@L["CreateDate"]</FieldLabel>
+                        <DateEdit TValue="DateTime" @bind-Date="@NewSeries.CreateDate"/>
+                    </Field>
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["FirstAiredYear"]</FieldLabel>
+                            <MemoEdit Rows="5" @bind-Int="@NewSeries.FirstAiredYear">
+                                <Feedback>
+                                    <ValidationError/>
+                                </Feedback>
+                            </MemoEdit>
+                        </Field>
+                    </Validation>
+                </Validations>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseCreateSeriesModal">
+                    @L["Cancel"]
+                </Button>
+                <Button Color="Color.Primary"
+                        Type="@ButtonType.Submit"
+                        PreventDefaultOnSubmit="true"
+                        Clicked="CreateSeriesAsync">
+                    @L["Save"]
+                </Button>
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
+
+<Modal @ref="EditSeriesModal">
+    <ModalBackdrop />
+    <ModalContent IsCentered="true">
+        <Form>
+            <ModalHeader>
+                        <ModalTitle>@EditingSeries.Name</ModalTitle>
+                        <CloseButton Clicked="CloseEditSeriesModal" />
+                    </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@EditValidationsRef" Model="@EditingSeries" ValidateOnLoad="false">
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["Name"]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingSeries.Name">
+                                <Feedback>
+                                    <ValidationError/>
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+                    <Field>
+                        <FieldLabel>@L["BirthDate"]</FieldLabel>
+                        <DateEdit TValue="DateTime" @bind-Date="@EditingSeries.CreateDate"/>
+                    </Field>
+                    <Validation>
+                        <Field>
+                            <FieldLabel>@L["ShortBio"]</FieldLabel>
+                            <MemoEdit Rows="5" @bind-Int="@EditingSeries.FirstAiredYear">
+                                <Feedback>
+                                    <ValidationError/>
+                                </Feedback>
+                            </MemoEdit>
+                        </Field>
+                    </Validation>
+                </Validations>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseEditSeriesModal">
+                    @L["Cancel"]
+                </Button>
+                <Button Color="Color.Primary"
+                        Type="@ButtonType.Submit"
+                        PreventDefaultOnSubmit="true"
+                        Clicked="UpdateSeriesAsync">
+                    @L["Save"]
+                </Button>
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>

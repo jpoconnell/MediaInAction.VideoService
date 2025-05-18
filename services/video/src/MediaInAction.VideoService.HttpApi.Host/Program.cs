@@ -29,14 +29,6 @@ public class Program
             
             builder.AddServiceDefaults();
             
-            builder.WebHost.ConfigureKestrel(options =>
-            {
-                options.ListenAnyIP(8181, listenOptions =>
-                {
-                    listenOptions.Protocols = HttpProtocols.Http2;
-                });
-            });
-            
             await builder.AddApplicationAsync<VideoServiceHttpApiHostModule>();
             var app = builder.Build();
             app.UseAbpSerilogEnrichers();

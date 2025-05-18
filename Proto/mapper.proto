@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-package mapperGrpc;
+package mappergrpc;
 
 service MapperGrpcService {
 	rpc CreateUpdateMapper (MapperModel) returns (MapperModel);

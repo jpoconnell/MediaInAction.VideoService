@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>MediaInAction.FileService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MediaInAction.FileService.Application\MediaInAction.FileService.Application.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+    <ProjectReference Include="..\MediaInAction.FileService.Domain.Tests\MediaInAction.FileService.Domain.Tests.csproj" />
+    <ProjectReference Include="..\MediaInAction.FileService.TestBase\MediaInAction.FileService.TestBase.csproj" />
+  </ItemGroup>
+
+</Project>

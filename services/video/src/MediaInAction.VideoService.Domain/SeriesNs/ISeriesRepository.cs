@@ -30,4 +30,9 @@ public interface ISeriesRepository : IRepository<Series, Guid>
         CancellationToken cancellationToken = default);
     
     Task<Series> GetByIdAsync(Guid id);
+    
+    Task<List<Series>> GetListAsync(int skipCount, 
+        int maxResultCount, 
+        string sorting, 
+        string Filter);
 }

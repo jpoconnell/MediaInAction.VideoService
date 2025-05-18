@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31320.298
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{138BBFFC-09B9-49FB-9C57-E25327CCE0C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A5E7F07B-7A5D-416D-A9E0-2009A48CBE2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInAction.WebPublicGateway", "src\MediaInAction.WebPublicGateway\MediaInAction.WebPublicGateway.csproj", "{4BD81956-D240-4C03-A762-177292ABE0C3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{9CCB9274-B4CD-462F-8D17-9BC3AFAF8088}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInAction.Shared.Hosting.Gateways", "..\..\shared\MediaInAction.Shared.Hosting.Gateways\MediaInAction.Shared.Hosting.Gateways.csproj", "{57D0E0F8-2EAF-4FBC-A591-F51BA0C5972A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4BD81956-D240-4C03-A762-177292ABE0C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BD81956-D240-4C03-A762-177292ABE0C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BD81956-D240-4C03-A762-177292ABE0C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BD81956-D240-4C03-A762-177292ABE0C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57D0E0F8-2EAF-4FBC-A591-F51BA0C5972A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57D0E0F8-2EAF-4FBC-A591-F51BA0C5972A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57D0E0F8-2EAF-4FBC-A591-F51BA0C5972A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57D0E0F8-2EAF-4FBC-A591-F51BA0C5972A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4BD81956-D240-4C03-A762-177292ABE0C3} = {138BBFFC-09B9-49FB-9C57-E25327CCE0C1}
+		{57D0E0F8-2EAF-4FBC-A591-F51BA0C5972A} = {9CCB9274-B4CD-462F-8D17-9BC3AFAF8088}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1753A143-A9EF-43ED-970D-C71BAD179AE6}
+	EndGlobalSection
+EndGlobal

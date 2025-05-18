@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using episodeGrpc;
+using Episodegrpc;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MediaInAction.VideoService.EpisodeNs;
+using MediaInAction.VideoService.SeriesNs;
 using Microsoft.Extensions.Logging;
-using VideoService.Episode.GrpcServer;
 
 
 namespace MediaInAction.VideoService.Grpc;
@@ -15,14 +15,17 @@ public class PublicEpisodeGrpService : EpisodeGrpcService.EpisodeGrpcServiceBase
 {
     private readonly ILogger<PublicEpisodeGrpService> _logger;
     private readonly IEpisodeRepository _episodeRepository;
+    private readonly ISeriesAliasRepository _seriesAliasRepository;
     private readonly EpisodeManager _episodeManager;
     
     public PublicEpisodeGrpService(ILogger<PublicEpisodeGrpService> logger, 
         IEpisodeRepository episodeRepository,
+        ISeriesAliasRepository seriesRepository,
         EpisodeManager episodeManager)
     {
         _logger = logger;
         _episodeRepository = episodeRepository;
+        _seriesAliasRepository = seriesRepository;
         _episodeManager = episodeManager;
     }
 
@@ -42,8 +45,9 @@ public class PublicEpisodeGrpService : EpisodeGrpcService.EpisodeGrpcServiceBase
     
     public override async Task SearchEpisode(SearchRequest request, IServerStreamWriter<EpisodeModel> responseStream, ServerCallContext context)
     {
+        var seriesAlias = await _seriesAliasRepository.FindByIdValue(request.Slug);
         var episode =
-            await _episodeRepository.GetBySlugSeasonEpisode(request.Slug, request.Season, request.Episode);
+            await _episodeRepository.FindBySeriesIdSeasonEpisodeNum(seriesAlias.SeriesId, request.Season, request.Episode);
         if (episode != null)
         {
             var episodeModel = TranslateEpisode(episode);
@@ -53,8 +57,10 @@ public class PublicEpisodeGrpService : EpisodeGrpcService.EpisodeGrpcServiceBase
     
     public override async Task<EpisodeModel> SearchOneEpisode(SearchRequest request, ServerCallContext context)
     {
+        var seriesAlias = await _seriesAliasRepository.FindByIdValue(request.Slug);
+
         var episode =
-            await _episodeRepository.GetBySlugSeasonEpisode(request.Slug, request.Season, request.Episode);
+            await _episodeRepository.FindBySeriesIdSeasonEpisodeNum(seriesAlias.SeriesId, request.Season, request.Episode);
         if (episode != null)
         {
             var episodeModel = TranslateEpisode(episode);
@@ -71,13 +77,13 @@ public class PublicEpisodeGrpService : EpisodeGrpcService.EpisodeGrpcServiceBase
         episodeModel.Episode = episode.EpisodeNum;
         episodeModel.EpisodeName = episode.EpisodeName;
         episodeModel.AiredDate = Timestamp.FromDateTimeOffset(airedDate.ToLocalTime());
-     
+        episodeModel.Externalid = episode.Id.ToString();
         foreach (var episodeAlias in episode.EpisodeAliases)
         {
             var newEpisodeAlias = new EpisodeAliasModel();
             newEpisodeAlias.IdType = episodeAlias.IdType;
             newEpisodeAlias.IdValue = episodeAlias.IdValue;
-            //episodeModel.Aliases.Add(newEpisodeAlias);
+            episodeModel.EpisodeAliases.Add(newEpisodeAlias);
             if (episodeAlias.IdType == "Slug")
             {
                 episodeModel.Slug = episodeAlias.IdValue;

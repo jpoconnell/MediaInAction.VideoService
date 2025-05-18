@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>MediaInAction.CmskitService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.4" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore.Sqlite" Version="9.1.1" />
+    <ProjectReference Include="..\MediaInAction.CmskitService.TestBase\MediaInAction.CmskitService.TestBase.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MediaInAction.CmskitService.EntityFrameworkCore\MediaInAction.CmskitService.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+
+</Project>

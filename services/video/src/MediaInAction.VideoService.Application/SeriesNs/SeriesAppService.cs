@@ -1,148 +1,142 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-using MediaInAction.VideoService.Localization;
 using MediaInAction.VideoService.Permissions;
+using MediaInAction.VideoService.SeriesAliasNs;
+using MediaInAction.VideoService.SeriesNs.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
-using Volo.Abp.Specifications;
+using Volo.Abp.Domain.Entities;
+using Volo.Abp.Domain.Repositories;
 
 namespace MediaInAction.VideoService.SeriesNs;
 
 [Authorize(VideoServicePermissions.Seriess.Default)]
-public class SeriesAppService : ApplicationService, ISeriesAppService
+public class SeriesAppService :
+    CrudAppService<
+        Series, //The Series entity
+        SeriesDto, //Used to show books
+        Guid, //Primary key of the book entity
+        PagedAndSortedResultRequestDto, //Used for paging/sorting
+        CreateUpdateSeriesDto>, //Used to create/update a book
+    ISeriesAppService //implement the ISeriesAppService
 {
-    private readonly SeriesManager _seriesManager;
-    private readonly ISeriesRepository _seriesRepository;
+    private readonly ISeriesAliasRepository _seriesAliasRepository;
 
-    public SeriesAppService(SeriesManager seriesManager,
-        ISeriesRepository seriesRepository
-    )
+    public SeriesAppService(
+        IRepository<Series, Guid> repository,
+        ISeriesAliasRepository seriesAliasRepository)
+        : base(repository)
     {
-        _seriesManager = seriesManager;
-        _seriesRepository = seriesRepository;
-        LocalizationResource = typeof(VideoServiceResource);
-        ObjectMapperContext = typeof(VideoServiceApplicationModule);
+        _seriesAliasRepository = seriesAliasRepository;
+        GetPolicyName = VideoServicePermissions.Seriess.Default;
+        GetListPolicyName = VideoServicePermissions.Seriess.Default;
+        CreatePolicyName = VideoServicePermissions.Seriess.Create;
+        UpdatePolicyName = VideoServicePermissions.Seriess.Update;
+        DeletePolicyName = VideoServicePermissions.Seriess.Create;
     }
 
-    [Authorize(VideoServicePermissions.Seriess.Create)]
-    public async Task<SeriesDto> CreateAsync(SeriesCreateDto input)
+    public override async Task<SeriesDto> GetAsync(Guid id)
     {
-        var createSeries = await _seriesManager.CreateUpdateAsync(input);
-        return CreateSeriesDtoMapping(createSeries);
-    }
-    
-    [Authorize(VideoServicePermissions.Seriess.Dashboard)]
-    public async Task<SeriesDashboardDto> GetDashboardAsync(DashboardInput input)
-    {
-        return new SeriesDashboardDto()
+        //Get the IQueryable<Series> from the repository
+        var queryable = await Repository.GetQueryableAsync();
+
+        //Prepare a query to join books and authors
+        var query = from series in queryable
+                    join seriesAlias in await _seriesAliasRepository.GetQueryableAsync() on series.Id equals seriesAlias.SeriesId
+                    where series.Id == id
+                    select new { series, seriesAlias };
+
+        //Execute the query and get the book with author
+        var queryResult = await AsyncExecuter.FirstOrDefaultAsync(query);
+        if (queryResult == null)
         {
-            SeriesStatusDto = await GetCountOfTotalSeriesStatusAsync(input.Filter),
-           // SeriesIsActiveDto = await GetCountOfTotalSeriesIsActiveAsync(input.Filter),
-        };
+            throw new EntityNotFoundException(typeof(Series), id);
+        }
+
+        var seriesDto = ObjectMapper.Map<Series, SeriesDto>(queryResult.series);
+        seriesDto.SeriesId = queryResult.seriesAlias.SeriesId;
+        return seriesDto;
     }
 
-    [Authorize(VideoServicePermissions.Seriess.SetAsInActive)]
-    public async Task SetAsInActiveAsync(Guid id)
+    public override async Task<PagedResultDto<SeriesDto>> GetListAsync(PagedAndSortedResultRequestDto input)
     {
-        var series = await _seriesRepository.GetAsync(id);
-        series.SetSeriesAsInActive();
-        await _seriesRepository.UpdateAsync(series);
-    }
-    private async Task GetCountOfTotalSeriesIsActiveAsync(string filter)
-    {
-        ISpecification<Series> specification = Specifications.SpecificationFactory.Create(filter);
-        var series = await _seriesRepository.GetDashboardAsync(specification, false);
-        //return CreateIsActiveDtoMapping(series);
-    }
+        //Get the IQueryable<Series> from the repository
+        var queryable = await Repository.GetQueryableAsync();
 
-    private Task<List<SeriesIsActiveDto>> CreateIsActiveDtoMapping(List<Series> series) 
-    {
-        throw new NotImplementedException();
-    }
+        //Prepare a query to join books and authors
+        var query = from series in queryable
+            join seriesAlias in await _seriesAliasRepository.GetQueryableAsync() on series.Id equals seriesAlias
+                .SeriesId
+                    select new { series, seriesAlias };
 
-    public Task<SeriesDto> GetAsync(Guid id)
-    {
-        throw new NotImplementedException();
-    }
+        //Paging
+        query = query
+            .OrderBy(NormalizeSorting(input.Sorting))
+            .Skip(input.SkipCount)
+            .Take(input.MaxResultCount);
 
-    public Task<List<SeriesDto>> GetMySeriessAsync(GetMySeriessInput input)
-    {
-        throw new NotImplementedException();
-    }
+        //Execute the query and get a list
+        var queryResult = await AsyncExecuter.ToListAsync(query);
 
-    public Task<List<SeriesDto>> GetSeriessAsync(GetSeriessInput input)
-    {
-        throw new NotImplementedException();
-    }
-    
-    public async Task<PagedResultDto<SeriesDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input)
-    {
-        var orders = await _seriesRepository.GetPagedListAsync(input.SkipCount, input.MaxResultCount, input.Sorting ?? "OrderDate", true);
+        //Convert the query result to a list of SeriesDto objects
+        var seriesDtos = queryResult.Select(x =>
+        {
+            var seriesDto = ObjectMapper.Map<Series, SeriesDto>(x.series);
+            seriesDto.SeriesId = x.seriesAlias.SeriesId;
+            return seriesDto;
+        }).ToList();
 
-        var totalCount = await _seriesRepository.GetCountAsync();
+        //Get the total count with another query
+        var totalCount = await Repository.GetCountAsync();
+
         return new PagedResultDto<SeriesDto>(
             totalCount,
-            CreateSeriesDtoMapping(orders)
+            seriesDtos
         );
-    }
-    
-    private async Task<List<SeriesStatusDto>> GetCountOfTotalSeriesStatusAsync(string filter)
-    {
-        ISpecification<Series> specification = Specifications.SpecificationFactory.Create(filter);
-        var series = await _seriesRepository.GetDashboardAsync(specification);
-        return CreateSeriesStatusDtoMapping(series);
+        
     }
 
-    private List<SeriesStatusDto> CreateSeriesStatusDtoMapping(List<Series> orders)
+    public async Task<ListResultDto<SeriesAliasLookupDto>> GetSeriesAliasLookupAsync()
     {
-        throw new NotImplementedException();
+        var seriesAliasList = await _seriesAliasRepository.GetListAsync();
+        return null;
+        /*
+        return new ListResultDto<SeriesAliasLookupDto>(
+            ObjectMapper.Map<List<Series>, List<SeriesAliasLookupDto>>(seriesAliasList)
+        );
+        */
     }
-    
-    private List<SeriesDto> CreateSeriesDtoMapping(List<Series> seriess)
+
+    private static string NormalizeSorting(string sorting)
     {
-        List<SeriesDto> dtoList = new List<SeriesDto>();
-        foreach (var series in seriess)
+        if (sorting.IsNullOrEmpty())
         {
-            dtoList.Add(CreateSeriesDtoMapping(series));
+            return $"series.{nameof(Series.Name)}";
         }
 
-        return dtoList;
-    }
-    
-    private SeriesDto CreateSeriesDtoMapping(Series series)
-    {
-        return new SeriesDto()
+        if (sorting.Contains("idValue", StringComparison.OrdinalIgnoreCase))
         {
-            SeriesAliasDtos = ObjectMapper.Map<List<SeriesAlias>, List<SeriesAliasDto>>(series.SeriesAliases),
-            Id = series.Id,
-            SeriesName = series.Name,
-            FirstAiredYear = series.FirstAiredYear,
-            SeriesStatus = series.SeriesStatus
-        };
-    }
-
-    public Task<SeriesDto> GetByIdValue(string input)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<SeriesDto> UpdateAsync(SeriesDto seriesDto)
-    {
-        throw new NotImplementedException();
-    }
-
-    private List<(Guid seriesId, string idType, string idValue
-        )> GetSeriesAliasTuple(List<SeriesAliasCreateDto> seriesAliasCreateDtos)
-    {
-        var seriesAliases =
-            new List<(Guid seriesId, string idType, string idValue)>();
-        foreach (var seriesAlias in seriesAliasCreateDtos)
-        {
-            seriesAliases.Add((seriesAlias.SeriesId, seriesAlias.IdType, seriesAlias.IdValue));
+            return sorting.Replace(
+                "authorName",
+                "author.IdType",
+                StringComparison.OrdinalIgnoreCase
+            );
         }
 
-        return seriesAliases;
+        return $"series.{sorting}";
+    }
+
+    public Task<object> GetDashboardAsync(DashboardInput dashboardInput)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<SeriesDto> GetSeriessAsync(GetSeriessInput input)
+    {
+        throw new NotImplementedException();
     }
 }

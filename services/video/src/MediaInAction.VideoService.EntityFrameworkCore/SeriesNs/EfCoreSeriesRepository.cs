@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading;
 using System.Threading.Tasks;
 using MediaInAction.VideoService.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Specifications;
@@ -19,7 +19,9 @@ public class EfCoreSeriesRepository : EfCoreRepository<VideoServiceDbContext, Se
     {
     }
     
-    public Task<List<Series>> GetSeriessByUserId(Guid userId, ISpecification<Series> spec, bool includeDetails = true,
+    public Task<List<Series>> GetSeriessByUserId(Guid userId, 
+        ISpecification<Series> spec, 
+        bool includeDetails = true,
         CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
@@ -68,7 +70,26 @@ public class EfCoreSeriesRepository : EfCoreRepository<VideoServiceDbContext, Se
     {
         return GetAsync(id);
     }
+
+    public async Task<List<Series>> GetListAsync(
+        int skipCount,
+        int maxResultCount,
+        string sorting,
+        string filter = null)
+    {
+        var dbSet = await GetDbSetAsync();
+        return await dbSet
+            .WhereIf(
+                !filter.IsNullOrWhiteSpace(),
+                series => series.Name.Contains(filter)
+            )
+            .OrderBy(sorting)
+            .Skip(skipCount)
+            .Take(maxResultCount)
+            .ToListAsync();
+    }
     
+
     public override async Task<IQueryable<Series>> WithDetailsAsync()
     {
         return EfCoreSeriesQueryableExtensions.IncludeDetails((await GetQueryableAsync()));

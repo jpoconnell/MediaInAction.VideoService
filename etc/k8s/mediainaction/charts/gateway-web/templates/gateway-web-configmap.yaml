@@ -1,0 +1,169 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-configmap
+data:
+  yarp.json: |-
+    {
+      "ReverseProxy": {
+        "Routes": {
+          "AbpApi": {
+            "ClusterId": "Administration",
+            "Match": {
+              "Path": "/api/abp/{**catch-all}"
+            }
+          },
+          "EshopOnAbpLocalization": {
+            "ClusterId": "Administration",
+            "Match": {
+              "Path": "/api/abp/application-localization"
+            }
+          },
+          "EshopOnAbpApplicationConfiguration": {
+            "ClusterId": "Administration",
+            "Match": {
+              "Path": "/api/abp/application-configuration"
+            }
+          },
+          "Identity Service": {
+            "ClusterId": "Identity",
+            "Match": {
+              "Path": "/api/identity/{**everything}"
+            }
+          },
+          "Identity Service Swagger": {
+            "ClusterId": "Identity",
+            "Match": {
+              "Path": "/swagger-json/Identity/swagger/v1/swagger.json"
+            },
+            "Transforms": [
+              { "PathRemovePrefix": "/swagger-json/Identity" }
+            ]
+          },
+          "FeatureManagement": {
+            "ClusterId": "Administration",
+            "Match": {
+              "Path": "/api/feature-management/{**everything}"
+            }
+          },
+          "PermissionManagement": {
+            "ClusterId": "Administration",
+            "Match": {
+              "Path": "/api/permission-management/{**everything}"
+            }
+          },
+          "SettingManagement": {
+            "ClusterId": "Administration",
+            "Match": {
+              "Path": "/api/setting-management/{**everything}"
+            }
+          },
+          "Administration Service Swagger": {
+            "ClusterId": "Administration",
+            "Match": {
+              "Path": "/swagger-json/Administration/swagger/v1/swagger.json"
+            },
+            "Transforms": [
+              { "PathRemovePrefix": "/swagger-json/Administration" }
+            ]
+          },
+          "File Service": {
+            "ClusterId": "File",
+            "Match": {
+              "Path": "/api/file/{**everything}"
+            }
+          },
+          "File Service Swagger": {
+            "ClusterId": "File",
+            "Match": {
+              "Path": "/swagger-json/File/swagger/v1/swagger.json"
+            },
+            "Transforms": [
+              { "PathRemovePrefix": "/swagger-json/File" }
+            ]
+          },
+          "Video Service": {
+            "ClusterId": "Video",
+            "Match": {
+              "Path": "/api/video/{**everything}"
+            }
+          },
+          "Video Service Swagger": {
+            "ClusterId": "Video",
+            "Match": {
+              "Path": "/swagger-json/Video/swagger/v1/swagger.json"
+            },
+            "Transforms": [
+              { "PathRemovePrefix": "/swagger-json/Video" }
+            ]
+          },
+          "Cmskit Service": {
+            "ClusterId": "Cmskit",
+            "Match": {
+              "Path": "/api/cmskit/{**everything}"
+            }
+          },
+          "Cmskit Service Swagger": {
+            "ClusterId": "Cmskit",
+            "Match": {
+              "Path": "/swagger-json/Cmskit/swagger/v1/swagger.json"
+            },
+            "Transforms": [
+              { "PathRemovePrefix": "/swagger-json/Cmskit" }
+            ]
+          }
+        },
+        "Clusters": {
+          "Identity": {
+            "Destinations": {
+              "destination1": {
+                "Address": "{{ .Values.reRoutes.identityService.url }}",
+                "MetaData": {
+                  "PublicAddress": "{{ .Values.reRoutes.identityService.dns }}"
+                }
+              }
+            }
+          },
+          "Administration": {
+            "Destinations": {
+              "destination1": {
+                "Address": "{{ .Values.reRoutes.administrationService.url }}",
+                "MetaData": {
+                  "PublicAddress": "{{ .Values.reRoutes.administrationService.dns }}"
+                }
+              }
+            }
+          },
+          "File": {
+            "Destinations": {
+              "destination1": {
+                "Address": "{{ .Values.reRoutes.fileService.url }}",
+                "MetaData": {
+                  "PublicAddress": "{{ .Values.reRoutes.fileService.dns }}"
+                }
+              }
+            }
+          },
+          "Video": {
+            "Destinations": {
+              "destination1": {
+                "Address": "{{ .Values.reRoutes.videoService.url }}",
+                "MetaData": {
+                  "PublicAddress": "{{ .Values.reRoutes.videoService.dns }}"
+                }
+              }
+            }
+          },
+          "Cmskit": {
+            "Destinations": {
+              "destination1": {
+                "Address": "{{ .Values.reRoutes.cmskitService.url }}",
+                "MetaData": {
+                  "PublicAddress": "{{ .Values.reRoutes.cmskitService.dns }}"
+                }
+              }
+            }
+          }
+        }
+      }
+    }

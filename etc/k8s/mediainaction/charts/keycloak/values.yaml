@@ -1,0 +1,38 @@
+config:
+  kcDb: postgres
+  kcDbUrl: jdbc:postgresql://mia-st-postgresdb:5432/keycloak
+  kcDbUrlHost: mia-st-postgresdb
+  kcDbUrlPort: 5432
+  kcDbUrlDatabase: keycloak
+  kcDbUsername: postgres
+  kcDbPassword: myPassw0rd
+  keycloakAdmin: admin
+  keycloakAdminPassword: 1q2w3E*
+  kcHealthEnabled: true
+  kcHttpRelativePath : /
+  kcProxy: edge
+  proxyAddressForwarding: true
+  kcHttpEnabled: true
+  kcHostnameUrl: https://account.mediainaction.dev
+  kcHostnameAdminUrl: https://account.mediainaction.dev
+  jgroupsDnsQuery: mia-st-keycloak
+
+ingress:
+  host: account.mediainaction.dev
+  tlsSecret: mia-wildcard-tls
+
+image:
+  repository: quay.io/keycloak/keycloak
+  tag: 21.1.1
+  pullPolicy: IfNotPresent
+
+# command:
+#     - "/opt/keycloak/bin/kc.sh"
+#     - "start"
+#     - "--auto-build"
+#     - "--http-enabled=true"
+#     - "--http-port=8080"
+#     - "--hostname-strict=false"
+#     - "--hostname-strict-https=false"
+
+env: {}

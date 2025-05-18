@@ -1,0 +1,30 @@
+config:
+  selfUrl: # https://mia-st-emby
+  corsOrigins: # https://mia-st-gateway-web,https://mia-st-gateway-public-web,https://mia-st-public
+  connectionStrings:
+    administrationService: #
+  authServer:
+    authority: http://mia-st-authserver
+    requireHttpsMetadata: "false"
+    metadataAddress: http://mia-st-keycloak:8080
+    swaggerClientId: "WebGateway_Swagger"
+  dotnetEnv: Staging
+  redisHost: mia-st-redis
+  rabbitmqHost: mia-st-rabbitmq
+  elasticsearchHost: mia-st-elasticsearch
+  stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
+  remoteServices:
+    fileBaseUrl: #
+    fileGrpcUrl: #
+
+ingress:
+  host: mia-st-emby
+  tlsSecret: mia-wildcard-tls
+
+image:
+  repository: mediainaction/service-emby
+  tag: latest
+  pullPolicy: IfNotPresent
+
+env: {}
+    

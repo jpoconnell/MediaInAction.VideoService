@@ -1,0 +1,40 @@
+config:
+  selfUrl: # https://mia-st-gateway-web
+  corsOrigins: # localhost:4200
+  isOnK8s: "true"
+  authServer:
+    authority: http://mia-st-authserver
+    requireHttpsMetadata: "false"
+    swaggerClientId: WebGateway_Swagger
+  dotnetEnv: # 
+  redisHost: #
+  rabbitmqHost: #
+  elasticsearchHost: #
+  stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
+reRoutes:
+  identityService:
+    url: http://mia-st-identity
+    dns: https://identity.mediainaction.dev
+  administrationService:
+    url: http://mia-st-administration
+    dns: https://administration.mediainaction.dev
+  fileService:
+    url: http://mia-st-file
+    dns: https://file.mediainaction.dev
+  videoService:
+    url: http://mia-st-video
+    dns: https://video.mediainaction.dev
+  cmskitService:
+    url: http://mia-st-cmskit
+    dns: https://cmskit.mediainaction.dev
+    
+ingress:
+  host: # mia-st-gateway-web
+  tlsSecret: mia-wildcard-tls
+
+image:
+  repository: mediainaction/gateway-web
+  tag: latest
+  pullPolicy: IfNotPresent
+
+env: {}

@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-package movieGrpc;
+package moviegrpc;
 
 service MovieGrpcService {
 	rpc CreateUpdateMovie (MovieModel) returns (MovieModel);

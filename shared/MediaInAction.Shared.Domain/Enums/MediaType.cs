@@ -8,6 +8,7 @@
         Training,
         Music,
         EBook,
-        Unknown
+        Unknown,
+        Video
     }
 }

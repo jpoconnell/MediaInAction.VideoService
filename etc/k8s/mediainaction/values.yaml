@@ -1,0 +1,408 @@
+# auth-server sub-chart override
+keycloak:
+  config:
+    dbVendor: postgres
+    dbAddr: mia-st-postgresdb
+    dbDatabase: keycloak
+    dbUser: postgres
+    dbPassword: myPassw0rd
+    keycloakAdmin: admin
+    keycloakAdminPassword: 1q2w3E*
+    kcHealthEnabled: true
+  ingress:
+    host: account.mediainaction.dev
+    tlsSecret: mia-wildcard-tls
+  image:
+    repository: quay.io/keycloak/keycloak
+    tag: 19.0.2
+    pullPolicy: IfNotPresent
+
+# web sub-chart override
+web:
+  config:
+    selfUrl: https://admin.mediainaction.dev
+    gatewayUrl: https://gateway-web.mediainaction.dev
+    authServer:
+      authority: https://account.mediainaction.dev
+      requireHttpsMetadata: false
+      responseType: "code"
+      strictDiscoveryDocumentValidation: false
+      skipIssuerCheck: true
+  ingress:
+    host: admin.mediainaction.dev
+    tlsSecret: mia-wildcard-tls
+  image:
+    repository: "mediainaction/app-web"
+    tag: 1.0.0
+
+# public-web sub-chart override
+public-web:
+  config:
+    selfUrl: https://mediainaction.dev
+    gatewayUrl: https://gateway-public.mediainaction.dev/
+    authServer:
+      authority: https://account.mediainaction.dev
+      requireHttpsMetadata: "false"
+      isOnProd: "false"
+      metaAddress: http://mia-st-keycloak
+    dotnetEnv: Staging
+    redisHost: mia-st-redis
+    rabbitmqHost: mia-st-rabbitmq
+    elasticsearchHost: mia-st-elasticsearch
+  ingress:
+    host: mediainaction.dev
+    tlsSecret: mia-wildcard-tls
+  image:
+    repository: "mediainaction/app-publicweb"
+    tag: 1.0.0
+
+# identity-service sub-chart override
+identity:
+  config:
+    selfUrl: https://identity.mediainaction.dev
+    corsOrigins: https://gateway-web.mediainaction.dev,https://gateway-public.mediainaction.dev
+    connectionStrings:
+      identityService: "Host=mia-st-postgresdb;Port=5432;Database=MediaInAction_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
+      administrationService: "Host=mia-st-postgresdb;Port=5432;Database=MediaInAction_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+    authServer:
+      authority: http://mia-st-keycloak
+      requireHttpsMetadata: "false"
+      swaggerClientId: WebGateway_Swagger
+      swaggerClientSecret: "1q2w3e*"
+    dotnetEnv: Staging
+    redisHost: mia-st-redis
+    rabbitmqHost: mia-st-rabbitmq
+    elasticsearchHost: mia-st-elasticsearch    
+  identityServerClients: # Seeded Clients
+    webRootUrl: https://admin.mediainaction.dev/  
+    publicWebRootUrl: https://mediainaction.dev/
+    webGatewayRootUrl: https://gateway-web.mediainaction.dev/
+    publicWebGatewayRootUrl: https://gateway-public.mediainaction.dev/
+    identityServiceRootUrl: https://identity.mediainaction.dev/
+    administrationServiceRootUrl: https://administration.mediainaction.dev/
+    accountServiceRootUrl: https://account.mediainaction.dev/
+    embyServiceRootUrl: https://emby.mediainaction.dev/
+    fileServiceRootUrl: https://file.mediainaction.dev/
+    videoServiceRootUrl: https://video.mediainaction.dev/
+    cmskitServiceRootUrl: https://cmskit.mediainaction.dev/
+    traktServiceRootUrl: https://trakt.mediainaction.dev/
+  ingress:
+    host: identity.mediainaction.dev
+    tlsSecret: mia-wildcard-tls
+  image:
+    repository: "mediainaction/service-identity"
+    tag: 1.0.0
+
+# administration sub-chart override
+administration:
+  config:
+    selfUrl: https://administration.mediainaction.dev
+    corsOrigins: https://gateway-web.mediainaction.dev,https://gateway-public.mediainaction.dev
+    connectionStrings:
+      administrationService: "Host=mia-st-postgresdb;Port=5432;Database=MediaInAction_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+    authServer:
+      authority: http://mia-st-keycloak
+      requireHttpsMetadata: "false"
+      swaggerClientId: WebGateway_Swagger
+      swaggerClientSecret: "1q2w3e*"
+    remoteServices:
+      abpIdentityBaseUrl: https://identity.mediainaction.dev
+      useCurrentToken: "false"  
+    dotnetEnv: Staging
+    redisHost: mia-st-redis
+    rabbitmqHost: mia-st-rabbitmq
+    elasticsearchHost: mia-st-elasticsearch
+  synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
+    authority: https://account.mediainaction.dev
+  ingress:
+    host: administration.mediainaction.dev
+    tlsSecret: mia-wildcard-tls
+  image:
+    repository: "mediainaction/service-administration"
+    tag: 1.0.0
+
+# gateway-web sub-chart override
+gateway-web:
+  config:
+    selfUrl: https://gateway-web.mediainaction.dev
+    corsOrigins: https://admin.mediainaction.dev
+    globalConfigurationBaseUrl: http://mia-st-gateway-web-public
+    authServer:
+      authority: http://mia-st-keycloak
+      requireHttpsMetadata: "false"
+      swaggerClientId: WebGateway_Swagger
+      swaggerClientSecret: "1q2w3e*"
+    dotnetEnv: Staging
+    redisHost: mia-st-redis
+    rabbitmqHost: mia-st-rabbitmq
+    elasticsearchHost: mia-st-elasticsearch
+  ingress:
+    host: gateway-web.mediainaction.dev
+    tlsSecret: mia-wildcard-tls
+  image:
+    repository: "mediainaction/gateway-web"
+    tag: 1.0.0
+  reRoutes:
+    accountService:
+      url: http://mia-st-keycloak
+    identityService:
+      url: http://mia-st-identity
+    administrationService:
+      url: http://mia-st-administration
+    fileService:
+      url: http://mia-st-file
+    videoService:
+      url: http://mia-st-video
+    cmskitService:
+      url: http://mia-st-cmskit
+
+# gateway-web-public sub-chart override
+gateway-web-public:
+  config:
+    selfUrl: https://gateway-public.mediainaction.dev
+    authServer:
+      authority: http://mia-st-keycloak
+      requireHttpsMetadata: "false"
+      swaggerClientId: WebGateway_Swagger
+      swaggerClientSecret: "1q2w3e*"
+    dotnetEnv: Staging
+    redisHost: mia-st-redis
+    rabbitmqHost: mia-st-rabbitmq
+    elasticsearchHost: mia-st-elasticsearch
+  ingress:
+    host: gateway-public.mediainaction.dev
+    tlsSecret: mia-wildcard-tls
+  image:
+    repository: "mediainaction/gateway-web-public"
+    tag: 1.0.0
+  reRoutes:
+    identityService:
+      url: http://mia-st-identity
+    administrationService:
+      url: http://mia-st-administration
+    fileService:
+      url: http://mia-st-file
+    embyService:
+      url: http://mia-st-emby
+    videoService:
+      url: http://mia-st-video
+    cmskitService:
+      url: http://mia-st-cmskit
+    traktService:
+      url: http://mia-st-trakt 
+
+# emby-service sub-chart override
+emby:
+  config:
+    selfUrl: https://emby.mediainaction.dev
+    corsOrigins: https://gateway-web.mediainaction.dev,https://gateway-public.mediainaction.dev,https://mediainaction.dev
+    connectionStrings:
+      administrationService: "Host=mia-st-postgresdb;Port=5432;Database=MediaInAction_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+    authServer:
+      authority: http://mia-st-keycloak
+      requireHttpsMetadata: "false"
+      swaggerClientId: WebGateway_Swagger
+      swaggerClientSecret: "1q2w3e*"
+    dotnetEnv: Staging
+    redisHost: mia-st-redis
+    rabbitmqHost: mia-st-rabbitmq
+    elasticsearchHost: mia-st-elasticsearch
+    remoteServices:
+      fileBaseUrl: http://mia-st-file:80
+      fileGrpcUrl: http://mia-st-file:81
+  ingress:
+    host: emby.mediainaction.dev
+    tlsSecret: mia-wildcard-tls
+  image:
+    repository: "mediainaction/service-emby"
+    tag: 1.0.0
+
+# file-service sub-chart override
+file:
+  config:
+    selfUrl: https://file.mediainaction.dev
+    corsOrigins: https://gateway-web.mediainaction.dev,https://gateway-public.mediainaction.dev,https://mediainaction.dev,https://admin.mediainaction.dev
+    connectionStrings:
+      fileService: "mongodb://mia-st-mongodb/MediaInAction_File"
+      administrationService: "Host=mia-st-postgresdb;Port=5432;Database=MediaInAction_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+    authServer:
+      authority: http://mia-st-keycloak
+      requireHttpsMetadata: "false"
+      swaggerClientId: WebGateway_Swagger
+      swaggerClientSecret: "1q2w3e*"
+    dotnetEnv: Staging
+    redisHost: mia-st-redis
+    rabbitmqHost: mia-st-rabbitmq
+    elasticsearchHost: mia-st-elasticsearch
+    kestrel:
+      httpUrl: http://mia-st-file:80
+      httpProtocols: Http1AndHttp2
+      grpcUrl: http://mia-st-file:81
+      grpcProtocols: Http2
+  ingress:
+    host: file.mediainaction.dev
+    tlsSecret: mia-wildcard-tls
+  image:
+    repository: "mediainaction/service-file"
+    tag: 1.0.0
+
+# video-service sub-chart override
+video:
+  config:
+    selfUrl: https://video.mediainaction.dev
+    corsOrigins: https://gateway-web.mediainaction.dev,https://gateway-public.mediainaction.dev
+    connectionStrings:
+      videoService: "Host=mia-st-postgresdb;Port=5432;Database=MediaInAction_Video;User ID=postgres;password=myPassw0rd;Pooling=false"
+      administrationService: "Host=mia-st-postgresdb;Port=5432;Database=MediaInAction_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+    authServer:
+      authority: http://mia-st-keycloak
+      requireHttpsMetadata: "false"
+      swaggerClientId: WebGateway_Swagger
+      swaggerClientSecret: "1q2w3e*"
+    dotnetEnv: Staging
+    redisHost: mia-st-redis
+    rabbitmqHost: mia-st-rabbitmq
+    elasticsearchHost: mia-st-elasticsearch
+  ingress:
+    host: video.mediainaction.dev
+    tlsSecret: mia-wildcard-tls
+  image:
+    repository: "mediainaction/service-video"
+    tag: 1.0.0
+
+# cmskit-service sub-chart override
+cmskit:
+  config:
+    selfUrl: https://cmskit.mediainaction.dev
+    corsOrigins: https://gateway-web.mediainaction.dev,https://gateway-public.mediainaction.dev
+    connectionStrings:
+      cmskitervice: "Host=mia-st-postgresdb;Port=5432;Database=MediaInAction_Cmskit;User ID=postgres;password=myPassw0rd;Pooling=false"
+      administrationService: "Host=mia-st-postgresdb;Port=5432;Database=MediaInAction_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+    authServer:
+      authority: http://mia-st-keycloak
+      requireHttpsMetadata: "false"
+      swaggerClientId: WebGateway_Swagger
+      swaggerClientSecret: "1q2w3e*"
+    remoteServices:
+      abpIdentityBaseUrl: https://identity.mediainaction.dev
+    dotnetEnv: Staging
+    redisHost: mia-st-redis
+    rabbitmqHost: mia-st-rabbitmq
+    elasticsearchHost: mia-st-elasticsearch
+  synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
+    authority: https://admin.mediainaction.dev
+  ingress:
+    host: cmskit.mediainaction.dev
+    tlsSecret: mia-wildcard-tls
+  image:
+    repository: "mediainaction/service-cmskit"
+    tag: 1.0.0
+
+# trakt-service sub-chart override
+trakt:
+  config:
+    selfUrl: https://trakt.mediainaction.dev
+    corsOrigins: https://gateway-web.mediainaction.dev,https://gateway-public.mediainaction.dev
+    connectionStrings:
+      traktService: "Host=mia-st-postgresdb;Port=5432;Database=MediaInAction_Payment;User ID=postgres;password=myPassw0rd;Pooling=false"
+      administrationService: "Host=mia-st-postgresdb;Port=5432;Database=MediaInAction_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+    authServer:
+      authority: http://mia-st-keycloak
+      requireHttpsMetadata: "false"
+      swaggerClientId: WebGateway_Swagger
+      swaggerClientSecret: "1q2w3e*"
+    remoteServices:
+      abpIdentityBaseUrl: https://identity.mediainaction.dev
+    dotnetEnv: Staging
+    redisHost: mia-st-redis
+    rabbitmqHost: mia-st-rabbitmq
+    elasticsearchHost: mia-st-elasticsearch
+  ingress:
+    host: trakt.mediainaction.dev
+    tlsSecret: mia-wildcard-tls
+  image:
+    repository: "mediainaction/service-trakt"
+    tag: 1.0.0
+
+# Default values for mediainaction.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

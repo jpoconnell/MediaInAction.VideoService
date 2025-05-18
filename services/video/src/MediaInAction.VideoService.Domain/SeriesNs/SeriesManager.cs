@@ -110,4 +110,9 @@ public class SeriesManager(
             return await seriesRepository.UpdateAsync(series, autoSave: true);
         }
     }
+
+    public async Task ChangeNameAsync(Series series, string inputName)
+    {
+        throw new NotImplementedException();
+    }
 }

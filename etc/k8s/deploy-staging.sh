@@ -1,0 +1,1 @@
+helm upgrade --install mia-st mediainaction -f ./mediainaction/values.yaml --namespace mia --create-namespace

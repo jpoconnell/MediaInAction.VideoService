@@ -1,0 +1,46 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES2022",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@mediainaction/file/config": [
+        "node_modules/@mediainaction/file/config",
+        "projects/file/config/src/public-api.ts"
+      ],
+      "@mediainaction/file": [
+        "node_modules/@mediainaction/file",
+        "projects/file/src/public-api.ts"
+      ],
+      "@mediainaction/video/config": [
+        "node_modules/@mediainaction/video/config",
+        "projects/video/config/src/public-api.ts"
+      ],
+      "@mediainaction/video": [
+        "node_modules/@mediainaction/video",
+        "projects/video/src/public-api.ts"
+      ]
+    },
+    "useDefineForClassFields": false
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "enableIvy": true
+  }
+}

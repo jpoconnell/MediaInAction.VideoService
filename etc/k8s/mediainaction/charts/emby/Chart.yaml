@@ -1,0 +1,6 @@
+apiVersion: v2
+name: emby
+appVersion: "1.0"
+description: MediaInAction Emby Microservice
+version: 1.0.0
+type: application

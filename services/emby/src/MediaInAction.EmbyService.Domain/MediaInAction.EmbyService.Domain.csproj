@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>MediaInAction.EmbyService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MediaInAction.EmbyService.Domain.Shared\MediaInAction.EmbyService.Domain.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="9.1.1" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="9.1.1" />
+  </ItemGroup>
+
+</Project>

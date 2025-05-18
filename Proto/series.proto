@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-package seriesGrpc;
+package seriesgrpc;
 
 service SeriesGrpcService {
 	rpc CreateUpdateSeries (SeriesModel) returns (SeriesModel);

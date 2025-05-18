@@ -3,12 +3,12 @@
   "texts": {
     "Menu:Home": "首页",
     "Login": "登录",
-    "YourEmby": "你的购物车",
+    "YourBasket": "你的购物车",
     "Total": "总数",
-    "OurSeriess": "我们的产品",
-    "VideoServiceNotAvailable": "当前分类服务不可用！请稍候再试……",
+    "OurProducts": "我们的产品",
+    "TraktServiceNotAvailable": "当前分类服务不可用！请稍候再试……",
     "StockCount": "库存数量",
-    "RemoveFromEmby": "从购物车中移除",
+    "RemoveFromBasket": "从购物车中移除",
     "CompletePurchase": "购买完成",
     "CompleteOrder": "订单完成"
   }

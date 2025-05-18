@@ -1,58 +1,84 @@
-﻿# MediaInAction.VideoService
+# MediaInAction
 
-## About this solution
+This is a reference project for those who want to build microservice solutions with the ABP Framework.
 
-This is a layered startup solution based on [Domain Driven Design (DDD)](https://docs.abp.io/en/abp/latest/Domain-Driven-Design) practises. All the fundamental ABP modules are already installed. Check the [Application Startup Template](https://abp.io/docs/latest/startup-templates/application/index) documentation for more info.
+## Issues
 
-### Pre-requirements
+Please open issues on the main GitHub repository: https://github.com/jpoconnell/MediaInAction/issues
 
-* [.NET9.0+ SDK](https://dotnet.microsoft.com/download/dotnet)
-* [Node v18 or 20](https://nodejs.org/en)
 
-### Configurations
+### Requirements
 
-The solution comes with a default configuration that works out of the box. However, you may consider to change the following configuration before running your solution:
+- .NET 9.0 SDK
+- Docker
+- Yarn v1.20+(not v2) or npm v6+ (already installed with Node)
 
-* Check the `ConnectionStrings` in `appsettings.json` files under the `MediaInAction.VideoService.HttpApi.Host` and `MediaInAction.VideoService.DbMigrator` projects and change it if you need.
+### Instructions
 
-### Before running the application
+- Clone the repository ( [MediaInAction](https://github.com/jpoconnell/MediaInAction) )
 
-* Run `abp install-libs` command on your solution folder to install client-side package dependencies. This step is automatically done when you create a new solution, if you didn't especially disabled it. However, you should run it yourself if you have first cloned this solution from your source control, or added a new client-side package dependency to your solution.
-* Run `MediaInAction.VideoService.DbMigrator` to create the initial database. This step is also automatically done when you create a new solution, if you didn't especially disabled it. This should be done in the first run. It is also needed if a new database migration is added to the solution later.
+- Rename `.env.example` file to `.env` file and provide PayPal ClientID and Secret.
 
-#### Generating a Signing Certificate
 
-In the production environment, you need to use a production signing certificate. ABP Framework sets up signing and encryption certificates in your application and expects an `openiddict.pfx` file in your application.
+- Wait until all applications are up!
 
-To generate a signing certificate, you can use the following command:
+	- You can check the running application from `tye` dashboard ([localhost:8000](http://127.0.0.1:8000/))
+	- **Note**: If you see all of your applications keep restarting on `tye` dashboard or `tye` console, you may be facing SSL certificate issues. To diagnose the problems better, check any application logs. If it is related to SSL, developer certificate creation may have failed because of Powershell issues regarding authorization. Check the PowerShell script running configuration and set the policy for your local machine as follows: 
+	```bash
+	Get-ExecutionPolicy -list
+	Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+	```
+	See [Microsoft Powershell documentation](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-executionpolicy?view=powershell-7.2) for more information.
 
-```bash
-dotnet dev-certs https -v -ep openiddict.pfx -p 2346ded9-dca9-4350-9b2b-89d3f91f7e0f
-```
+- After all your backend services are up, start the angular application:
 
-> `2346ded9-dca9-4350-9b2b-89d3f91f7e0f` is the password of the certificate, you can change it to any password you want.
+  ```bash
+  cd apps/angular
+  yarn start
+  ```
 
-It is recommended to use **two** RSA certificates, distinct from the certificate(s) used for HTTPS: one for encryption, one for signing.
+### Certificate Expiration
+If the certificate is expired, you'll see the following error:
 
-For more information, please refer to: [https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios)
+<!-- Make it smaller with 320px height  -->
+<img src="docs/images/ssl-error.png" height="320"/>
 
-> Also, see the [Configuring OpenIddict](https://docs.abp.io/en/abp/latest/Deployment/Configuring-OpenIddict#production-environment) documentation for more information.
+Generating a new certificate will fix that issue. To generate a new one,
 
-### Solution structure
+- Remove `etc/dev-cert/localhost.pfx`
 
-This is a layered monolith application that consists of the following applications:
+- Manually execute `create-certificate.ps1` **or** re-run solution with `run-tye.ps1`
 
-* `MediaInAction.VideoService.DbMigrator`: A console application which applies the migrations and also seeds the initial data. It is useful on development as well as on production environment.
-** `MediaInAction.VideoService.HttpApi.Host`: ASP.NET Core API application that is used to expose the APIs to the clients.
-* `angular`: Angular application.
 
-## Deploying the application
+## Roadmap
+### Version 1.0
 
-Deploying an ABP application is not different than deploying any .NET or ASP.NET Core application. However, there are some topics that you should care about when you are deploying your applications. You can check ABP's [Deployment documentation](https://docs.abp.io/en/abp/latest/Deployment/Index) and ABP Commercial's [Deployment documentation](https://abp.io/docs/latest/startup-templates/application/deployment?UI=MVC&DB=EF&Tiered=No) before deploying your application.
+- [x] New blank micro-service solution ✔️
+- [x] Creating Deployment Scenarios ✔️
+- [x] Creating empty business services ✔️
+- [x] Implementing	 business logic into services ✔️
+  - [x] Payment with PayPal ✔️
+  - [x] Basket, Catalog, Order Service ✔️
+- [x] Docker Image creation ✔️
+- [x] Helm deployment for local k8s cluster ✔️
+- [x] Switch Ocelot to <strike>Envoy</strike> YARP in Public Web gateway ✔️
+- [x] Use gRPC for catalog microservice ✔️
+- [x] Management Side of Services ✔️
+- [x] Administration application (to manage products and orders with a dashboard) ✔️
+- [x] Deployment to azure k8s ✔️ (https://eshoponabp.com)
+### Version 2.0
+- [x] Product-detail page on the shopping application (with CMS-kit integration for comments and rating components) ✔️
+- [x] Switch to Keycloak from IdentityServer in AuthServer
+- [ ] Re-design authorization/permission management
+- [ ] Integrate a new sample microservice written in GoLang (Or Python / Java)
+### Documentation
 
-### Additional resources
+- [ ] We will create an e-book to explain the solution
 
-You can see the following resources to learn more about your solution and the ABP Framework:
+## Current Architecture
 
-* [Web Application Development Tutorial](https://abp.io/docs/latest/tutorials/book-store/part-1)
-* [Application Startup Template](https://abp.io/docs/latest/startup-templates/application/index)
+![eSopOnAbp Phase 1](/docs/roadmap/Phase_1.png)
+
+## ABP Community Talks
+
+We've organized a meetup related to this solution. You can watch it here: https://community.abp.io/events/microservice-development-iv7d46ov

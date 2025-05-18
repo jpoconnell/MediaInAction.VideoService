@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using MediaInAction.VideoService.SeriesNs.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace MediaInAction.VideoService.SeriesNs;
 
-public interface ISeriesAppService : IApplicationService
+public interface ISeriesAppService :
+    ICrudAppService< //Defines CRUD methods
+        SeriesDto, //Used to show books
+        Guid, //Primary key of the book entity
+        PagedAndSortedResultRequestDto, //Used for paging/sorting
+        CreateUpdateSeriesDto> //Used to create/update a book
 {
-    Task<SeriesDto> CreateAsync(SeriesCreateDto input);
-    Task<SeriesDto> GetAsync(Guid id);
-    Task<List<SeriesDto>> GetMySeriessAsync(GetMySeriessInput input);
-    Task<List<SeriesDto>> GetSeriessAsync(GetSeriessInput input);
-    Task SetAsInActiveAsync(Guid id);
-    Task<PagedResultDto<SeriesDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input);
-    Task<SeriesDashboardDto> GetDashboardAsync(DashboardInput input);
-
-    Task<SeriesDto> GetByIdValue(string input);
-    Task<SeriesDto> UpdateAsync(SeriesDto seriesDto);
+    Task<object> GetDashboardAsync(DashboardInput dashboardInput);
+    Task<SeriesDto> GetSeriessAsync(GetSeriessInput input);
 }

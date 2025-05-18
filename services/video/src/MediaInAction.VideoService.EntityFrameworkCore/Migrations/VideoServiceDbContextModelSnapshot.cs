@@ -19,7 +19,7 @@ namespace MediaInAction.VideoService.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.PostgreSql)
-                .HasAnnotation("ProductVersion", "9.0.1")
+                .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -86,7 +86,10 @@ namespace MediaInAction.VideoService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Episodes");
+                    b.HasIndex("SeriesId", "SeasonNum", "EpisodeNum")
+                        .IsUnique();
+
+                    b.ToTable("Episodes", (string)null);
                 });
 
             modelBuilder.Entity("MediaInAction.VideoService.EpisodeNs.EpisodeAlias", b =>
@@ -107,30 +110,10 @@ namespace MediaInAction.VideoService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EpisodeId");
+                    b.HasIndex("EpisodeId", "IdType", "IdValue")
+                        .IsUnique();
 
-                    b.ToTable("EpisodeAlias");
-                });
-
-            modelBuilder.Entity("MediaInAction.VideoService.MovieAliasNs.MovieAlias", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("IdType")
-                        .HasColumnType("text");
-
-                    b.Property<string>("IdValue")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("MovieId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("MovieAlias");
+                    b.ToTable("EpisodeAliases", (string)null);
                 });
 
             modelBuilder.Entity("MediaInAction.VideoService.MovieNs.Movie", b =>
@@ -176,11 +159,39 @@ namespace MediaInAction.VideoService.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies");
+                    b.HasIndex("Name", "FirstAiredYear")
+                        .IsUnique();
+
+                    b.ToTable("Movies", (string)null);
+                });
+
+            modelBuilder.Entity("MediaInAction.VideoService.MovieNs.MovieAlias", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("IdType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("IdValue")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("MovieId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId", "IdType", "IdValue")
+                        .IsUnique();
+
+                    b.ToTable("MovieAliases", (string)null);
                 });
 
             modelBuilder.Entity("MediaInAction.VideoService.SeriesNs.Series", b =>
@@ -231,6 +242,9 @@ namespace MediaInAction.VideoService.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name", "FirstAiredYear")
+                        .IsUnique();
+
                     b.ToTable("Seriess", (string)null);
                 });
 
@@ -252,7 +266,8 @@ namespace MediaInAction.VideoService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SeriesId");
+                    b.HasIndex("SeriesId", "IdType", "IdValue")
+                        .IsUnique();
 
                     b.ToTable("SeriesAliases", (string)null);
                 });
@@ -299,8 +314,8 @@ namespace MediaInAction.VideoService.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("LastModifierId");
 
-                    b.Property<bool>("Processed")
-                        .HasColumnType("boolean");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Tries")
                         .HasColumnType("integer");
@@ -310,7 +325,10 @@ namespace MediaInAction.VideoService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ToBeMappeds");
+                    b.HasIndex("Alias")
+                        .IsUnique();
+
+                    b.ToTable("ToBeMappeds", (string)null);
                 });
 
             modelBuilder.Entity("MediaInAction.VideoService.EpisodeNs.EpisodeAlias", b =>
@@ -322,7 +340,7 @@ namespace MediaInAction.VideoService.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MediaInAction.VideoService.MovieAliasNs.MovieAlias", b =>
+            modelBuilder.Entity("MediaInAction.VideoService.MovieNs.MovieAlias", b =>
                 {
                     b.HasOne("MediaInAction.VideoService.MovieNs.Movie", null)
                         .WithMany("MovieAliases")

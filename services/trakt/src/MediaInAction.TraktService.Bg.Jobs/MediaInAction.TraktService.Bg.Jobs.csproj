@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>MediaInAction.TraktService.Bg</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Quartz" Version="3.14.0" />
+    <PackageReference Include="Volo.Abp.BackgroundJobs.Quartz" Version="9.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\shared\MediaInAction.Shared.Integration\MediaInAction.Shared.Integration.csproj" />
+    <ProjectReference Include="..\MediaInAction.TraktService.Lib\MediaInAction.TraktService.Lib.csproj" />
+    <ProjectReference Include="..\MediaInAction.TraktService.MongoDB\MediaInAction.TraktService.MongoDB.csproj" />
+  </ItemGroup>
+
+</Project>

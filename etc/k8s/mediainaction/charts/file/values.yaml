@@ -1,0 +1,36 @@
+config:
+  selfUrl: # https://mia-st-file
+  corsOrigins: # https://mia-st-gateway-web,https://mia-st-gateway-public-web,https://mia-st-public,https://mia-st-web
+  connectionStrings:
+    fileService: #
+    administrationService: #
+  authServer:
+    authority: http://mia-st-authserver
+    requireHttpsMetadata: "false"
+    metadataAddress: http://mia-st-keycloak:8080
+    swaggerClientId: WebGateway_Swagger
+  dotnetEnv: Staging
+  redisHost: mia-st-redis
+  rabbitmqHost: mia-st-rabbitmq
+  elasticsearchHost: mia-st-elasticsearch
+  stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
+  grpcPort: 81
+  kestrel:
+    httpUrl: http://mia-st-file:8080
+    httpProtocols: Http1AndHttp2
+    grpcUrl: http://mia-st-file:81
+    grpcProtocols: Http2
+
+ingress:
+  host: mia-st-file
+  tlsSecret: mia-wildcard-tls
+
+image:
+  repository: mediainaction/service-file
+  tag: latest
+  pullPolicy: IfNotPresent
+
+env: {
+  # ASPNETCORE_URLS=http://+:80;http://+:81
+}
+    

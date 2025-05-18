@@ -5,8 +5,7 @@ using Google.Protobuf.Collections;
 using Grpc.Core;
 using MediaInAction.VideoService.SeriesNs;
 using Microsoft.Extensions.Logging;
-using seriesGrpc;
-using VideoService.Series.GrpcServer;
+using Seriesgrpc;
 
 
 namespace MediaInAction.VideoService.Grpc

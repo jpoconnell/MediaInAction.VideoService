@@ -17,9 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\services\administration\src\MediaInAction.AdministrationService.HttpApi.Host\MediaInAction.AdministrationService.HttpApi.Host.csproj" />
-    <ProjectReference Include="..\..\services\file\src\MediaInAction.FileService.HttpApi.Host\MediaInAction.FileService.HttpApi.Host.csproj" />
     <ProjectReference Include="..\..\services\identity\src\MediaInAction.IdentityService.HttpApi.Host\MediaInAction.IdentityService.HttpApi.Host.csproj" />
-    <ProjectReference Include="..\..\services\trakt\src\MediaInAction.TraktService.HttpApi.Host\MediaInAction.TraktService.HttpApi.Host.csproj" />
     <ProjectReference Include="..\..\services\video\src\MediaInAction.VideoService.HttpApi.Host\MediaInAction.VideoService.HttpApi.Host.csproj" />
     <ProjectReference Include="..\..\shared\MediaInAction.Keycloak.DbMigrator\MediaInAction.Keycloak.DbMigrator.csproj" />
   </ItemGroup>
