@@ -1,0 +1,20 @@
+﻿syntax = "proto3";
+
+package mappergrpc;
+
+service MapperGrpcService {
+	rpc CreateUpdateMapper (MapperModel) returns (MapperModel);
+	rpc SearchMapped (SearchRequest) returns (stream MapperModel);
+	rpc SearchOneMapped (SearchRequest) returns ( MapperModel);
+}
+
+message SearchRequest {
+	string alias = 1;
+	string id = 2;
+}
+
+message MapperModel {
+	string alias = 1;
+	string serviceType = 2;
+	string serviceId = 3;
+}

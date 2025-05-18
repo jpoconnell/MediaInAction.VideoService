@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>40d1d3f9-6593-4f5a-9d74-ff6ea82eb14e</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\services\administration\src\MediaInAction.AdministrationService.HttpApi.Host\MediaInAction.AdministrationService.HttpApi.Host.csproj" />
+    <ProjectReference Include="..\..\services\file\src\MediaInAction.FileService.HttpApi.Host\MediaInAction.FileService.HttpApi.Host.csproj" />
+    <ProjectReference Include="..\..\services\identity\src\MediaInAction.IdentityService.HttpApi.Host\MediaInAction.IdentityService.HttpApi.Host.csproj" />
+    <ProjectReference Include="..\..\services\trakt\src\MediaInAction.TraktService.HttpApi.Host\MediaInAction.TraktService.HttpApi.Host.csproj" />
+    <ProjectReference Include="..\..\services\video\src\MediaInAction.VideoService.HttpApi.Host\MediaInAction.VideoService.HttpApi.Host.csproj" />
+    <ProjectReference Include="..\..\shared\MediaInAction.Keycloak.DbMigrator\MediaInAction.Keycloak.DbMigrator.csproj" />
+  </ItemGroup>
+
+</Project>
