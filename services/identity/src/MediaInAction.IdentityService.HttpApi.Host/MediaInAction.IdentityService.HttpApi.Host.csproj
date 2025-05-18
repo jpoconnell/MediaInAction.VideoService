@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Keycloak.Net.Core" Version="1.0.33" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
+    <PackageReference Include="Keycloak.Net.Core" Version="1.0.34" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
