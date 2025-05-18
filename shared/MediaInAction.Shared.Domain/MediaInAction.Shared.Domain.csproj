@@ -3,9 +3,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.5.3</Version>
     <RootNamespace>MediaInAction.Shared.Domain</RootNamespace>
-    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -16,11 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="9.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Classes\" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="9.0.3" />
   </ItemGroup>
   
 </Project>

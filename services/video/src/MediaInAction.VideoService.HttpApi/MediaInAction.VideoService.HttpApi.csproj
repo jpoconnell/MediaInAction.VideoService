@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>MediaInAction.VideoService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="9.1.1" />
+    <ProjectReference Include="..\MediaInAction.VideoService.Application.Contracts\MediaInAction.VideoService.Application.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

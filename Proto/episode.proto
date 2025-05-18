@@ -1,0 +1,33 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+package episodegrpc;
+
+service EpisodeGrpcService {
+	rpc CreateUpdateEpisode (EpisodeModel) returns (EpisodeModel);
+	rpc SearchEpisode (SearchRequest) returns (stream EpisodeModel);
+	rpc SearchOneEpisode (SearchRequest) returns ( EpisodeModel);
+}
+
+message SearchRequest {
+	string id = 1;
+	string slug = 2;
+	int32 season = 3;
+	int32 episode = 4;
+}
+
+message EpisodeAliasModel {
+	string idType = 1;
+	string idValue = 2;
+}
+
+message EpisodeModel {
+	string slug = 1;
+	int32 season = 2;
+	int32 episode = 3;
+	google.protobuf.Timestamp airedDate = 4;
+	string episodeName = 5;
+	string imageName = 6;
+	string externalid = 7;
+	repeated EpisodeAliasModel episodeAliases = 8;
+}

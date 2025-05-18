@@ -87,9 +87,9 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
         await CreateScopeAsync("IdentityService");
         await CreateScopeAsync("EmbyService");
         await CreateScopeAsync("DelugeService");
+        await CreateScopeAsync("TraktService");
         await CreateScopeAsync("VideoService");
         await CreateScopeAsync("FileService");
-        await CreateScopeAsync("TraktService");
         await CreateScopeAsync("CmskitService");
     }
 
@@ -139,22 +139,22 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
         await CreatePublicWebClientAsync();
         await CreateSwaggerClientAsync();
         await CreateWebClientAsync();
-        await CreateCmskitClientAsync();
-        await CreateAdministrationClientAsync();
+        // await CreateCmskitClientAsync();
+        // await CreateAdministrationClientAsync();
     }
 
     private async Task CreateAdministrationClientAsync()
     {
         var administrationClient =
             (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName,
-                clientId: "AdministrationServiceService"))
+                clientId: "MediaInAction_AdministrationService"))
             .FirstOrDefault();
 
         if (administrationClient == null)
         {
             administrationClient = new Client()
             {
-                ClientId = "AdministrationServiceService",
+                ClientId = "MediaInAction_AdministrationService",
                 Name = "Administration service client",
                 Protocol = "openid-connect",
                 PublicClient = false,
@@ -175,7 +175,7 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
             await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, administrationClient);
 
             await AddOptionalClientScopesAsync(
-                "AdministrationServiceService",
+                "MediaInAction_AdministrationService",
                 new List<string>
                 {
                     "IdentityService"
@@ -183,7 +183,7 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
             );
             
             var insertedClient =
-                (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName, clientId: "AdministrationServiceService"))
+                (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName, clientId: "MediaInAction_AdministrationService"))
                 .First();
             
             var clientIdProtocolMapper = insertedClient.ProtocolMappers.First(q => q.Name == "Client ID");
@@ -279,8 +279,8 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                 "Web",
                 new List<string>
                 {
-                    "AdministrationService", "IdentityService", "EmbyService", "DelugeService", 
-                    "VideoService", "FileService", "TraktService", "CmskitService"
+                    "AdministrationService", "IdentityService", "FileService", "EmbyService", "TraktService",
+                    "VideoService", "DelugeService", "CmskitService"
                 }
             );
         }
@@ -299,11 +299,11 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
             var accountServiceRootUrl = _configuration[$"Clients:AccountService:RootUrl"].TrimEnd('/');
             var identityServiceRootUrl = _configuration[$"Clients:IdentityService:RootUrl"].TrimEnd('/');
             var administrationServiceRootUrl = _configuration[$"Clients:AdministrationService:RootUrl"].TrimEnd('/');
-            var videoServiceRootUrl = _configuration[$"Clients:VideoService:RootUrl"].TrimEnd('/');
+            var traktServiceRootUrl = _configuration[$"Clients:TraktService:RootUrl"].TrimEnd('/');
             var embyServiceRootUrl = _configuration[$"Clients:EmbyService:RootUrl"].TrimEnd('/');
             var delugeServiceRootUrl = _configuration[$"Clients:DelugeService:RootUrl"].TrimEnd('/');
+            var videoServiceRootUrl = _configuration[$"Clients:VideoService:RootUrl"].TrimEnd('/');
             var fileServiceRootUrl = _configuration[$"Clients:FileService:RootUrl"].TrimEnd('/');
-            var traktServiceRootUrl = _configuration[$"Clients:TraktService:RootUrl"].TrimEnd('/');
             var cmskitServiceRootUrl = _configuration[$"Clients:CmskitService:RootUrl"].TrimEnd('/');
 
             swaggerClient = new Client
@@ -319,11 +319,11 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                     $"{accountServiceRootUrl}/swagger/oauth2-redirect.html", // AccountService redirect uri
                     $"{identityServiceRootUrl}/swagger/oauth2-redirect.html", // IdentityService redirect uri
                     $"{administrationServiceRootUrl}/swagger/oauth2-redirect.html", // AdministrationService redirect uri
-                    $"{videoServiceRootUrl}/swagger/oauth2-redirect.html", // VideoService redirect uri
+                    $"{traktServiceRootUrl}/swagger/oauth2-redirect.html", // TraktService redirect uri
                     $"{embyServiceRootUrl}/swagger/oauth2-redirect.html", // EmbyService redirect uri
                     $"{delugeServiceRootUrl}/swagger/oauth2-redirect.html", // DelugeService redirect uri
+                    $"{videoServiceRootUrl}/swagger/oauth2-redirect.html", // VideoService redirect uri
                     $"{fileServiceRootUrl}/swagger/oauth2-redirect.html", // FileService redirect uri
-                    $"{traktServiceRootUrl}/swagger/oauth2-redirect.html", // TraktService redirect uri
                     $"{cmskitServiceRootUrl}/swagger/oauth2-redirect.html" // CmskitService redirect uri
                 },
                 FrontChannelLogout = true,
@@ -336,8 +336,8 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                 "SwaggerClient",
                 new List<string>
                 {
-                    "AdministrationService", "IdentityService", "EmbyService", "DelugeService", 
-                    "VideoService", "FileService", "TraktService", "CmskitService"
+                    "AdministrationService", "IdentityService", "EmbyService", "TraktService",
+                    "FileService", "VideoService", "DelugeService", "CmskitService"
                 }
             );
         }
@@ -377,8 +377,8 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                 "PublicWeb",
                 new List<string>
                 {
-                    "AdministrationService", "IdentityService", "EmbyService", "DelugeService", "VideoService",
-                    "FileService", "TraktService", "CmskitService"
+                    "AdministrationService", "IdentityService", "EmbyService", "TraktService",
+                    "FileService", "VideoService", "DelugeService", "CmskitService"
                 }
             );
         }

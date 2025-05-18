@@ -17,7 +17,8 @@ public static class SerilogConfigurationHelper
             .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
             .Enrich.FromLogContext()
             .Enrich.WithProperty("Application", $"{applicationName}")
-            .WriteTo.Async(c => c.File("Logs/logs.txt"))
+            .Enrich.WithThreadId()
+            .WriteTo.Async(c => c.File("Logs/logs-.txt"))
             .WriteTo.Async(c => c.Console())
             .CreateLogger();
     }

@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\links\administration\src\MediaInAction.AdministrationService.EntityFrameworkCore\MediaInAction.AdministrationService.EntityFrameworkCore.csproj" />
         <ProjectReference Include="..\MediaInAction.Shared.Hosting.AspNetCore\MediaInAction.Shared.Hosting.AspNetCore.csproj" />
     </ItemGroup>
 
@@ -24,6 +23,9 @@
         <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="9.1.1" />
         <PackageReference Include="Volo.Abp.DistributedLocking" Version="9.1.1" />        
     </ItemGroup>
-    
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\services\administration\src\MediaInAction.AdministrationService.EntityFrameworkCore\MediaInAction.AdministrationService.EntityFrameworkCore.csproj" />        
+    </ItemGroup>
 
 </Project>
