@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using MediaInAction.VideoService.MovieNs;
 using Microsoft.Extensions.Logging;
-using Moviegrpc;
+using moviegrpc;
 using VideoService.Movie.GrpcServer;
 
 namespace MediaInAction.VideoService.Grpc;

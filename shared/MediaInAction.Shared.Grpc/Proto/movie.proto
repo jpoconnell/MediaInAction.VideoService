@@ -2,7 +2,7 @@
 
 option csharp_namespace = "VideoService.Movie.GrpcServer";
 
-package VideoApi;
+package movieGprc;
 
 service MovieGrpcService {
 	rpc CreateNewMovie (MovieModel) returns (MovieModel);

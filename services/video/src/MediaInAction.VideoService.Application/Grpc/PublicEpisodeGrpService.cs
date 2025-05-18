@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Episodegrpc;
+using episodeGrpc;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MediaInAction.VideoService.EpisodeNs;

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Grpc.Core;
-using Mappergrpc;
+using mapperGrpc;
 using MediaInAction.VideoService.ToBeMappedNs;
 using Microsoft.Extensions.Logging;
 using VideoService.Mapper.GrpcServer;

@@ -2,7 +2,7 @@
 
 option csharp_namespace = "VideoService.Episode.GrpcServer";
 
-package VideoApi;
+package episodeGrpc;
 
 service EpisodeGrpcService {
 	rpc CreateNewEpisode (EpisodeModel) returns (EpisodeModel);

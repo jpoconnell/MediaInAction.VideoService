@@ -2,7 +2,7 @@
 
 option csharp_namespace = "VideoService.Mapper.GrpcServer";
 
-package VideoApi;
+package mapperGrpc;
 
 service MapperGrpcService {
 	rpc CreateNewMapper (MapperModel) returns (MapperModel);
