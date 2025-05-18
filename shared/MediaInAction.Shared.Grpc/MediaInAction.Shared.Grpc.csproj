@@ -10,10 +10,10 @@
         <Protobuf Include="../../Proto/episode.proto" Link="Protos/episode.proto" />
         <Protobuf Include="../../Proto/mapper.proto" Link="Protos/mapper.proto" />
         <Protobuf Include="../../Proto/movie.proto" Link="Protos/movie.proto" />
-        <PackageReference Include="Google.Protobuf" Version="3.30.2" />
+        <PackageReference Include="Google.Protobuf" Version="3.31.0" />
         <PackageReference Include="Grpc.Core.Api" Version="2.71.0" />
         <PackageReference Include="Grpc" Version="2.46.6" />
-        <PackageReference Include="Grpc.Tools" Version="2.71.0">
+        <PackageReference Include="Grpc.Tools" Version="2.72.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

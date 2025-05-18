@@ -118,15 +118,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInAction.Shared.Domain
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInAction.Shared.Integration", "shared\MediaInAction.Shared.Integration\MediaInAction.Shared.Integration.csproj", "{43F67957-7B18-4E89-81E4-95F3DE45B091}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{8E0B5A64-92A5-4343-A9BF-E7E00DEE78BD}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "aspire", "aspire", "{9D03B801-B048-45CC-B388-2493F682D7C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInAction.AppHost", "aspire\AppHost\MediaInAction.AppHost.csproj", "{8499D1F8-F60C-4DB6-9DE2-07B8B5A6A0B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaInAction.ServiceDefaults", "aspire\ServiceDefaults\MediaInAction.ServiceDefaults.csproj", "{C05C5A3F-F981-4307-A73B-6853682510ED}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{CB44CE14-4771-4BE1-BE7F-4B14AF04F22E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
